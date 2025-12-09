@@ -1,0 +1,21 @@
+// Device tree overlay for Nucleo H7A3ZI-Q board
+// Increases available SRAM for F' application
+
+// Delete the default small sram0 and redefine with more memory
+/delete-node/ &sram0;
+
+/ {
+    soc {
+        // Combine sram0, sram1, sram2 into one contiguous 640KB region
+        // This provides enough space for the F' application
+        sram0: memory@24000000 {
+            compatible = "zephyr,memory-region", "mmio-sram";
+            reg = <0x24000000 DT_SIZE_K(640)>;
+            zephyr,memory-region = "SRAM0";
+        };
+    };
+
+    chosen {
+        zephyr,sram = &sram0;
+    };
+};

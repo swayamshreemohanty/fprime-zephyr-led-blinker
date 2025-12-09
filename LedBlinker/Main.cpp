@@ -13,7 +13,7 @@
 // Instantiate a system logger that will handle Fw::Logger::logMsg calls
 Os::Log logger;
 
-const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(cdc_acm_uart0));
+const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(usart3));
 
 int main()
 {
