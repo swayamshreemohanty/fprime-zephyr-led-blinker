@@ -28,7 +28,11 @@ module LedBlinker {
     instance fatalHandler
     instance framer
     instance gpioDriver
+    instance gpioDriver1
+    instance gpioDriver2
     instance led
+    instance led1
+    instance led2
     instance rateDriver
     instance rateGroup1
     instance rateGroupDriver
@@ -102,6 +106,14 @@ module LedBlinker {
       rateGroup1.RateGroupMemberOut[3] -> led.run
       # led's gpioSet output is connected to gpioDriver's gpioWrite input
       led.gpioSet -> gpioDriver.gpioWrite
+      
+      # LED1 connections
+      rateGroup1.RateGroupMemberOut[4] -> led1.run
+      led1.gpioSet -> gpioDriver1.gpioWrite
+      
+      # LED2 connections
+      rateGroup1.RateGroupMemberOut[5] -> led2.run
+      led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
     connections LedBlinker {

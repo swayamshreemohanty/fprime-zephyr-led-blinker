@@ -1,0 +1,85 @@
+[  0%] [32mBuilding CXX object config/CMakeFiles/config.dir/FppConstantsAc.cpp.obj[0m
+[  0%] [34m[1mGenerating misc/generated/syscalls.json, misc/generated/struct_tags.json[0m
+[  0%] [34m[1mGenerating misc/generated/syscalls.json, misc/generated/struct_tags.json[0m
+[  0%] [34m[1mGenerating misc/generated/syscalls.json, misc/generated/struct_tags.json[0m
+In file included from [01m[K/home/swayamshreemohanty/zephyrproject/zephyr/include/zephyr/sw_isr_table.h:18[m[K,
+                 from [01m[K/home/swayamshreemohanty/zephyrproject/zephyr/include/zephyr/arch/arm/irq.h:19[m[K,
+                 from [01m[K/home/swayamshreemohanty/zephyrproject/zephyr/include/zephyr/arch/arm/arch.h:24[m[K,
+                 from [01m[K/home/swayamshreemohanty/zephyrproject/zephyr/include/zephyr/arch/cpu.h:19[m[K,
+                 from [01m[K/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/fprime-zephyr/cmake/platform/types/PlatformTypes.h:36[m[K,
+                 from [01m[K/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/fprime/Fw/Types/BasicTypes.h:12[m[K,
+                 from [01m[K/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/fprime/Fw/Types/BasicTypes.hpp:14[m[K,
+                 from [01m[K/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/fprime/config/FpConfig.hpp:11[m[K,
+                 from [01m[K/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/config/FppConstantsAc.hpp:10[m[K,
+                 from [01m[K/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/config/FppConstantsAc.cpp:7[m[K:
+[01m[K/home/swayamshreemohanty/zephyrproject/zephyr/include/zephyr/device.h:1377:10:[m[K [01;31m[Kfatal error: [m[Kzephyr/syscalls/device.h: No such file or directory
+ 1377 | #include [01;31m[K<zephyr/syscalls/device.h>[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [config/CMakeFiles/config.dir/build.make:97: config/CMakeFiles/config.dir/FppConstantsAc.cpp.obj] Error 1
+Traceback (most recent call last):
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/bin/fprime-util", line 7, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/util/__main__.py", line 14, in main
+    return fprime.util.cli.utility_entry(args=sys.argv[1:])
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/util/cli.py", line 43, in utility_entry
+    return runners[parsed.command](
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        build, parsed, cmake_args, make_args, getattr(parsed, "pass_through", [])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/cli.py", line 101, in run_fbuild_cli
+    target.execute(
+    ~~~~~~~~~~~~~~^
+        build,
+        ^^^^^^
+        context=Path(parsed.path),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        args=(make_args, pass_through, option_args),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/target.py", line 391, in execute
+    return_value = self.delegate.execute(*args, **kwargs)
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/target.py", line 321, in execute
+    builder.execute_build_target(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        build_target, context, self.scope == TargetScope.GLOBAL, args[0]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/builder.py", line 360, in execute_build_target
+    self.cmake.execute_known_target(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        build_target,
+        ^^^^^^^^^^^^^
+    ...<5 lines>...
+        environment=self.settings.get("environment", None),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/cmake.py", line 131, in execute_known_target
+    return self._run_cmake(
+           ~~~~~~~~~~~~~~~^
+        run_args + fleshed_args,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        print_output=print_output,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/cmake.py", line 574, in _run_cmake
+    ret, stdout, stderr = self._communicate(
+                          ~~~~~~~~~~~~~~~~~^
+        proc, open(pty_out_r, mode="rb"), open(pty_err_r, mode="rb"), print_output
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/swayamshreemohanty/work/practice/fprime/fprime-zephyr-led-blinker/.venv/lib/python3.13/site-packages/fprime/fbuild/cmake.py", line 617, in _communicate
+    events = selector.select()
+  File "/usr/lib/python3.13/selectors.py", line 452, in select
+    fd_event_list = self._selector.poll(timeout, max_ev)
+KeyboardInterrupt

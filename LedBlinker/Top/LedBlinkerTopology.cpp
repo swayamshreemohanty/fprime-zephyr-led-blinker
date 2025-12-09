@@ -14,6 +14,8 @@
 #include <zephyr/drivers/gpio.h>
 
 static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
+static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
+static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace LedBlinker;
@@ -49,6 +51,8 @@ void configureTopology() {
     deframer.setup(deframing);
 
     gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
+    gpioDriver1.open(led1_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
+    gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
 }
 
 // Public functions for use in main program are namespaced with deployment name LedBlinker

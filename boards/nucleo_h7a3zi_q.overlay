@@ -18,4 +18,15 @@
     chosen {
         zephyr,sram = &sram0;
     };
+
+    aliases {
+        led2 = &red_led;
+    };
+};
+
+&leds {
+    red_led: led_2 {
+        gpios = <&gpiob 14 GPIO_ACTIVE_HIGH>;
+        label = "User LD3";
+    };
 };

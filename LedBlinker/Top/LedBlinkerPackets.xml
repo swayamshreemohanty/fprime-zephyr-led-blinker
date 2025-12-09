@@ -44,6 +44,10 @@
     <packet name="LedChannels" id="8" level="1">
         <channel name="led.LedTransitions"/>
         <channel name="led.BlinkingState"/>
+        <channel name="led1.LedTransitions"/>
+        <channel name="led1.BlinkingState"/>
+        <channel name="led2.LedTransitions"/>
+        <channel name="led2.BlinkingState"/>
     </packet>
 
     <!-- Ignored packets -->
