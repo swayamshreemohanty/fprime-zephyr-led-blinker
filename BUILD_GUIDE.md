@@ -225,6 +225,20 @@ This generates the CMake build files and Zephyr configuration for the target boa
 
 ### 3. Build the Firmware
 
+**Important**: Due to a race condition between Zephyr syscall header generation and F' compilation, you must first build the syscall headers before the main build.
+
+#### Step 1: Pre-generate Zephyr syscall headers
+
+```bash
+cd build-fprime-automatic-zephyr
+make syscall_list_h_target -j1
+cd ..
+```
+
+This ensures all Zephyr syscall headers (like `zephyr/syscalls/device.h`) are generated before F' compilation begins.
+
+#### Step 2: Build the complete firmware
+
 ```bash
 fprime-util build -j4
 ```
@@ -232,6 +246,8 @@ fprime-util build -j4
 Build parameters:
 - `-j4`: Use 4 parallel jobs (adjust based on your CPU cores)
 - Build time: ~5-10 minutes on Raspberry Pi 5
+
+**Note**: If you encounter errors like `fatal error: zephyr/syscalls/device.h: No such file or directory`, the race condition occurred. Simply run the syscall header generation command again and rebuild.
 
 ### 4. Verify Build Output
 
@@ -266,17 +282,26 @@ lsusb | grep -i stm
 
 ### 3. Flash the Firmware
 
+For best results, erase the flash memory before writing new firmware:
+
 ```bash
-st-flash write build-fprime-automatic-zephyr/zephyr/zephyr.bin 0x08000000
+# Erase the flash completely
+st-flash --connect-under-reset erase
+
+# Flash the firmware
+st-flash --connect-under-reset write build-fprime-automatic-zephyr/zephyr/zephyr.bin 0x08000000
 ```
 
 Expected output:
 ```
 st-flash 1.8.0
 STM32H7Ax_H7Bx: 128 KiB SRAM, 2048 KiB flash
-Attempting to write 206056 bytes to address: 0x8000000
+Mass erase completed successfully.
+Attempting to write 206688 bytes to address: 0x8000000
 Flash written and verified! jolly good!
 ```
+
+**Note**: The `--connect-under-reset` option helps with STM32H7 boards that may have timing issues during connection.
 
 The board will automatically reset and start running the application.
 
@@ -479,9 +504,13 @@ list(APPEND FPRIME_PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
 
 1. **Fixed POSIX header path** in `ZephyrTime.hpp` for Zephyr v4.3.99 compatibility
 2. **Changed UART device** from `cdc_acm_uart0` to `usart3` in `Main.cpp`
-3. **Created memory overlay** to allocate full 1MB RAM for the application
-4. **Rolled back F' version** to v3.4.3 for compatibility with fprime-zephyr
-5. **Installed compatible packages** for Python 3.13 (lxml 6.0.2, pyzmq 27.1.0)
+3. **Created memory overlay** (`boards/nucleo_h7a3zi_q.overlay`) with:
+   - 640KB SRAM allocation (combined from multiple SRAM regions)
+   - Added red LED (LD3) definition on pin PB14 with `led2` alias
+4. **Fixed telemetry packet configuration** in `LedBlinkerPackets.xml` to include all LED channels
+5. **Rolled back F' version** to v3.4.3 for compatibility with fprime-zephyr
+6. **Installed compatible packages** for Python 3.13 (lxml 6.0.2, pyzmq 27.1.0)
+7. **Documented syscall race condition workaround** for reliable builds
 
 ---
 
