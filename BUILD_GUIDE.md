@@ -299,6 +299,10 @@ Connect your STM32 Nucleo H7A3ZI-Q board to the Raspberry Pi via USB. The ST-Lin
 ### 2. Verify Connection
 
 ```bash
+# Install the st-flash if not installed
+sudo apt-get install stlink-tools
+
+# Check the version
 st-flash --version
 ```
 
