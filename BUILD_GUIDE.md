@@ -74,19 +74,21 @@ source .venv/bin/activate
 
 ### 2. Install F' Python Requirements
 
-Due to Python 3.13 compatibility issues, install specific package versions:
+Due to Python 3.13 compatibility issues with the pinned versions in `fprime/requirements.txt`, install newer compatible versions first:
 
 ```bash
-# Install compatible wheel versions for Python 3.13
-pip install lxml==6.0.2 pyzmq==27.1.0
+# Install Python 3.13-compatible versions of lxml and pyzmq
+pip install lxml==5.3.0 pyzmq==26.2.0
 
-# Install F' requirements
-pip install -r fprime/requirements.txt
+# Install remaining F' requirements (skip lxml and pyzmq since they're already installed)
+grep -v "^lxml" fprime/requirements.txt | grep -v "^pyzmq" | pip install -r /dev/stdin
 
 # Install additional dependencies
 pip install jsonschema==4.25.1
 pip install pyelftools==0.32
 ```
+
+**Note**: The `fprime/requirements.txt` specifies `lxml==4.9.3` and `pyzmq==25.1.1`, which cannot be built with Python 3.13 due to C API changes. The newer versions (5.3.0 and 26.2.0) are fully compatible and have pre-built wheels.
 
 ---
 
