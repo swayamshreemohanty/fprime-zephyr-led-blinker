@@ -77,18 +77,44 @@ source .venv/bin/activate
 Due to Python 3.13 compatibility issues with the pinned versions in `fprime/requirements.txt`, install newer compatible versions first:
 
 ```bash
+# Install Python 3.13 compatibility packages
+pip install legacy-cgi  # Provides cgi module for Cheetah3 on Python 3.13
+
 # Install Python 3.13-compatible versions of lxml and pyzmq
 pip install lxml==5.3.0 pyzmq==26.2.0
 
 # Install remaining F' requirements (skip lxml and pyzmq since they're already installed)
 grep -v "^lxml" fprime/requirements.txt | grep -v "^pyzmq" | pip install -r /dev/stdin
 
-# Install additional dependencies
-pip install jsonschema==4.25.1
-pip install pyelftools==0.32
+# Install additional system dependencies
+sudo apt-get install -y gperf  # Required by Zephyr for perfect hash function generation
 ```
 
-**Note**: The `fprime/requirements.txt` specifies `lxml==4.9.3` and `pyzmq==25.1.1`, which cannot be built with Python 3.13 due to C API changes. The newer versions (5.3.0 and 26.2.0) are fully compatible and have pre-built wheels.
+**Python 3.13 Compatibility Issues:**
+
+The fprime build encountered several Python 3.13 specific errors that required workarounds:
+
+1. **`lxml==4.9.3` Build Failure**
+   - **Error**: `too few arguments to function '_PyLong_AsByteArray'`
+   - **Cause**: Python 3.13 changed the C API for `_PyLong_AsByteArray()`, adding a new parameter. The old lxml version (4.9.3) uses the old API signature.
+   - **Solution**: Upgrade to `lxml==5.3.0` which supports Python 3.13's new C API.
+
+2. **`Cheetah3` Missing `cgi` Module**
+   - **Error**: `ModuleNotFoundError: No module named 'cgi'`
+   - **Cause**: Python 3.13 removed the deprecated `cgi` module. F-Prime's Cheetah3 template engine (`v3.2.6.post1`) still depends on it.
+   - **Solution**: Install `legacy-cgi` package which provides a backport of the removed `cgi` module.
+
+3. **`typing_extensions` TypeVar Incompatibility**
+   - **Error**: `AttributeError: attribute '__default__' of 'typing.TypeVar' objects is not writable`
+   - **Cause**: Python 3.13 changed how TypeVar defaults work, breaking older versions of `typing_extensions` used by `jsonschema` dependencies.
+   - **Solution**: The `pip install` command automatically upgrades to compatible versions.
+
+4. **Missing `gperf` Tool**
+   - **Error**: `GPERF-NOTFOUND`
+   - **Cause**: Zephyr RTOS uses `gperf` (GNU Perfect Hash Function Generator) to create perfect hash functions for kernel object lookups. It's not installed by default on Debian.
+   - **Solution**: Install with `sudo apt-get install -y gperf`.
+
+**Note**: The `fprime/requirements.txt` specifies `lxml==4.9.3` and `pyzmq==25.1.1`, which cannot be built with Python 3.13 due to C API changes. The newer versions (5.3.0 and 26.2.0) are fully compatible and have pre-built wheels for ARM64.
 
 ---
 
@@ -398,6 +424,37 @@ From the GDS command interface, you can:
 export ZEPHYR_BASE=~/zephyrproject/zephyr
 ```
 
+#### Issue: lxml build error - "too few arguments to function '_PyLong_AsByteArray'"
+**Cause**: Python 3.13 API incompatibility with lxml 4.9.3
+**Solution**:
+```bash
+pip install lxml==5.3.0
+```
+
+#### Issue: "ModuleNotFoundError: No module named 'cgi'"
+**Cause**: Python 3.13 removed the `cgi` module that Cheetah3 depends on
+**Solution**:
+```bash
+pip install legacy-cgi
+```
+
+#### Issue: "GPERF-NOTFOUND" during Zephyr build
+**Cause**: Missing `gperf` tool required by Zephyr for kernel object hash generation
+**Solution**:
+```bash
+sudo apt-get install -y gperf
+# Then reconfigure the build
+fprime-util purge
+fprime-util generate -DBOARD=nucleo_h7a3zi_q
+```
+
+#### Issue: "AttributeError: attribute '__default__' of 'typing.TypeVar' objects is not writable"
+**Cause**: Incompatible `typing_extensions` version with Python 3.13
+**Solution**:
+```bash
+pip install --upgrade typing_extensions
+```
+
 #### Issue: Missing pyelftools
 **Solution**:
 ```bash
@@ -511,7 +568,11 @@ list(APPEND FPRIME_PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
    - Added red LED (LD3) definition on pin PB14 with `led2` alias
 4. **Fixed telemetry packet configuration** in `LedBlinkerPackets.xml` to include all LED channels
 5. **Rolled back F' version** to v3.4.3 for compatibility with fprime-zephyr
-6. **Installed compatible packages** for Python 3.13 (lxml 6.0.2, pyzmq 27.1.0)
+6. **Resolved Python 3.13 compatibility issues**:
+   - Upgraded `lxml` to 5.3.0 (from 4.9.3) - fixes C API incompatibility
+   - Upgraded `pyzmq` to 26.2.0 (from 25.1.1) - has pre-built wheels for Python 3.13
+   - Installed `legacy-cgi` package - provides removed `cgi` module for Cheetah3
+   - Installed `gperf` tool - required by Zephyr for kernel object hash generation
 7. **Documented syscall race condition workaround** for reliable builds
 
 ---
