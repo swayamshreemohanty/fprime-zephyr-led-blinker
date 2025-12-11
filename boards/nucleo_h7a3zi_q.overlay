@@ -17,6 +17,9 @@
 
     chosen {
         zephyr,sram = &sram0;
+        // Disable console to free USART3 for F-Prime communication only
+        // zephyr,console = &usart3;
+        // zephyr,shell-uart = &usart3;
     };
 
     aliases {
@@ -29,4 +32,18 @@
         gpios = <&gpiob 14 GPIO_ACTIVE_HIGH>;
         label = "User LD3";
     };
+};
+
+// Enable USART3 for F-Prime communication (CN9 Arduino D0/D1 pins)
+// Note: Check your actual board - USART3 pins vary by board revision
+&usart3 {
+    status = "okay";
+    current-speed = <115200>;
+    // Pins: PD8 (TX) and PD9 (RX) - verify these exist on your board
+    // If PD8/PD9 don't exist, check which pins are labeled D0/D1 on CN9
+};
+
+// Disable USB OTG to prevent conflicts with UART communication
+&usbotg_hs {
+    status = "disabled";
 };
