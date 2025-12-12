@@ -34,7 +34,7 @@ module Components {
         telemetry LedTransitions: U32
 
         @ Blinking interval in rate group ticks
-        param BLINK_INTERVAL: U32
+        param BLINK_INTERVAL: U32 default 10
 
         @ Port receiving calls from the rate group
         sync input port run: Svc.Sched

@@ -8,6 +8,22 @@ module LedBlinker {
     constant QUEUE_SIZE = 3
     constant STACK_SIZE = 64 * 1024
   }
+  
+  # ----------------------------------------------------------------------
+  # GenericHub port array sizes
+  # ----------------------------------------------------------------------
+  
+  @ Number of typed serial input ports for hub
+  constant GenericHubInputPorts = 2
+  
+  @ Number of typed serial output ports for hub
+  constant GenericHubOutputPorts = 2
+  
+  @ Number of buffer input ports for hub
+  constant GenericHubInputBuffers = 1
+  
+  @ Number of buffer output ports for hub
+  constant GenericHubOutputBuffers = 1
 
   # ----------------------------------------------------------------------
   # Active component instances

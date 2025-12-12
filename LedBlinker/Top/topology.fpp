@@ -76,45 +76,44 @@ module LedBlinker {
       eventLogger.FatalAnnounce -> fatalHandler.FatalReceive
     }
 
-    # ----------------------------------------------------------------------
-    # GenericHub Pattern Communication with RPi Master
-    # ----------------------------------------------------------------------
-    # NASA official pattern for distributed F-Prime systems
-    # STM32 = Remote Node, RPi = Master Node
-    # Commands from RPi -> STM32, Telemetry/Events from STM32 -> RPi
-    # ----------------------------------------------------------------------
-    
-    connections HubDownlink {
-      # Send telemetry and events to RPi via GenericHub
-      tlmSend.PktSend -> rpiHub.portIn[0]
-      eventLogger.PktSend -> rpiHub.portIn[1]
-    }
-    
-    connections HubUplink {
-      # Receive commands from RPi via GenericHub
-      rpiHub.portOut[0] -> cmdDisp.seqCmdBuff
-      cmdDisp.seqCmdStatus -> rpiHub.portIn[2]
-    }
-    
-    connections HubUartLink {
-      # GenericHub <-> Framer/Deframer <-> UART Driver
-      # Hub serializes typed ports, framer adds protocol framing
-      
-      # Downlink: Hub -> Framer -> UART
-      rpiHub.buffersOut[0] -> framer.bufferIn
+    connections Downlink {
+
+      tlmSend.PktSend -> framer.comIn
+      eventLogger.PktSend -> framer.comIn
+
+      framer.framedAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framer]
       framer.framedOut -> commDriver.$send
-      framer.bufferDeallocate -> staticMemory.bufferDeallocate[0]
-      framer.framedAllocate -> staticMemory.bufferAllocate[0]
-      
-      # Uplink: UART -> Deframer -> Hub
+
+      commDriver.deallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
+
+    }
+    
+    connections Uplink {
+
+      commDriver.allocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframer]
       commDriver.$recv -> deframer.framedIn
-      deframer.bufferOut -> rpiHub.buffersIn[0]
-      deframer.framedDeallocate -> staticMemory.bufferDeallocate[1]
-      deframer.bufferAllocate -> staticMemory.bufferAllocate[1]
+      deframer.framedDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframer]
+
+      # Route commands through GenericHub for remote control from RPi
+      deframer.comOut -> rpiHub.portIn[0]
+      rpiHub.portOut[0] -> cmdDisp.seqCmdBuff
+      cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
+      rpiHub.portOut[1] -> deframer.cmdResponseIn
+
+      deframer.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
+      deframer.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
       
-      # UART Driver buffer management
-      commDriver.allocate -> staticMemory.bufferAllocate[2]
-      commDriver.deallocate -> staticMemory.bufferDeallocate[2]
+    }
+    
+    connections HubCommunication {
+      # GenericHub buffer serialization for remote communication
+      # Hub serializes/deserializes typed ports to/from byte buffers
+      
+      # Hub's serialized buffers go to framer
+      rpiHub.buffersOut[0] -> framer.bufferIn
+      
+      # Deframer's file/buffer packets go to hub for deserialization
+      deframer.bufferOut -> rpiHub.buffersIn[0]
     }
 
     connections LedConnections {
