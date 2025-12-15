@@ -24,6 +24,18 @@ module LedBlinker {
   
   @ Number of buffer output ports for hub
   constant GenericHubOutputBuffers = 1
+  
+  # ----------------------------------------------------------------------
+  # StaticMemory buffer allocation indices
+  # ----------------------------------------------------------------------
+  
+  @ StaticMemory buffer indices for different clients
+  @ Each client needs a unique parallel port index for allocate/deallocate pair
+  enum Ports_StaticMemory {
+    framerBuffers
+    deframerBuffers
+    commDriverBuffers
+  }
 
   # ----------------------------------------------------------------------
   # Active component instances
@@ -60,6 +72,8 @@ module LedBlinker {
 
   instance framer: Svc.Framer base id 0x4100
 
+  instance deframer: Svc.Deframer base id 0x4800
+
   instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4200
 
   instance fatalHandler: Svc.FatalHandler base id 0x4300
@@ -71,8 +85,6 @@ module LedBlinker {
   instance staticMemory: Svc.StaticMemory base id 0x4600
 
   instance textLogger: Svc.PassiveTextLogger base id 0x4700
-
-  instance deframer: Svc.Deframer base id 0x4800
 
   instance systemResources: Svc.SystemResources base id 0x4900
 
