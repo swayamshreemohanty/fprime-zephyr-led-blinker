@@ -105,11 +105,11 @@ module LedBlinker {
 
   instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x14E00
 
-  instance led: Components.Led base id 0x20000
+  instance led: Components.Led base id 0x10000
 
-  instance led1: Components.Led base id 0x20100
+  instance led1: Components.Led base id 0x10100
 
-  instance led2: Components.Led base id 0x20200
+  instance led2: Components.Led base id 0x10200
 
   # ----------------------------------------------------------------------
   # GenericHub for distributed communication with RPi master
