@@ -49,9 +49,9 @@ module LedBlinker {
 
     command connections instance cmdDisp
 
-    # Event and telemetry connections go through hub to RPi master
-    event connections instance rpiHub
-    telemetry connections instance rpiHub
+    event connections instance eventLogger
+
+    telemetry connections instance tlmSend
 
     text event connections instance textLogger
 
@@ -97,6 +97,7 @@ module LedBlinker {
       commDriver.$recv -> deframer.framedIn
       commDriver.allocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframer]
 
+      deframer.comOut -> rpiHub.portIn[0]
       deframer.bufferOut -> rpiHub.dataIn
       deframer.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
       deframer.framedDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframer]
@@ -105,15 +106,11 @@ module LedBlinker {
     }
 
     connections hub {
-      # Hub routes events and telemetry to RPi master
-      rpiHub.LogSend -> eventLogger.LogRecv
-      rpiHub.TlmSend -> tlmSend.TlmRecv
-      
       # Hub routes commands from RPi master to local command dispatcher
       rpiHub.portOut[0] -> cmdDisp.seqCmdBuff
       
-      # Command responses sent back to RPi master
-      cmdDisp.seqCmdStatus -> rpiHub.portIn[0]
+      # Command responses sent back to RPi master via hub  
+      cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
       
       # Hub deallocates buffers
       rpiHub.buffersOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
