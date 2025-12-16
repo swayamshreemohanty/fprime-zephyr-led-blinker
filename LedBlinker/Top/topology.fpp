@@ -64,6 +64,10 @@ module LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
       rateGroup1.RateGroupMemberOut[1] -> tlmSend.Run
       rateGroup1.RateGroupMemberOut[2] -> systemResources.run
+      # LED components scheduled at 1Hz
+      rateGroup1.RateGroupMemberOut[3] -> led.run
+      rateGroup1.RateGroupMemberOut[4] -> led1.run
+      rateGroup1.RateGroupMemberOut[5] -> led2.run
     }
 
     connections FaultProtection {
@@ -113,17 +117,9 @@ module LedBlinker {
     }
 
     connections LedConnections {
-      # Rate Group 1 (1Hz cycle) ouput is connected to led's run input
-      rateGroup1.RateGroupMemberOut[3] -> led.run
-      # led's gpioSet output is connected to gpioDriver's gpioWrite input
+      # LED GPIO connections
       led.gpioSet -> gpioDriver.gpioWrite
-      
-      # LED1 connections
-      rateGroup1.RateGroupMemberOut[4] -> led1.run
       led1.gpioSet -> gpioDriver1.gpioWrite
-      
-      # LED2 connections
-      rateGroup1.RateGroupMemberOut[5] -> led2.run
       led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
