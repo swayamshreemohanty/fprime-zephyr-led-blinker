@@ -71,24 +71,24 @@ module LedBlinker {
     }
 
     connections HubCommunication {
-      # GenericHub buffer serialization for remote communication
-      # Hub serializes/deserializes typed ports to/from byte buffers
+      # GenericHub for command routing from RPi master
+      # STM32 acts as remote node receiving commands via UART
       
-      # Hub's serialized buffers go to framer
-      rpiHub.buffersOut[0] -> framer.bufferIn
-      
-      # Deframer's file/buffer packets go to hub for deserialization
-      deframer.bufferOut -> rpiHub.buffersIn[0]
-      
-      # Route commands through GenericHub for remote control from RPi
+      # Incoming commands: Deframer -> GenericHub -> CommandDispatcher
       deframer.comOut -> rpiHub.portIn[0]
       rpiHub.portOut[0] -> cmdDisp.seqCmdBuff
-      cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
-      rpiHub.portOut[1] -> deframer.cmdResponseIn
       
-      # Events and telemetry from local components to hub
-      eventLogger.PktSend -> rpiHub.LogRecv
-      tlmSend.PktSend -> rpiHub.TlmRecv
+      # Command responses: CommandDispatcher -> GenericHub -> Framer
+      cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
+      rpiHub.buffersOut[0] -> framer.bufferIn
+      
+      # Events and telemetry: Sent directly to framer as Com packets
+      # These will be received by RPi and displayed in GDS
+      eventLogger.PktSend -> framer.comIn
+      tlmSend.PktSend -> framer.comIn
+      
+      # Deframer buffer/file output goes to hub for deserialization
+      deframer.bufferOut -> rpiHub.buffersIn[0]
     }
     
     connections UartCommunication {
