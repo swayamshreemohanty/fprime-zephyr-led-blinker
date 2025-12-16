@@ -115,8 +115,8 @@ module LedBlinker {
       # Command responses sent back to RPi master
       cmdDisp.seqCmdStatus -> rpiHub.portIn[0]
       
-      # Hub manages buffers
-      rpiHub.buffersOut -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
+      # Hub deallocates buffers
+      rpiHub.buffersOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
     }
 
     connections LedConnections {
