@@ -8,6 +8,12 @@ module LedBlinker {
       rateGroup1
     }
 
+    enum Ports_StaticMemory {
+      framer
+      deframer
+      deframing
+    }
+
   topology LedBlinker {
 
     # ----------------------------------------------------------------------
@@ -43,9 +49,9 @@ module LedBlinker {
 
     command connections instance cmdDisp
 
-    event connections instance eventLogger
-
-    telemetry connections instance tlmSend
+    # Event and telemetry connections go through hub to RPi master
+    event connections instance rpiHub
+    telemetry connections instance rpiHub
 
     text event connections instance textLogger
 
@@ -74,46 +80,43 @@ module LedBlinker {
       eventLogger.FatalAnnounce -> fatalHandler.FatalReceive
     }
 
-    connections HubCommunication {
-      # GenericHub for command routing from RPi master
-      # STM32 acts as remote node receiving commands via UART
+    connections send_hub {
+      # Hub sends serialized data via framer to UART
+      rpiHub.dataOut -> framer.bufferIn
+      rpiHub.dataOutAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framer]
       
-      # Incoming commands: Deframer -> GenericHub -> CommandDispatcher
-      deframer.comOut -> rpiHub.portIn[0]
+      framer.framedOut -> commDriver.$send
+      framer.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
+      framer.framedAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framer]
+      
+      commDriver.deallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
+    }
+
+    connections recv_hub {
+      # Hub receives deserialized data via deframer from UART
+      commDriver.$recv -> deframer.framedIn
+      commDriver.allocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframer]
+
+      deframer.bufferOut -> rpiHub.dataIn
+      deframer.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
+      deframer.framedDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframer]
+      
+      rpiHub.dataInDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
+    }
+
+    connections hub {
+      # Hub routes events and telemetry to RPi master
+      rpiHub.LogSend -> eventLogger.LogRecv
+      rpiHub.TlmSend -> tlmSend.TlmRecv
+      
+      # Hub routes commands from RPi master to local command dispatcher
       rpiHub.portOut[0] -> cmdDisp.seqCmdBuff
       
-      # Command responses: CommandDispatcher -> GenericHub -> Framer
-      cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
-      rpiHub.buffersOut[0] -> framer.bufferIn
+      # Command responses sent back to RPi master
+      cmdDisp.seqCmdStatus -> rpiHub.portIn[0]
       
-      # Events and telemetry: Sent directly to framer as Com packets
-      # These will be received by RPi and displayed in GDS
-      eventLogger.PktSend -> framer.comIn
-      tlmSend.PktSend -> framer.comIn
-      
-      # Deframer buffer/file output goes to hub for deserialization
-      deframer.bufferOut -> rpiHub.buffersIn[0]
-    }
-    
-    connections UartCommunication {
-      # Connect framer output to UART driver for transmission
-      framer.framedOut -> commDriver.$send
-      
-      # Connect UART driver received data to deframer
-      commDriver.$recv -> deframer.framedIn
-      
-      # Framer buffer management - parallel ports for allocate/deallocate
-      framer.framedAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framerBuffers]
-      framer.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framerBuffers]
-      
-      # Deframer buffer management - parallel ports for allocate/deallocate  
-      deframer.framedDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframerBuffers]
-      deframer.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframerBuffers]
-      deframer.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframerBuffers]
-      
-      # UART driver buffer management - parallel ports for allocate/deallocate
-      commDriver.allocate -> staticMemory.bufferAllocate[Ports_StaticMemory.commDriverBuffers]
-      commDriver.deallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.commDriverBuffers]
+      # Hub manages buffers
+      rpiHub.buffersOut -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
     }
 
     connections LedConnections {

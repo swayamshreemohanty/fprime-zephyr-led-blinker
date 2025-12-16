@@ -33,18 +33,6 @@ module LedBlinker {
   
   @ Number of buffer output ports for hub
   constant GenericHubOutputBuffers = 1
-  
-  # ----------------------------------------------------------------------
-  # StaticMemory buffer allocation indices
-  # ----------------------------------------------------------------------
-  
-  @ StaticMemory buffer indices for different clients
-  @ Each client needs a unique parallel port index for allocate/deallocate pair
-  enum Ports_StaticMemory {
-    framerBuffers
-    deframerBuffers
-    commDriverBuffers
-  }
 
   # ----------------------------------------------------------------------
   # Active component instances
