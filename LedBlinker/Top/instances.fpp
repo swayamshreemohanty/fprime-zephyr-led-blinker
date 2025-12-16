@@ -105,12 +105,6 @@ module LedBlinker {
 
   instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x14E00
 
-  instance led: Components.Led base id 0x10000
-
-  instance led1: Components.Led base id 0x10100
-
-  instance led2: Components.Led base id 0x10200
-
   # ----------------------------------------------------------------------
   # GenericHub for distributed communication with RPi master
   # ----------------------------------------------------------------------
@@ -121,5 +115,15 @@ module LedBlinker {
   @ GenericHub - Bridges local components with remote RPi master
   @ Allows RPi to control STM32 LED and receive STM32 telemetry
   instance rpiHub: Svc.GenericHub base id 0x15000
+
+  # ----------------------------------------------------------------------
+  # LED Components (must be >= 0x10000 for RPi CmdSplitter routing)
+  # ----------------------------------------------------------------------
+  
+  instance led: Components.Led base id 0x15100
+
+  instance led1: Components.Led base id 0x15200
+
+  instance led2: Components.Led base id 0x15300
 
 }
