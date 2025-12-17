@@ -1,4 +1,4 @@
-module LedBlinker {
+module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
   # Defaults

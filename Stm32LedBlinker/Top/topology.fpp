@@ -1,4 +1,4 @@
-module LedBlinker {
+module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
   # Symbolic constants for port numbers
@@ -14,7 +14,7 @@ module LedBlinker {
       deframing
     }
 
-  topology LedBlinker {
+  topology Stm32LedBlinker {
 
     # ----------------------------------------------------------------------
     # Instances used in the topology

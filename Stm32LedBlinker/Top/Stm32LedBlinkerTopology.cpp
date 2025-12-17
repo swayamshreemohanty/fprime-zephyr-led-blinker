@@ -1,11 +1,10 @@
 // ======================================================================
-// \title  LedBlinkerTopology.cpp
+// \title  Stm32LedBlinkerTopology.cpp
 // \brief cpp file containing the topology instantiation code
 //
 // ======================================================================
 // Provides access to autocoded functions
-#include <LedBlinker/Top/LedBlinkerTopologyAc.hpp>
-#include <LedBlinker/Top/LedBlinkerPacketsAc.hpp>
+#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 
 // Necessary project-specified types
@@ -18,7 +17,7 @@ static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpi
 static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
-using namespace LedBlinker;
+using namespace Stm32LedBlinker;
 
 // The reference topology uses the F´ packet protocol when communicating with the ground and therefore uses the F´
 // framing and deframing implementations.
@@ -55,8 +54,8 @@ void configureTopology() {
     gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
 }
 
-// Public functions for use in main program are namespaced with deployment name LedBlinker
-namespace LedBlinker {
+// Public functions for use in main program are namespaced with deployment name Stm32LedBlinker
+namespace Stm32LedBlinker {
 void setupTopology(const TopologyState& state) {
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
@@ -84,4 +83,4 @@ void teardownTopology(const TopologyState& state) {
     stopTasks(state);
     freeThreads(state);
 }
-};  // namespace LedBlinker
+};  // namespace Stm32LedBlinker
