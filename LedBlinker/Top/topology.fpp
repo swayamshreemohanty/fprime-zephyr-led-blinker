@@ -114,8 +114,8 @@ module LedBlinker {
       
       # CRITICAL: Send STM32 events and telemetry TO RPi via hub
       # Without these connections, RPi won't receive any data from STM32
-      eventLogger.PktSend -> rpiHub.comIn
-      tlmSend.PktSend -> rpiHub.comIn
+      eventLogger.PktSend -> rpiHub.eventIn
+      tlmSend.PktSend -> rpiHub.tlmIn
       
       # Hub deallocates buffers
       rpiHub.buffersOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
