@@ -1,7 +1,7 @@
 #####
-# 'LedBlinker' Deployment:
+# 'Stm32LedBlinker' Deployment:
 #
-# This registers the 'LedBlinker' deployment to the build system. 
+# This registers the 'Stm32LedBlinker' deployment to the build system. 
 # Custom components that have not been added at the project-level should be added to 
 # the list below.
 #
@@ -26,4 +26,4 @@ register_fprime_deployment()
 
 FILE(GLOB app_sources Main.cpp)
 target_sources(app PRIVATE ${app_sources})
-target_link_libraries(app PRIVATE LedBlinker_Top)
+target_link_libraries(app PRIVATE Stm32LedBlinker_Top)

@@ -1,4 +1,4 @@
-module LedBlinker {
+module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
   # Defaults
@@ -74,11 +74,23 @@ module LedBlinker {
   # ----------------------------------------------------------------------
   # LED Components
   # ----------------------------------------------------------------------
+  # NASA hub pattern for remote node communication
+  # STM32 acts as remote node, RPi acts as master
+  # Hub serializes typed ports over UART connection
   
-  instance led: Components.Led base id 0x5000
+  @ GenericHub - Bridges local components with remote RPi master
+  @ Allows RPi to control STM32 LED and receive STM32 telemetry
+  instance rpiHub: Svc.GenericHub base id 0x5000
 
-  instance led1: Components.Led base id 0x5100
+  # ----------------------------------------------------------------------
+  # LED Components (must be >= 0x10000 for RPi CmdSplitter routing)
+  # ----------------------------------------------------------------------
+  # These base IDs are >= 0x10000 so commands route through RPi's CmdSplitter
+  
+  instance led: Components.Stm32Led base id 0x10000
 
-  instance led2: Components.Led base id 0x5200
+  instance led1: Components.Led base id 0x10100
+
+  instance led2: Components.Led base id 0x10200
 
 }

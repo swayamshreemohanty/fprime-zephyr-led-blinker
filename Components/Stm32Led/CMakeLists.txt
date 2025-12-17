@@ -7,8 +7,8 @@
 #
 ####
 set(SOURCE_FILES
-  "${CMAKE_CURRENT_LIST_DIR}/Led.fpp"
-  "${CMAKE_CURRENT_LIST_DIR}/Led.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/Stm32Led.fpp"
+  "${CMAKE_CURRENT_LIST_DIR}/Stm32Led.cpp"
 )
 
 # Uncomment and add any modules that this component depends on, else

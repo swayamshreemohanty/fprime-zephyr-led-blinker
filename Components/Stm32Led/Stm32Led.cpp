@@ -1,10 +1,10 @@
 // ======================================================================
-// \title  Led.cpp
+// \title  Stm32Led.cpp
 // \author ethanchee
-// \brief  cpp file for Led component implementation class
+// \brief  cpp file for Stm32Led component implementation class
 // ======================================================================
 
-#include <Components/Led/Led.hpp>
+#include <Components/Stm32Led/Stm32Led.hpp>
 #include <FpConfig.hpp>
 
 namespace Components {
@@ -13,12 +13,12 @@ namespace Components {
 // Construction, initialization, and destruction
 // ----------------------------------------------------------------------
 
-Led ::Led(const char* const compName)
-    : LedComponentBase(compName), state(Fw::On::OFF), transitions(0), count(0), blinking(true) {}
+Stm32Led ::Stm32Led(const char* const compName)
+    : Stm32LedComponentBase(compName), state(Fw::On::OFF), transitions(0), count(0), blinking(true) {}
 
-Led ::~Led() {}
+Stm32Led ::~Stm32Led() {}
 
-void Led ::parameterUpdated(FwPrmIdType id) {
+void Stm32Led ::parameterUpdated(FwPrmIdType id) {
     // Read back the parameter value
     Fw::ParamValid isValid;
     U32 interval = this->paramGet_BLINK_INTERVAL(isValid);
@@ -36,7 +36,7 @@ void Led ::parameterUpdated(FwPrmIdType id) {
 // Handler implementations for user-defined typed input ports
 // ----------------------------------------------------------------------
 
-void Led ::run_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context) {
+void Stm32Led ::run_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context) {
     // Read back the parameter value
     Fw::ParamValid isValid;
     U32 interval = this->paramGet_BLINK_INTERVAL(isValid);
@@ -77,7 +77,7 @@ void Led ::run_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context) 
 // Command handler implementations
 // ----------------------------------------------------------------------
 
-void Led ::BLINKING_ON_OFF_cmdHandler(const FwOpcodeType opCode, const U32 cmdSeq, Fw::On on_off) {
+void Stm32Led ::BLINKING_ON_OFF_cmdHandler(const FwOpcodeType opCode, const U32 cmdSeq, Fw::On on_off) {
     // Create a variable to represent the command response
     auto cmdResp = Fw::CmdResponse::OK;
 

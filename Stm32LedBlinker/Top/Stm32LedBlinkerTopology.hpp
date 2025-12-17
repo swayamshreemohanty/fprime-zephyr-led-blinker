@@ -1,17 +1,17 @@
 // ======================================================================
-// \title  LedBlinkerTopology.hpp
+// \title  Stm32LedBlinkerTopology.hpp
 // \brief header file containing the topology instantiation definitions
 //
 // ======================================================================
-#ifndef LEDBLINKER_LEDBLINKERTOPOLOGY_HPP
-#define LEDBLINKER_LEDBLINKERTOPOLOGY_HPP
-// Included for access to LedBlinker::TopologyState and LedBlinker::ConfigObjects::pingEntries. These definitions are required by the
+#ifndef STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGY_HPP
+#define STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGY_HPP
+// Included for access to Stm32LedBlinker::TopologyState and Stm32LedBlinker::ConfigObjects::pingEntries. These definitions are required by the
 // autocoder, but are also used in this hand-coded topology.
-#include <LedBlinker/Top/LedBlinkerTopologyDefs.hpp>
+#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDefs.hpp>
 
-// Remove unnecessary LedBlinker:: qualifications
-using namespace LedBlinker;
-namespace LedBlinker {
+// Remove unnecessary Stm32LedBlinker:: qualifications
+using namespace Stm32LedBlinker;
+namespace Stm32LedBlinker {
 /**
  * \brief initialize and run the F´ topology
  *
@@ -59,6 +59,6 @@ void setupTopology(const TopologyState& state);
  */
 void teardownTopology(const TopologyState& state);
 
-} // namespace LedBlinker
+} // namespace Stm32LedBlinker
 
 #endif

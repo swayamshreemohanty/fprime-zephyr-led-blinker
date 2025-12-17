@@ -4,8 +4,8 @@
 //
 // ======================================================================
 // Used to access topology functions
-#include <LedBlinker/Top/LedBlinkerTopologyAc.hpp>
-#include <LedBlinker/Top/LedBlinkerTopology.hpp>
+#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
+#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopology.hpp>
 
 // Used for logging
 #include <Os/Log.hpp>
@@ -20,12 +20,12 @@ int main()
     Fw::Logger::logMsg("Program Started\n");
 
     // Object for communicating state to the reference topology
-    LedBlinker::TopologyState inputs;
+    Stm32LedBlinker::TopologyState inputs;
     inputs.dev = serial;
     inputs.uartBaud = 115200;
 
     // Setup topology
-    LedBlinker::setupTopology(inputs);
+    Stm32LedBlinker::setupTopology(inputs);
 
     while(true)
     {
