@@ -113,9 +113,9 @@ module LedBlinker {
       cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
       
       # CRITICAL: Send STM32 events and telemetry TO RPi via hub
-      # Without these connections, RPi won't receive any data from STM32
-      eventLogger.PktSend -> rpiHub.eventIn
-      tlmSend.PktSend -> rpiHub.tlmIn
+      # Using fprime 3.4.3 GenericHub port names: LogRecv and TlmRecv
+      eventLogger.PktSend -> rpiHub.LogRecv
+      tlmSend.PktSend -> rpiHub.TlmRecv
       
       # Hub deallocates buffers
       rpiHub.buffersOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
