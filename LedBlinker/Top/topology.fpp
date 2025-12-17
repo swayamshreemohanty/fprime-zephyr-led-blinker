@@ -81,6 +81,10 @@ module LedBlinker {
     }
 
     connections send_hub {
+      # Send events and telemetry to framer as Com packets
+      eventLogger.PktSend -> framer.comIn
+      tlmSend.PktSend -> framer.comIn
+      
       # Hub sends serialized data via framer to UART
       rpiHub.dataOut -> framer.bufferIn
       rpiHub.dataOutAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framer]
@@ -111,11 +115,6 @@ module LedBlinker {
       
       # Command responses sent back to RPi master via hub  
       cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
-      
-      # CRITICAL: Send STM32 events and telemetry TO RPi via hub
-      # Using fprime 3.4.3 GenericHub port names: LogRecv and TlmRecv
-      eventLogger.PktSend -> rpiHub.LogRecv
-      tlmSend.PktSend -> rpiHub.TlmRecv
       
       # Hub deallocates buffers
       rpiHub.buffersOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
