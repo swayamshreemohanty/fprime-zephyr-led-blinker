@@ -1,6 +1,6 @@
 module Components {
     @ Component to blink an LED driven by a rate group
-    passive component Led {
+    passive component Stm32Led {
 
         @ Command to turn on or off the blinking LED
         sync command BLINKING_ON_OFF(

@@ -107,10 +107,10 @@ module LedBlinker {
   # ----------------------------------------------------------------------
   # These base IDs are >= 0x10000 so commands route through RPi's CmdSplitter
   
-  instance led: Components.Led base id 0x10000
+  instance led: Components.Stm32Led base id 0x10000
 
-  instance led1: Components.Led base id 0x10100
+  instance led1: Components.Stm32Led base id 0x10100
 
-  instance led2: Components.Led base id 0x10200
+  instance led2: Components.Stm32Led base id 0x10200
 
 }
