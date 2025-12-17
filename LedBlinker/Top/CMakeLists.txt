@@ -13,7 +13,7 @@ set(SOURCE_FILES
 )
 set(MOD_DEPS
   # Fw/Logger
-  Zephyr/ZephyrTime
+  Svc/OsTime
   # Zephyr/Drv/ZephyrUartDriver
 )
 

@@ -22,11 +22,12 @@ module LedBlinker {
 
     instance cmdDisp
     instance commDriver
-    instance deframer
+    instance comQueue
+    instance comStub
     instance eventLogger
     instance fatalAdapter
     instance fatalHandler
-    instance framer
+    instance fprimeRouter
     instance gpioDriver
     instance gpioDriver1
     instance gpioDriver2
@@ -41,7 +42,6 @@ module LedBlinker {
     instance textLogger
     instance timeHandler
     instance tlmSend
-    instance rpiHub
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
@@ -80,44 +80,39 @@ module LedBlinker {
       eventLogger.FatalAnnounce -> fatalHandler.FatalReceive
     }
 
-    connections send_hub {
-      # Send events and telemetry to framer as Com packets
-      eventLogger.PktSend -> framer.comIn
-      tlmSend.PktSend -> framer.comIn
-      
-      # Hub sends serialized data via framer to UART
-      rpiHub.dataOut -> framer.bufferIn
-      rpiHub.dataOutAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framer]
-      
-      framer.framedOut -> commDriver.$send
-      framer.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
-      framer.framedAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.framer]
-      
-      commDriver.deallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
-    }
-
-    connections recv_hub {
-      # Hub receives deserialized data via deframer from UART
-      commDriver.$recv -> deframer.framedIn
+    connections Communications {
+      # ComDriver buffer allocations
       commDriver.allocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframer]
-
-      deframer.comOut -> rpiHub.portIn[0]
-      deframer.bufferOut -> rpiHub.dataIn
-      deframer.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
-      deframer.framedDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframer]
+      commDriver.deallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
       
-      rpiHub.dataInDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
-    }
-
-    connections hub {
-      # Hub routes commands from RPi master to local command dispatcher
-      rpiHub.portOut[0] -> cmdDisp.seqCmdBuff
+      # ComDriver <-> ComStub (Uplink)
+      commDriver.$recv -> comStub.drvReceiveIn
+      comStub.drvReceiveReturnOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframer]
       
-      # Command responses sent back to RPi master via hub  
-      cmdDisp.seqCmdStatus -> rpiHub.portIn[1]
+      # ComStub <-> ComDriver (Downlink)
+      comStub.drvSendOut -> commDriver.$send
+      commDriver.ready -> comStub.drvConnected
       
-      # Hub deallocates buffers
-      rpiHub.buffersOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
+      # ComQueue to/from ComStub
+      comQueue.dataOut -> comStub.dataIn
+      comStub.dataReturnOut -> comQueue.dataReturnIn
+      comStub.comStatusOut -> comQueue.comStatusIn
+      
+      # Events and telemetry to ComQueue
+      eventLogger.PktSend -> comQueue.comPacketQueueIn[0]
+      tlmSend.PktSend -> comQueue.comPacketQueueIn[1]
+      
+      # ComStub to Router
+      comStub.dataOut -> fprimeRouter.dataIn
+      fprimeRouter.dataReturnOut -> comStub.dataReturnIn
+      
+      # Router to Command Dispatcher
+      fprimeRouter.commandOut -> cmdDisp.seqCmdBuff
+      cmdDisp.seqCmdStatus -> fprimeRouter.cmdResponseIn
+      
+      # Router buffer management
+      fprimeRouter.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
+      fprimeRouter.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
     }
 
     connections LedConnections {
