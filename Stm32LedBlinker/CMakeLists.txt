@@ -19,7 +19,9 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
 # add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/MyComponent/")
 
 
-set(SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/Stub.cpp")
+set(SOURCE_FILES 
+    "${CMAKE_CURRENT_LIST_DIR}/Stub.cpp"
+)
 set(MOD_DEPS ${FPRIME_CURRENT_MODULE}/Top app)
 
 register_fprime_deployment()

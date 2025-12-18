@@ -6,18 +6,12 @@
 // Used to access topology functions
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopology.hpp>
-
-// Used for logging
-#include <Os/Log.hpp>
-
-// Instantiate a system logger that will handle Fw::Logger::logMsg calls
-Os::Log logger;
+#include <Fw/Logger/Logger.hpp>
 
 const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(lpuart1));
 
 int main()
 {
-    Fw::Logger::logMsg("Program Started\n");
 
     // Object for communicating state to the reference topology
     Stm32LedBlinker::TopologyState inputs;

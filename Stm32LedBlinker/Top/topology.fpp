@@ -20,28 +20,24 @@ module Stm32LedBlinker {
     # Instances used in the topology
     # ----------------------------------------------------------------------
 
-    instance cmdDisp
-    instance commDriver
-    instance comQueue
-    instance comStub
-    instance eventLogger
-    instance fatalAdapter
-    instance fatalHandler
-    instance fprimeRouter
-    instance gpioDriver
-    instance gpioDriver1
-    instance gpioDriver2
-    instance led
-    instance led1
-    instance led2
-    instance rateDriver
     instance rateGroup1
+    instance cmdDisp
+    instance eventLogger
+    instance tlmSend
+    instance comQueue
+    instance led
+    instance timeHandler
     instance rateGroupDriver
     instance staticMemory
-    instance systemResources
     instance textLogger
-    instance timeHandler
-    instance tlmSend
+    instance commDriver
+    instance comStub
+    instance fprimeRouter
+    instance fatalAdapter
+    instance fatalHandler
+    instance systemResources
+    instance gpioDriver
+    instance rateDriver
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
@@ -53,9 +49,9 @@ module Stm32LedBlinker {
 
     telemetry connections instance tlmSend
 
-    text event connections instance textLogger
-
     time connections instance timeHandler
+
+    text event connections instance textLogger
 
     # ----------------------------------------------------------------------
     # Direct graph specifiers
@@ -70,10 +66,7 @@ module Stm32LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
       rateGroup1.RateGroupMemberOut[1] -> tlmSend.Run
       rateGroup1.RateGroupMemberOut[2] -> systemResources.run
-      # LED components scheduled at 1Hz
       rateGroup1.RateGroupMemberOut[3] -> led.run
-      rateGroup1.RateGroupMemberOut[4] -> led1.run
-      rateGroup1.RateGroupMemberOut[5] -> led2.run
     }
 
     connections FaultProtection {
@@ -116,13 +109,11 @@ module Stm32LedBlinker {
     }
 
     connections LedConnections {
-      # LED GPIO connections
+      # LED GPIO connection
       led.gpioSet -> gpioDriver.gpioWrite
-      led1.gpioSet -> gpioDriver1.gpioWrite
-      led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
-    connections LedBlinker {
+    connections Stm32LedBlinker {
       # Add here connections to user-defined components
     }
 

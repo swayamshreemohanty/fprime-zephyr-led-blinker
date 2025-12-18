@@ -7,9 +7,6 @@
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 
-// Necessary project-specified types
-#include <Svc/FramingProtocol/FprimeProtocol.hpp>
-
 #include <zephyr/drivers/gpio.h>
 
 static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
@@ -19,17 +16,12 @@ static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpi
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace Stm32LedBlinker;
 
-// The reference topology uses the F´ packet protocol when communicating with the ground and therefore uses the F´
-// framing and deframing implementations.
-Svc::FprimeFraming framing;
-Svc::FprimeDeframing deframing;
-
 // The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz, 5Hz, and 1Hz
 Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0}, {200, 0}, {1000, 0} }};
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
-NATIVE_INT_TYPE rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupOutputPorts] = {};
+U32 rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupOutputPorts] = {};
 
 /**
  * \brief configure/setup components in project-specific way
@@ -45,13 +37,7 @@ void configureTopology() {
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    // Framer and Deframer components need to be passed a protocol handler
-    framer.setup(framing);
-    deframer.setup(deframing);
-
-    gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
-    gpioDriver1.open(led1_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
-    gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioDirection::OUT);
+    gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
 }
 
 // Public functions for use in main program are namespaced with deployment name Stm32LedBlinker

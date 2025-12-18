@@ -1,11 +1,24 @@
 module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
+  # Base ID Convention
+  # ----------------------------------------------------------------------
+  #
+  # All Base IDs follow the 8-digit hex format: 0xDSSCCxxx
+  #
+  # Where:
+  #   D   = Deployment digit (2 for STM32 deployment)
+  #   SS  = Subtopology digits (00 for main topology)
+  #   CC  = Component digits (00, 01, 02, etc.)
+  #   xxx = Reserved for internal component items (events, commands, telemetry)
+  #
+
+  # ----------------------------------------------------------------------
   # Defaults
   # ----------------------------------------------------------------------
 
   module Default {
-    constant QUEUE_SIZE = 3
+    constant QUEUE_SIZE = 10
     constant STACK_SIZE = 64 * 1024
   }
 
@@ -13,22 +26,27 @@ module Stm32LedBlinker {
   # Active component instances
   # ----------------------------------------------------------------------
 
-  instance cmdDisp: Svc.CommandDispatcher base id 0x0100 \
-    queue size Default.QUEUE_SIZE\
+  instance rateGroup1: Svc.ActiveRateGroup base id 0x20001000 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 120
+
+  instance cmdDisp: Svc.CommandDispatcher base id 0x20002000 \
+    queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 101
 
-  instance eventLogger: Svc.EventManager base id 0x0200 \
+  instance eventLogger: Svc.EventManager base id 0x20003000 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 98
 
-  instance tlmSend: Svc.TlmChan base id 0x0300 \
-    queue size 15 \
+  instance tlmSend: Svc.TlmChan base id 0x20004000 \
+    queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 97
 
-  instance comQueue: Svc.ComQueue base id 0x0400 \
+  instance comQueue: Svc.ComQueue base id 0x20005000 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 96
@@ -41,56 +59,30 @@ module Stm32LedBlinker {
   # Passive component instances
   # ----------------------------------------------------------------------
 
-  instance rateGroup1: Svc.PassiveRateGroup base id 0x1000
+  instance led: Components.Stm32Led base id 0x20006000
 
-  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x1100
+  instance timeHandler: Svc.OsTime base id 0x20010000
 
-  instance commDriver: Zephyr.ZephyrUartDriver base id 0x4000
+  instance rateGroupDriver: Svc.RateGroupDriver base id 0x20011000
 
-  instance comStub: Svc.ComStub base id 0x4050
+  instance staticMemory: Svc.StaticMemory base id 0x20012000
 
-  instance fprimeRouter: Svc.FprimeRouter base id 0x4150
+  instance textLogger: Svc.PassiveTextLogger base id 0x20013000
 
-  instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4200
+  instance commDriver: Zephyr.ZephyrUartDriver base id 0x20014000
 
-  instance fatalHandler: Svc.FatalHandler base id 0x4300
+  instance comStub: Svc.ComStub base id 0x20015000
 
-  instance timeHandler: Svc.OsTime base id 0x4400
+  instance fprimeRouter: Svc.FprimeRouter base id 0x20016000
 
-  instance rateGroupDriver: Svc.RateGroupDriver base id 0x4500
+  instance fatalAdapter: Svc.AssertFatalAdapter base id 0x20017000
 
-  instance staticMemory: Svc.StaticMemory base id 0x4600
+  instance fatalHandler: Svc.FatalHandler base id 0x20018000
 
-  instance textLogger: Svc.PassiveTextLogger base id 0x4700
+  instance systemResources: Svc.SystemResources base id 0x20019000
 
-  instance systemResources: Svc.SystemResources base id 0x4900
+  instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x2001A000
 
-  instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x4C00
-
-  instance gpioDriver1: Zephyr.ZephyrGpioDriver base id 0x4D00
-
-  instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x4E00
-
-  # ----------------------------------------------------------------------
-  # LED Components
-  # ----------------------------------------------------------------------
-  # NASA hub pattern for remote node communication
-  # STM32 acts as remote node, RPi acts as master
-  # Hub serializes typed ports over UART connection
-  
-  @ GenericHub - Bridges local components with remote RPi master
-  @ Allows RPi to control STM32 LED and receive STM32 telemetry
-  instance rpiHub: Svc.GenericHub base id 0x5000
-
-  # ----------------------------------------------------------------------
-  # LED Components (must be >= 0x10000 for RPi CmdSplitter routing)
-  # ----------------------------------------------------------------------
-  # These base IDs are >= 0x10000 so commands route through RPi's CmdSplitter
-  
-  instance led: Components.Stm32Led base id 0x10000
-
-  instance led1: Components.Led base id 0x10100
-
-  instance led2: Components.Led base id 0x10200
+  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x2001B000
 
 }
