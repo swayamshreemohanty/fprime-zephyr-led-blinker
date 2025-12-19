@@ -25,7 +25,8 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
   # Active component instances
   # ----------------------------------------------------------------------
-
+  
+  # Minimal active components needed for command/event/telemetry infrastructure
   instance cmdDisp: Svc.CommandDispatcher base id 0x20002000 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
@@ -40,11 +41,6 @@ module Stm32LedBlinker {
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 97
-
-  instance comQueue: Svc.ComQueue base id 0x20005000 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 96
 
   # ----------------------------------------------------------------------
   # Queued component instances
@@ -65,22 +61,6 @@ module Stm32LedBlinker {
   instance timeHandler: Svc.OsTime base id 0x20010000
 
   instance rateGroupDriver: Svc.RateGroupDriver base id 0x20011000
-
-  instance staticMemory: Svc.StaticMemory base id 0x20012000
-
-  instance textLogger: Svc.PassiveTextLogger base id 0x20013000
-
-  instance commDriver: Zephyr.ZephyrUartDriver base id 0x20014000
-
-  instance comStub: Svc.ComStub base id 0x20015000
-
-  instance fprimeRouter: Svc.FprimeRouter base id 0x20016000
-
-  instance fatalAdapter: Svc.AssertFatalAdapter base id 0x20017000
-
-  instance fatalHandler: Svc.FatalHandler base id 0x20018000
-
-  instance systemResources: Svc.SystemResources base id 0x20019000
 
   instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x2001A000
   

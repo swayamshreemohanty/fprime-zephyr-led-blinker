@@ -8,12 +8,6 @@ module Stm32LedBlinker {
       rateGroup1
     }
 
-    enum Ports_StaticMemory {
-      framer
-      deframer
-      deframing
-    }
-
   topology Stm32LedBlinker {
 
     # ----------------------------------------------------------------------
@@ -24,20 +18,11 @@ module Stm32LedBlinker {
     instance cmdDisp
     instance eventLogger
     instance tlmSend
-    instance comQueue
     instance led
     instance led1
     instance led2
     instance timeHandler
     instance rateGroupDriver
-    instance staticMemory
-    instance textLogger
-    instance commDriver
-    instance comStub
-    instance fprimeRouter
-    instance fatalAdapter
-    instance fatalHandler
-    instance systemResources
     instance gpioDriver
     instance gpioDriver1
     instance gpioDriver2
@@ -55,8 +40,6 @@ module Stm32LedBlinker {
 
     time connections instance timeHandler
 
-    text event connections instance textLogger
-
     # ----------------------------------------------------------------------
     # Direct graph specifiers
     # ----------------------------------------------------------------------
@@ -67,51 +50,9 @@ module Stm32LedBlinker {
 
       # Rate group 1
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> tlmSend.Run
-      rateGroup1.RateGroupMemberOut[2] -> systemResources.run
-      rateGroup1.RateGroupMemberOut[3] -> led.run
-      rateGroup1.RateGroupMemberOut[4] -> led1.run
-      rateGroup1.RateGroupMemberOut[5] -> led2.run
-    }
-
-    connections FaultProtection {
-      eventLogger.FatalAnnounce -> fatalHandler.FatalReceive
-    }
-
-    connections Communications {
-      # ComDriver buffer allocations
-      commDriver.allocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframer]
-      commDriver.deallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.framer]
-      
-      # ComDriver <-> ComStub (Uplink)
-      commDriver.$recv -> comStub.drvReceiveIn
-      comStub.drvReceiveReturnOut -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframer]
-      
-      # ComStub <-> ComDriver (Downlink)
-      comStub.drvSendOut -> commDriver.$send
-      commDriver.ready -> comStub.drvConnected
-      
-      # ComQueue to/from ComStub
-      comQueue.dataOut -> comStub.dataIn
-      comStub.dataReturnOut -> comQueue.dataReturnIn
-      comStub.comStatusOut -> comQueue.comStatusIn
-      
-      # Events and telemetry to ComQueue
-      eventLogger.PktSend -> comQueue.comPacketQueueIn[0]
-      tlmSend.PktSend -> comQueue.comPacketQueueIn[1]
-      
-      # ComStub to Router
-      comStub.dataOut -> fprimeRouter.dataIn
-      fprimeRouter.dataReturnOut -> comStub.dataReturnIn
-      
-      # Router to Command Dispatcher
-      fprimeRouter.commandOut -> cmdDisp.seqCmdBuff
-      cmdDisp.seqCmdStatus -> fprimeRouter.cmdResponseIn
-      
-      # Router buffer management
-      fprimeRouter.bufferAllocate -> staticMemory.bufferAllocate[Ports_StaticMemory.deframing]
-      fprimeRouter.bufferDeallocate -> staticMemory.bufferDeallocate[Ports_StaticMemory.deframing]
+      rateGroup1.RateGroupMemberOut[0] -> led.run
+      rateGroup1.RateGroupMemberOut[1] -> led1.run
+      rateGroup1.RateGroupMemberOut[2] -> led2.run
     }
 
     connections LedConnections {

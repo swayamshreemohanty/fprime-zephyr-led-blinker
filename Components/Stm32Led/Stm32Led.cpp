@@ -41,11 +41,10 @@ void Stm32Led ::run_handler(FwIndexType portNum, U32 context) {
     Fw::ParamValid isValid;
     U32 interval = this->paramGet_BLINK_INTERVAL(isValid);
 
-    // When parameters haven't been loaded, use the default value
-    // isValid will be DEFAULT when using the FPP-specified default value
-    // Only set interval to 0 if explicitly INVALID
-    if (Fw::ParamValid::INVALID == isValid) {
-        interval = 0;
+    // Without PrmDb, parameters default to 0 instead of FPP default values
+    // Use hardcoded default (10) when interval is 0 or parameter is invalid
+    if (interval == 0 || isValid > Fw::ParamValid::DEFAULT || isValid == Fw::ParamValid::INVALID || isValid == Fw::ParamValid::UNINIT) {
+        interval = 10;  // Hardcoded default matching FPP specification
     }
 
     // Only perform actions when set to blinking

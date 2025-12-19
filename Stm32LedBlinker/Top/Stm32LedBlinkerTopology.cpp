@@ -71,19 +71,16 @@ void setupTopology(const TopologyState& state) {
     printk("  configureTopology...\n");
     // Project-specific component configuration. Function provided above. May be inlined, if desired.
     configureTopology();
-    printk("  loadParameters (skipped)...\n");
+    printk("  loadParameters (skipped - no PrmDb)...\n");
     // Autocoded parameter loading. Function provided by autocoder.
-    // loadParameters();
+    // loadParameters();  // No PrmDb component in topology
     
-    printk("  startTasks...\n");
-    // Autocoded task kick-off (active components). Function provided by autocoder.
+    // NOTE: startTasks() starts the active components (cmdDisp, eventLogger, tlmSend)
+    printk("  Starting active component tasks...\n");
     startTasks(state);
-    printk("  startTasks complete!\n");
     
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
-    printk("  configure commDriver...\n");
-    commDriver.configure(state.dev, state.uartBaud);
     printk("  start rateDriver...\n");
     rateDriver.start();
     printk("setupTopology complete!\n");
