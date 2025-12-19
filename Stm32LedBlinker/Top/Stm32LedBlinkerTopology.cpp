@@ -77,51 +77,7 @@ void setupTopology(const TopologyState& state) {
     
     printk("  startTasks...\n");
     // Autocoded task kick-off (active components). Function provided by autocoder.
-    printk("    Starting cmdDisp task...\n");
-    cmdDisp.start(
-      static_cast<FwTaskPriorityType>(StackSizes::Stm32LedBlinker_cmdDisp),
-      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_cmdDisp),
-      Os::Task::TASK_DEFAULT,
-      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_cmdDisp)
-    );
-    printk("    cmdDisp started\n");
-    
-    printk("    Starting comQueue task...\n");
-    comQueue.start(
-      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_comQueue),
-      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_comQueue),
-      Os::Task::TASK_DEFAULT,
-      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_comQueue)
-    );
-    printk("    comQueue started\n");
-    
-    printk("    Starting eventLogger task...\n");
-    eventLogger.start(
-      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_eventLogger),
-      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_eventLogger),
-      Os::Task::TASK_DEFAULT,
-      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_eventLogger)
-    );
-    printk("    eventLogger started\n");
-    
-    printk("    Starting rateGroup1 task...\n");
-    rateGroup1.start(
-      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_rateGroup1),
-      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_rateGroup1),
-      Os::Task::TASK_DEFAULT,
-      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_rateGroup1)
-    );
-    printk("    rateGroup1 started\n");
-    
-    printk("    Starting tlmSend task...\n");
-    tlmSend.start(
-      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_tlmSend),
-      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_tlmSend),
-      Os::Task::TASK_DEFAULT,
-      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_tlmSend)
-    );
-    printk("    tlmSend started\n");
-    
+    startTasks(state);
     printk("  startTasks complete!\n");
     
     printk("  configure rateDriver...\n");

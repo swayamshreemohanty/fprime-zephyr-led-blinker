@@ -26,11 +26,6 @@ module Stm32LedBlinker {
   # Active component instances
   # ----------------------------------------------------------------------
 
-  instance rateGroup1: Svc.ActiveRateGroup base id 0x20001000 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 120
-
   instance cmdDisp: Svc.CommandDispatcher base id 0x20002000 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
@@ -58,6 +53,8 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
   # Passive component instances
   # ----------------------------------------------------------------------
+
+  instance rateGroup1: Svc.PassiveRateGroup base id 0x20001000
 
   instance led: Components.Stm32Led base id 0x20006000
   

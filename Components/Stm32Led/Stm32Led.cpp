@@ -5,6 +5,7 @@
 // ======================================================================
 
 #include <Components/Stm32Led/Stm32Led.hpp>
+#include <zephyr/kernel.h>
 
 namespace Components {
 
