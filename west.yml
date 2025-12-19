@@ -12,5 +12,5 @@ manifest:
   projects:
     - name: zephyr
       remote: zephyrproject-rtos
-      revision: zephyr-v4.3.0
+      revision: v4.3.0
       import: false

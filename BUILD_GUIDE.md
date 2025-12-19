@@ -52,11 +52,11 @@ git submodule update --init --recursive
 
 ### 3. Checkout Correct F' Version
 
-The fprime-zephyr integration requires F' v3.4.3 (not the latest devel branch):
+The fprime-zephyr integration requires F' v4.1.1:
 
 ```bash
 cd fprime
-git checkout v3.4.3
+git checkout v4.1.1
 cd ..
 ```
 
@@ -141,9 +141,11 @@ pip install west==1.5.0
 west init -m https://github.com/zephyrproject-rtos/zephyr --mr main
 ```
 
-### 4. Download STM32 HAL Module
+### 4. Download Required Zephyr Modules
 
-Instead of running full `west update` (which downloads many modules), download only the required STM32 HAL:
+Instead of running full `west update` (which downloads many modules), download only the required modules:
+
+#### STM32 HAL Module
 
 ```bash
 mkdir -p modules/hal
@@ -151,6 +153,18 @@ cd modules/hal
 git clone https://github.com/zephyrproject-rtos/hal_stm32 stm32
 cd ~/zephyrproject
 ```
+
+#### CMSIS Module
+
+The CMSIS (Cortex Microcontroller Software Interface Standard) module is required for ARM Cortex-M processors:
+
+```bash
+cd modules
+git clone https://github.com/zephyrproject-rtos/cmsis.git
+cd ~/zephyrproject
+```
+
+**Note**: Without the CMSIS module, you'll encounter the error `fatal error: cmsis_core.h: No such file or directory` during compilation.
 
 ### 5. Install Zephyr SDK
 
@@ -181,7 +195,7 @@ export ZEPHYR_SDK_INSTALL_DIR=~/zephyr-sdk-0.16.1
 
 **File**: `fprime-zephyr/Zephyr/ZephyrTime/ZephyrTime.hpp`
 
-**Issue**: Zephyr v4.3.99 uses different header path than older versions.
+**Issue**: Zephyr v4.3.0+ uses different header path than older versions.
 
 **Change**:
 ```cpp
