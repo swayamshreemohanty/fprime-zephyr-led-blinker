@@ -24,14 +24,20 @@ set(SOURCE_FILES
 )
 set(MOD_DEPS ${FPRIME_CURRENT_MODULE}/Top app)
 
-register_fprime_deployment()
+# Trim TlmChan telemetry table size for this small deployment
+if (TARGET Svc_TlmChan)
+    target_compile_definitions(Svc_TlmChan PUBLIC
+        TLMCHAN_HASH_BUCKETS_VALUE=64
+        TLMCHAN_NUM_TLM_HASH_SLOTS_VALUE=8
+        TLMCHAN_HASH_MOD_VALUE_VALUE=97
+    )
+endif()
+
+register_fprime_zephyr_deployment()
 
 FILE(GLOB app_sources Main.cpp)
 target_sources(app PRIVATE 
     ${app_sources}
-    ${FPRIME_FRAMEWORK_PATH}/Os/Stub/DefaultQueue.cpp
-    ${FPRIME_FRAMEWORK_PATH}/Os/Stub/DefaultCpu.cpp
-    ${FPRIME_FRAMEWORK_PATH}/Os/Stub/DefaultMemory.cpp
 )
 target_link_libraries(app PRIVATE 
     Stm32LedBlinker_Top
