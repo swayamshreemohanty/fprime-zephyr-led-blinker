@@ -53,25 +53,81 @@ void configureTopology() {
 // Public functions for use in main program are namespaced with deployment name Stm32LedBlinker
 namespace Stm32LedBlinker {
 void setupTopology(const TopologyState& state) {
+    printk("  initComponents...\n");
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
+    printk("  setBaseIds...\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
+    printk("  connectComponents...\n");
     // Autocoded connection wiring. Function provided by autocoder.
     connectComponents();
+    printk("  regCommands...\n");
     // Autocoded command registration. Function provided by autocoder.
     regCommands();
+    printk("  configureTopology...\n");
     // Project-specific component configuration. Function provided above. May be inlined, if desired.
     configureTopology();
+    printk("  loadParameters (skipped)...\n");
     // Autocoded parameter loading. Function provided by autocoder.
     // loadParameters();
     
+    printk("  startTasks...\n");
     // Autocoded task kick-off (active components). Function provided by autocoder.
-    startTasks(state);
+    printk("    Starting cmdDisp task...\n");
+    cmdDisp.start(
+      static_cast<FwTaskPriorityType>(StackSizes::Stm32LedBlinker_cmdDisp),
+      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_cmdDisp),
+      Os::Task::TASK_DEFAULT,
+      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_cmdDisp)
+    );
+    printk("    cmdDisp started\n");
     
+    printk("    Starting comQueue task...\n");
+    comQueue.start(
+      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_comQueue),
+      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_comQueue),
+      Os::Task::TASK_DEFAULT,
+      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_comQueue)
+    );
+    printk("    comQueue started\n");
+    
+    printk("    Starting eventLogger task...\n");
+    eventLogger.start(
+      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_eventLogger),
+      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_eventLogger),
+      Os::Task::TASK_DEFAULT,
+      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_eventLogger)
+    );
+    printk("    eventLogger started\n");
+    
+    printk("    Starting rateGroup1 task...\n");
+    rateGroup1.start(
+      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_rateGroup1),
+      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_rateGroup1),
+      Os::Task::TASK_DEFAULT,
+      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_rateGroup1)
+    );
+    printk("    rateGroup1 started\n");
+    
+    printk("    Starting tlmSend task...\n");
+    tlmSend.start(
+      static_cast<FwTaskPriorityType>(Priorities::Stm32LedBlinker_tlmSend),
+      static_cast<Os::Task::ParamType>(StackSizes::Stm32LedBlinker_tlmSend),
+      Os::Task::TASK_DEFAULT,
+      static_cast<Os::Task::ParamType>(TaskIds::Stm32LedBlinker_tlmSend)
+    );
+    printk("    tlmSend started\n");
+    
+    printk("  startTasks complete!\n");
+    
+    printk("  configure rateDriver...\n");
     rateDriver.configure(1);
+    printk("  configure commDriver...\n");
     commDriver.configure(state.dev, state.uartBaud);
+    printk("  start rateDriver...\n");
     rateDriver.start();
+    printk("setupTopology complete!\n");
 }
 
 void teardownTopology(const TopologyState& state) {

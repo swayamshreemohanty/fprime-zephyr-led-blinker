@@ -468,6 +468,34 @@ From the GDS command interface, you can:
 
 ### Build Issues
 
+#### Thread Creation Failure
+
+**Symptom**: System crashes during `startTasks()` or immediately after entering main loop
+
+**Root Cause**: F-Prime on Zephyr 4.3.0 with F-Prime v4.1.1 requires specific Zephyr configuration for dynamic thread creation. The `Os/Task.cpp` implementation uses `k_thread_stack_alloc()` which needs:
+
+1. **CONFIG_DYNAMIC_THREAD** - Enable dynamic thread creation
+2. **CONFIG_DYNAMIC_OBJECTS** - Enable dynamic kernel object allocation  
+3. **CONFIG_DYNAMIC_THREAD_ALLOC** - Enable dynamic thread stack allocation
+4. **CONFIG_FPRIME=y** - F-Prime specific configuration
+5. **Large heap size** - At least 200KB for thread stacks (5 tasks × 4KB + overhead)
+
+**Solution**: Add to `prj.conf`:
+
+```properties
+CONFIG_FPRIME=y
+CONFIG_DYNAMIC_OBJECTS=y
+CONFIG_DYNAMIC_THREAD=y
+CONFIG_DYNAMIC_THREAD_ALLOC=y
+CONFIG_HEAP_MEM_POOL_SIZE=200000
+CONFIG_MAIN_STACK_SIZE=10000
+CONFIG_MAX_THREAD_BYTES=5
+```
+
+**Note**: The STM32H7A3ZI-Q has 640KB RAM. With CONFIG_USERSPACE enabled, memory requirements increase significantly. If you get "region RAM overflowed" errors, disable userspace or reduce heap size.
+
+#### CMSIS Module Missing
+
 #### Issue: CMake can't find Zephyr
 **Solution**: Ensure `ZEPHYR_BASE` is set:
 ```bash

@@ -6,20 +6,20 @@
 
 / {
     soc {
-        // Combine sram0, sram1, sram2 into one contiguous 640KB region
-        // This provides enough space for the F' application
+        // Use full 1MB SRAM (AXI SRAM) to support 512KB heap + overhead
+        // STM32H7A3ZI has 1MB AXI SRAM at 0x24000000
         sram0: memory@24000000 {
             compatible = "zephyr,memory-region", "mmio-sram";
-            reg = <0x24000000 DT_SIZE_K(640)>;
+            reg = <0x24000000 DT_SIZE_K(1024)>;
             zephyr,memory-region = "SRAM0";
         };
     };
 
     chosen {
         zephyr,sram = &sram0;
-        // Use LPUART1 for F-Prime communication on PB6 (TX) and PB7 (RX)
-        zephyr,console = &lpuart1;
-        zephyr,shell-uart = &lpuart1;
+        // Use USART3 (ST-Link VCP) for console/debug output
+        zephyr,console = &usart3;
+        zephyr,shell-uart = &usart3;
     };
 
     aliases {
@@ -35,19 +35,17 @@
     };
 };
 
+// Enable USART3 for console/debug on ST-Link Virtual COM port
+&usart3 {
+    status = "okay";
+    current-speed = <115200>;
+};
+
 // Enable LPUART1 for F-Prime communication on PB6 (TX) and PB7 (RX)
 // These pins are free and accessible on CN10 connector
 &lpuart1 {
     status = "okay";
     current-speed = <115200>;
-};
-
-// Disable USART3 so it doesn't output to ST-Link Virtual COM
-// Need to delete pinctrl properties first to avoid devicetree errors
-&usart3 {
-    /delete-property/ pinctrl-0;
-    /delete-property/ pinctrl-names;
-    status = "disabled";
 };
 
 // Disable USB OTG to prevent conflicts with UART communication
