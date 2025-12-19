@@ -60,6 +60,10 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
 
   instance led: Components.Stm32Led base id 0x20006000
+  
+  instance led1: Components.Stm32Led base id 0x20006100
+  
+  instance led2: Components.Stm32Led base id 0x20006200
 
   instance timeHandler: Svc.OsTime base id 0x20010000
 
@@ -82,6 +86,10 @@ module Stm32LedBlinker {
   instance systemResources: Svc.SystemResources base id 0x20019000
 
   instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x2001A000
+  
+  instance gpioDriver1: Zephyr.ZephyrGpioDriver base id 0x2001A100
+  
+  instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x2001A200
 
   instance rateDriver: Zephyr.ZephyrRateDriver base id 0x2001B000
 

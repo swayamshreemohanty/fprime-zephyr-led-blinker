@@ -26,6 +26,8 @@ module Stm32LedBlinker {
     instance tlmSend
     instance comQueue
     instance led
+    instance led1
+    instance led2
     instance timeHandler
     instance rateGroupDriver
     instance staticMemory
@@ -37,6 +39,8 @@ module Stm32LedBlinker {
     instance fatalHandler
     instance systemResources
     instance gpioDriver
+    instance gpioDriver1
+    instance gpioDriver2
     instance rateDriver
 
     # ----------------------------------------------------------------------
@@ -67,6 +71,8 @@ module Stm32LedBlinker {
       rateGroup1.RateGroupMemberOut[1] -> tlmSend.Run
       rateGroup1.RateGroupMemberOut[2] -> systemResources.run
       rateGroup1.RateGroupMemberOut[3] -> led.run
+      rateGroup1.RateGroupMemberOut[4] -> led1.run
+      rateGroup1.RateGroupMemberOut[5] -> led2.run
     }
 
     connections FaultProtection {
@@ -109,8 +115,10 @@ module Stm32LedBlinker {
     }
 
     connections LedConnections {
-      # LED GPIO connection
+      # LED GPIO connections
       led.gpioSet -> gpioDriver.gpioWrite
+      led1.gpioSet -> gpioDriver1.gpioWrite
+      led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
     connections Stm32LedBlinker {

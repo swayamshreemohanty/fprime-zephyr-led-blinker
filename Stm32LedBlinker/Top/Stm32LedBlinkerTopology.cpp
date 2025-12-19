@@ -10,16 +10,10 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
 
-#if DT_NODE_HAS_STATUS(DT_ALIAS(led0), okay)
-static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
-#elif DT_NODE_HAS_STATUS(DT_ALIAS(led1), okay)
-static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
-#elif DT_NODE_HAS_STATUS(DT_ALIAS(led2), okay)
-static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
-#else
-// No LED alias found; keep spec empty so configureTopology can skip opening the GPIO
-static const struct gpio_dt_spec led_pin = {};
-#endif
+// Define GPIO specs for all 3 LEDs
+static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);   // Green LED
+static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);  // Yellow LED
+static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);  // Red LED
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace Stm32LedBlinker;
@@ -39,15 +33,24 @@ U32 rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupO
  * desired, but is extracted here for clarity.
  */
 void configureTopology() {
+    printk("  configureTopology: Setting up rate group driver...\n");
     // Rate group driver needs a divisor list
     rateGroupDriver.configure(rateGroupDivisors);
 
+    printk("  configureTopology: Setting up rate groups...\n");
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    if (led_pin.port != nullptr) {
-        gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-    }
+    printk("  configureTopology: Configuring GPIO for all 3 LEDs...\n");
+    // Open GPIO for all 3 LEDs
+    gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
+    printk("    GPIO driver opened for Green LED\n");
+    
+    gpioDriver1.open(led1_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
+    printk("    GPIO driver opened for Yellow LED\n");
+    
+    gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
+    printk("    GPIO driver opened for Red LED\n");
 }
 
 // Public functions for use in main program are namespaced with deployment name Stm32LedBlinker
