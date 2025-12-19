@@ -25,10 +25,16 @@ int main()
 
     printk("Entering main loop\n");
     
+    U32 loopCount = 0;
     while(true)
     {
         // Call cycle which will trigger rate groups if timer expired
         Stm32LedBlinker::rateDriver.cycle();
+        
+        loopCount++;
+        if (loopCount % 1000 == 0) {
+            printk("Loop iteration: %u\n", loopCount);
+        }
     }
 
     printk("ERROR: Exited main loop unexpectedly!\n");
