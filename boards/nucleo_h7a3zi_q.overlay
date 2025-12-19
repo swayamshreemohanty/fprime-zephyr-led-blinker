@@ -43,11 +43,25 @@
 };
 
 // Disable USART3 so it doesn't output to ST-Link Virtual COM
+// Need to delete pinctrl properties first to avoid devicetree errors
 &usart3 {
+    /delete-property/ pinctrl-0;
+    /delete-property/ pinctrl-names;
     status = "disabled";
 };
 
 // Disable USB OTG to prevent conflicts with UART communication
 &usbotg_hs {
+    status = "disabled";
+};
+
+// Disable TIM12 and its PWM to allow PB14 to be used as GPIO for LED
+// Must delete pinctrl from PWM node first to avoid undefined label errors
+&timers12 {
+    pwm12: pwm {
+        /delete-property/ pinctrl-0;
+        /delete-property/ pinctrl-names;
+        status = "disabled";
+    };
     status = "disabled";
 };

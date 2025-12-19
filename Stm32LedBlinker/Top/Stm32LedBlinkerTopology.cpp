@@ -7,11 +7,19 @@
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 
+#include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
 
+#if DT_NODE_HAS_STATUS(DT_ALIAS(led0), okay)
 static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
-static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
-static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
+#elif DT_NODE_HAS_STATUS(DT_ALIAS(led1), okay)
+static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
+#elif DT_NODE_HAS_STATUS(DT_ALIAS(led2), okay)
+static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
+#else
+// No LED alias found; keep spec empty so configureTopology can skip opening the GPIO
+static const struct gpio_dt_spec led_pin = {};
+#endif
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace Stm32LedBlinker;
@@ -37,7 +45,9 @@ void configureTopology() {
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
+    if (led_pin.port != nullptr) {
+        gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
+    }
 }
 
 // Public functions for use in main program are namespaced with deployment name Stm32LedBlinker

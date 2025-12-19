@@ -27,5 +27,21 @@ set(MOD_DEPS ${FPRIME_CURRENT_MODULE}/Top app)
 register_fprime_deployment()
 
 FILE(GLOB app_sources Main.cpp)
-target_sources(app PRIVATE ${app_sources})
-target_link_libraries(app PRIVATE Stm32LedBlinker_Top)
+target_sources(app PRIVATE 
+    ${app_sources}
+    ${FPRIME_FRAMEWORK_PATH}/Os/Stub/DefaultQueue.cpp
+    ${FPRIME_FRAMEWORK_PATH}/Os/Stub/DefaultCpu.cpp
+    ${FPRIME_FRAMEWORK_PATH}/Os/Stub/DefaultMemory.cpp
+)
+target_link_libraries(app PRIVATE 
+    Stm32LedBlinker_Top
+    Os_Task_Zephyr
+    Os_Mutex_Zephyr
+    Os_RawTime_Zephyr
+    Os_Console_Zephyr
+    Os_File_Zephyr_Posix
+    Os_StringFormat_Zephyr_snprintk
+    Os_Queue_Stub_Implementation
+    Os_Cpu_Stub_Implementation
+    Os_Memory_Stub_Implementation
+)

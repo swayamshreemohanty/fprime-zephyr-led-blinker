@@ -18,8 +18,8 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
 
   module Default {
-    constant QUEUE_SIZE = 10
-    constant STACK_SIZE = 64 * 1024
+    constant QUEUE_SIZE = 3
+    constant STACK_SIZE = 4 * 1024
   }
 
   # ----------------------------------------------------------------------
