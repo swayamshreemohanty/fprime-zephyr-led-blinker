@@ -206,9 +206,41 @@ export ZEPHYR_SDK_INSTALL_DIR=~/zephyr-sdk-0.16.1
 #include <zephyr/posix/posix_time.h>
 ```
 
-### Fix 2: Update UART Device Node
+### Fix 2: Add POSIX SEEK Constants for Zephyr
 
-**File**: `LedBlinker/Main.cpp`
+**File**: `fprime-zephyr/cmake/platform/zephyr/Platform/PlatformTypes.h`
+
+**Issue**: Zephyr uses `FS_SEEK_*` constants instead of standard POSIX `SEEK_*` constants. F-Prime's POSIX File implementation expects the standard constants.
+
+**Change**: Add the following lines at the end of the file, before the final `#endif`:
+
+```cpp
+// Zephyr uses FS_SEEK_* constants instead of POSIX SEEK_* constants
+// Map them for compatibility with fprime's Posix File implementation
+#include <zephyr/fs/fs.h>
+#ifndef SEEK_SET
+#define SEEK_SET FS_SEEK_SET
+#endif
+#ifndef SEEK_CUR
+#define SEEK_CUR FS_SEEK_CUR
+#endif
+#ifndef SEEK_END
+#define SEEK_END FS_SEEK_END
+#endif
+
+#endif  // PLATFORM_TYPES_H_
+```
+
+**Without this fix**, you'll encounter compilation errors like:
+```
+error: 'SEEK_END' was not declared in this scope; did you mean 'FS_SEEK_END'?
+error: 'SEEK_SET' was not declared in this scope; did you mean 'FS_SEEK_SET'?
+error: 'SEEK_CUR' was not declared in this scope; did you mean 'FS_SEEK_CUR'?
+```
+
+### Fix 3: Update UART Device Node
+
+**File**: `Stm32LedBlinker/Main.cpp`
 
 **Issue**: The default `cdc_acm_uart0` doesn't exist on Nucleo H7A3ZI-Q. The board uses `usart3` for console.
 
