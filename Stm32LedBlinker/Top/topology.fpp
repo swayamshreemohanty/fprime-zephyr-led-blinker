@@ -14,19 +14,22 @@ module Stm32LedBlinker {
     # Instances used in the topology
     # ----------------------------------------------------------------------
 
-    instance rateGroup1
     instance cmdDisp
     instance eventLogger
-    instance tlmSend
-    instance led
-    instance led1
-    instance led2
-    instance timeHandler
-    instance rateGroupDriver
+    instance fatalAdapter
+    instance fatalHandler
     instance gpioDriver
     instance gpioDriver1
     instance gpioDriver2
+    instance led
+    instance led1
+    instance led2
     instance rateDriver
+    instance rateGroup1
+    instance rateGroupDriver
+    instance systemResources
+    instance timeHandler
+    instance tlmSend
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
@@ -50,9 +53,15 @@ module Stm32LedBlinker {
 
       # Rate group 1
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> led.run
-      rateGroup1.RateGroupMemberOut[1] -> led1.run
-      rateGroup1.RateGroupMemberOut[2] -> led2.run
+      rateGroup1.RateGroupMemberOut[0] -> tlmSend.Run
+      rateGroup1.RateGroupMemberOut[1] -> systemResources.run
+      rateGroup1.RateGroupMemberOut[2] -> led.run
+      rateGroup1.RateGroupMemberOut[3] -> led1.run
+      rateGroup1.RateGroupMemberOut[4] -> led2.run
+    }
+
+    connections FaultProtection {
+      eventLogger.FatalAnnounce -> fatalHandler.FatalReceive
     }
 
     connections LedConnections {
