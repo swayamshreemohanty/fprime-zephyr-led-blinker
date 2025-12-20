@@ -32,7 +32,7 @@ namespace Stm32LedBlinker {
  * custom tasks often start radio communication it is convenient to start them last.
  *
  * The state argument carries command line inputs used to setup the topology. For an explanation of the required type
- * LedBlinker::TopologyState see: LedBlinkerTopologyDefs.hpp.
+ * Stm32LedBlinker::TopologyState see: Stm32LedBlinkerTopologyDefs.hpp.
  *
  * \param state: object shuttling CLI arguments (hostname, port) needed to construct the topology
  */
@@ -53,12 +53,11 @@ void setupTopology(const TopologyState& state);
  * Step 1, 2, 3, and 4 must occur in-order as the tasks must be stopped before being joined. These tasks must be stopped
  * and joined before any active resources may be deallocated.
  *
- * For an explanation of the required type LedBlinker::TopologyState see: LedBlinkerTopologyDefs.hpp.
+ * For an explanation of the required type Stm32LedBlinker::TopologyState see: Stm32LedBlinkerTopologyDefs.hpp.
  *
  * \param state: state object provided to setupTopology
  */
 void teardownTopology(const TopologyState& state);
 
 } // namespace Stm32LedBlinker
-
 #endif

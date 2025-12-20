@@ -14,6 +14,24 @@ set(KCONFIG_WARNINGS_AS_ERRORS OFF CACHE BOOL "Stop treating Kconfig warnings as
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 set(CMAKE_SYSTEM_NAME "Zephyr")
 
+# Workaround: Manually add CMSIS include paths for Zephyr 4.3.0
+# The CMSIS module is detected but its includes aren't added outside west workspace
+# Add both CMSIS 5 and CMSIS 6 module paths
+if(EXISTS "$ENV{ZEPHYR_BASE}/modules/cmsis")
+    zephyr_include_directories("$ENV{ZEPHYR_BASE}/modules/cmsis")
+elseif(EXISTS "$ENV{ZEPHYR_BASE}/../modules/cmsis")
+    zephyr_include_directories("$ENV{ZEPHYR_BASE}/../modules/cmsis")
+endif()
+
+if(EXISTS "$ENV{ZEPHYR_BASE}/modules/cmsis_6")
+    zephyr_include_directories("$ENV{ZEPHYR_BASE}/modules/cmsis_6")
+endif()
+
+# Add CMSIS Core headers from external module
+if(EXISTS "$ENV{ZEPHYR_BASE}/../modules/cmsis/CMSIS/Core/Include")
+    zephyr_include_directories("$ENV{ZEPHYR_BASE}/../modules/cmsis/CMSIS/Core/Include")
+endif()
+
 project(fprime-zephyr-led-blinker C CXX)
 
 ###

@@ -1,19 +1,6 @@
 module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
-  # Base ID Convention
-  # ----------------------------------------------------------------------
-  #
-  # All Base IDs follow the 8-digit hex format: 0xDSSCCxxx
-  #
-  # Where:
-  #   D   = Deployment digit (2 for STM32 deployment)
-  #   SS  = Subtopology digits (00 for main topology)
-  #   CC  = Component digits (00, 01, 02, etc.)
-  #   xxx = Reserved for internal component items (events, commands, telemetry)
-  #
-
-  # ----------------------------------------------------------------------
   # Defaults
   # ----------------------------------------------------------------------
 
@@ -26,53 +13,68 @@ module Stm32LedBlinker {
   # Active component instances
   # ----------------------------------------------------------------------
 
-  instance cmdDisp: Svc.CommandDispatcher base id 0x20002000 \
-    queue size Default.QUEUE_SIZE \
+  instance cmdDisp: Svc.CommandDispatcher base id 0x0100 \
+    queue size Default.QUEUE_SIZE\
     stack size Default.STACK_SIZE \
     priority 101
 
-  instance eventLogger: Svc.EventManager base id 0x20003000 \
+  instance eventLogger: Svc.EventManager base id 0x0200 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 98
 
-  instance tlmSend: Svc.TlmChan base id 0x20004000 \
+  instance tlmSend: Svc.TlmChan base id 0x0300 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
     priority 97
 
   # ----------------------------------------------------------------------
-  # Queued component instances
-  # ----------------------------------------------------------------------
-
-  # ----------------------------------------------------------------------
   # Passive component instances
   # ----------------------------------------------------------------------
 
-  instance rateGroup1: Svc.PassiveRateGroup base id 0x20001000
+  instance rateGroup1: Svc.PassiveRateGroup base id 0x1000
 
-  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x2001B000
+  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x1100
 
-  instance fatalAdapter: Svc.AssertFatalAdapter base id 0x20008000
+  instance commDriver: Zephyr.ZephyrUartDriver base id 0x4000
 
-  instance fatalHandler: Svc.FatalHandler base id 0x20009000
+  instance framer: Svc.FprimeFramer base id 0x4100
 
-  instance timeHandler: Svc.OsTime base id 0x20010000
+  instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4200
 
-  instance rateGroupDriver: Svc.RateGroupDriver base id 0x20011000
+  instance fatalHandler: Svc.FatalHandler base id 0x4300
 
-  instance systemResources: Svc.SystemResources base id 0x20015000
+  instance timeHandler: Svc.OsTime base id 0x4400
 
-  instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x2001A000
+  instance rateGroupDriver: Svc.RateGroupDriver base id 0x4500
 
-  instance gpioDriver1: Zephyr.ZephyrGpioDriver base id 0x2001A100
+  instance staticMemory: Svc.StaticMemory base id 0x4600
 
-  instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x2001A200
+  instance textLogger: Svc.PassiveTextLogger base id 0x4700
 
-  instance led: Components.Stm32Led base id 0x20020000
+  instance deframer: Svc.FprimeDeframer base id 0x4800
 
-  instance led1: Components.Stm32Led base id 0x20020100
+  instance systemResources: Svc.SystemResources base id 0x4900
 
-  instance led2: Components.Stm32Led base id 0x20020200
+  instance comQueue: Svc.ComQueue base id 0x4A00 \
+    queue size Default.QUEUE_SIZE\
+    stack size Default.STACK_SIZE \
+    priority 100
+
+  instance comStub: Svc.ComStub base id 0x4B00
+
+  instance fprimeRouter: Svc.FprimeRouter base id 0x5000
+
+  instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x4C00
+
+  instance gpioDriver1: Zephyr.ZephyrGpioDriver base id 0x4D00
+
+  instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x4E00
+
+  instance led: Components.Stm32Led base id 0x10000
+
+  instance led1: Components.Stm32Led base id 0x10100
+
+  instance led2: Components.Stm32Led base id 0x10200
 
 }
