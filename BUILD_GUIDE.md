@@ -120,71 +120,254 @@ The fprime build encountered several Python 3.13 specific errors that required w
 
 ## Zephyr RTOS Setup
 
-### 1. Create Zephyr Workspace
+### Overview
+
+This project uses a **local west workspace** to manage Zephyr RTOS v4.3.0 and its dependencies. Unlike external Zephyr installations, the west workspace is self-contained within the project directory.
+
+### ⚠️ CRITICAL: Unset ZEPHYR_BASE
+
+**Before starting setup, check for conflicting Zephyr installations:**
+
+If you have previously installed Zephyr externally (e.g., in `~/zephyrproject`, `~/Documents/libraries/zephyr`, etc.) and set the `ZEPHYR_BASE` environment variable, you **MUST** unset it:
 
 ```bash
-mkdir -p ~/zephyrproject
-cd ~/zephyrproject
-python3 -m venv .venv
+# Check current value
+echo "Current ZEPHYR_BASE: $ZEPHYR_BASE"
+
+# Unset for current session
+unset ZEPHYR_BASE
+
+# Verify it's unset
+echo "After unset: $ZEPHYR_BASE"
+# Should print: After unset:
+
+# Find and remove from shell configuration files
+grep -rn "ZEPHYR_BASE" ~/.bashrc ~/.bash_profile ~/.profile ~/.zshrc 2>/dev/null
+
+# Remove the export line from the files (example for ~/.bashrc)
+sed -i '/export ZEPHYR_BASE/d' ~/.bashrc
+
+# Reload shell configuration
+source ~/.bashrc
+```
+
+**Why this is critical:**
+- The local west workspace automatically configures all Zephyr paths
+- Setting `ZEPHYR_BASE` forces CMake to use the external Zephyr installation
+- This causes module path mismatches and build failures
+- Common error: "CMake Error: include could not find requested file: zephyr_default"
+
+**Solution we discovered:**
+- During troubleshooting, the build failed when `ZEPHYR_BASE` pointed to `/home/swayamshreemohanty/Documents/libraries/zephyr/zephyrproject/zephyr`
+- Unsetting `ZEPHYR_BASE` and using only the local workspace (managed by `west update`) resolved all issues
+- The generation succeeded with: `Loading Zephyr default modules (Freestanding)` indicating proper local workspace usage
+
+### 1. Install System Dependencies
+
+```bash
+sudo apt-get update
+sudo apt-get install -y gperf python3-dev
+```
+
+**Required packages:**
+- `gperf` - GNU Perfect Hash Function Generator (required by Zephyr for kernel object hash generation)
+- `python3-dev` - Python development headers (for building native extensions)
+
+### 2. Install West and Python Dependencies
+
+```bash
+cd ~/work/practice/fprime/fprime-zephyr-led-blinker
 source .venv/bin/activate
+
+# Install west (Zephyr meta-tool)
+pip install west
+
+# Install Zephyr Python requirements
+pip install jsonschema pyelftools
 ```
 
-### 2. Install West (Zephyr Meta-Tool)
+### 3. Initialize West Workspace
+
+The project includes a `west.yml` manifest that specifies Zephyr v4.3.0 and required modules.
 
 ```bash
-pip install west==1.5.0
+# Initialize west workspace using the local manifest
+west init -l .
 ```
 
-### 3. Initialize Zephyr
+This command tells west to use the current directory as the manifest repository.
+
+### 4. Update Zephyr and Dependencies
 
 ```bash
-west init -m https://github.com/zephyrproject-rtos/zephyr --mr main
+# Download Zephyr and all required modules
+west update
 ```
 
-### 4. Download Required Zephyr Modules
+**What this does:**
+- Downloads Zephyr v4.3.0 into `zephyr/` directory
+- Downloads required modules (HAL drivers, CMSIS, etc.) into `modules/` directory
+- Takes ~10-20 minutes and requires ~2GB of disk space
 
-Instead of running full `west update` (which downloads many modules), download only the required modules:
+**Required modules automatically downloaded:**
+- `hal_stm32` - STM32 Hardware Abstraction Layer
+- `cmsis` - ARM Cortex Microcontroller Software Interface Standard
+- Many other modules specified by Zephyr's import manifest
 
-#### STM32 HAL Module
+### 5. Install Zephyr SDK 0.17.0 (Optional but Recommended)
 
-```bash
-mkdir -p modules/hal
-cd modules/hal
-git clone https://github.com/zephyrproject-rtos/hal_stm32 stm32
-cd ~/zephyrproject
-```
+The Zephyr SDK provides optimized cross-compilation toolchains, debuggers, and tools. While CMake can use system gcc as fallback, the SDK provides:
+- Better optimization and smaller binaries
+- Consistent build results across platforms
+- GDB debugger with Zephyr awareness
+- Additional tools (QEMU, OpenOCD integration)
 
-#### CMSIS Module
-
-The CMSIS (Cortex Microcontroller Software Interface Standard) module is required for ARM Cortex-M processors:
-
-```bash
-cd modules
-git clone https://github.com/zephyrproject-rtos/cmsis.git
-cd ~/zephyrproject
-```
-
-**Note**: Without the CMSIS module, you'll encounter the error `fatal error: cmsis_core.h: No such file or directory` during compilation.
-
-### 5. Install Zephyr SDK
-
-Download and install the Zephyr SDK for ARM64:
+**For ARM64 platforms (Raspberry Pi):**
 
 ```bash
 cd ~
-# Transfer zephyr-sdk-0.16.1_linux-aarch64.tar.xz to Raspberry Pi
-tar xf zephyr-sdk-0.16.1_linux-aarch64.tar.xz
-cd zephyr-sdk-0.16.1
+
+# Download Zephyr SDK 0.17.0 for ARM64
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.17.0/zephyr-sdk-0.17.0_linux-aarch64.tar.xz
+
+# Verify download (optional)
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.17.0/sha256.sum
+sha256sum --ignore-missing -c sha256.sum
+
+# Extract SDK
+tar xf zephyr-sdk-0.17.0_linux-aarch64.tar.xz
+
+# Run setup script (install only ARM toolchain for this project)
+cd zephyr-sdk-0.17.0
 ./setup.sh -t arm-zephyr-eabi
 ```
 
-### 6. Set Environment Variables
-
-Add to your `~/.bashrc` or export in each terminal session:
+**For x86_64 platforms:**
 
 ```bash
-export ZEPHYR_BASE=~/zephyrproject/zephyr
-export ZEPHYR_SDK_INSTALL_DIR=~/zephyr-sdk-0.16.1
+cd ~
+
+# Download Zephyr SDK 0.17.0 for x86_64
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.17.0/zephyr-sdk-0.17.0_linux-x86_64.tar.xz
+
+# Extract and install
+tar xf zephyr-sdk-0.17.0_linux-x86_64.tar.xz
+cd zephyr-sdk-0.17.0
+./setup.sh -t arm-zephyr-eabi
+```
+
+**Setup options:**
+
+```bash
+# Install all toolchains (requires more disk space)
+./setup.sh -h  # See all options
+./setup.sh     # Install all toolchains
+
+# Install specific toolchains
+./setup.sh -t arm-zephyr-eabi      # ARM Cortex-M/R/A
+./setup.sh -t riscv64-zephyr-elf   # RISC-V
+./setup.sh -t xtensa-espressif_esp32_zephyr-elf  # ESP32
+```
+
+### 6. Environment Variables
+
+**IMPORTANT**: Do **NOT** set `ZEPHYR_BASE` when using the local west workspace!
+
+The west workspace automatically configures paths. Setting `ZEPHYR_BASE` to an external Zephyr installation will cause conflicts:
+- CMake will try to use the external Zephyr instead of the local one
+- Module paths will be incorrect
+- Build will fail with "cannot find zephyr_default" errors
+
+**If you previously set ZEPHYR_BASE**, unset it:
+
+```bash
+# Remove from your shell session
+unset ZEPHYR_BASE
+
+# If it's in ~/.bashrc or ~/.profile, remove that line
+# and restart your terminal
+```
+
+**Optional SDK path** (only if you installed the Zephyr SDK):
+
+If the SDK is not installed in the default location, you can specify it:
+
+```bash
+# One-time export (for current terminal session)
+export ZEPHYR_SDK_INSTALL_DIR=~/zephyr-sdk-0.17.0
+
+# Or add to ~/.bashrc for permanent setup
+echo 'export ZEPHYR_SDK_INSTALL_DIR=~/zephyr-sdk-0.17.0' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**Default SDK search paths:**
+- `~/zephyr-sdk-0.17.0`
+- `~/.local/zephyr-sdk-0.17.0`
+- `/opt/zephyr-sdk-0.17.0`
+
+If installed in any of these locations, no environment variable is needed.
+
+### 7. Verify West Workspace
+
+```bash
+# List all west projects
+west list
+
+# Should show:
+# manifest     fprime-zephyr-led-blinker  HEAD                           N/A
+# zephyr       zephyr                      v4.3.0                         https://github.com/zephyrproject-rtos/zephyr
+# ... (and many more modules)
+```
+
+```bash
+# Check west configuration
+west config manifest.path
+# Should output: fprime-zephyr-led-blinker (or similar)
+```
+
+### Troubleshooting West Setup
+
+#### Issue: "FATAL ERROR: already initialized"
+
+**Cause**: West workspace already exists, possibly from a previous setup or conflicting ZEPHYR_BASE.
+
+**Solution**:
+```bash
+# Unset ZEPHYR_BASE if set
+unset ZEPHYR_BASE
+
+# Remove existing west configuration
+rm -rf .west
+
+# Re-initialize
+west init -l .
+west update
+```
+
+#### Issue: "include could not find requested file: zephyr_default"
+
+**Cause**: ZEPHYR_BASE is set and pointing to external Zephyr, causing path conflicts.
+
+**Solution**:
+```bash
+# Unset ZEPHYR_BASE
+unset ZEPHYR_BASE
+
+# Clean build directory
+rm -rf build-fprime-automatic-zephyr
+
+# Regenerate
+fprime-util generate -DBOARD=nucleo_h7a3zi_q
+```
+
+#### Issue: "No module named 'jsonschema'"
+
+**Cause**: Missing Python dependencies required by Zephyr scripts.
+
+**Solution**:
+```bash
+pip install jsonschema pyelftools
 ```
 
 ---
@@ -286,8 +469,22 @@ This allocates the full 1MB of available SRAM to the application.
 ```bash
 cd ~/work/practice/fprime/fprime-zephyr-led-blinker
 source .venv/bin/activate
-export ZEPHYR_BASE=~/zephyrproject/zephyr
 ```
+
+**⚠️ CRITICAL: Verify ZEPHYR_BASE is NOT set**
+
+```bash
+# This should print nothing or an empty line
+echo "ZEPHYR_BASE is: $ZEPHYR_BASE"
+
+# If it shows a path, unset it immediately
+if [ -n "$ZEPHYR_BASE" ]; then
+    echo "ERROR: ZEPHYR_BASE is set! Unsetting..."
+    unset ZEPHYR_BASE
+fi
+```
+
+**Important:** Do **NOT** export `ZEPHYR_BASE`! The local west workspace handles all paths automatically. If you see the error "include could not find requested file: zephyr_default" during generation, it means `ZEPHYR_BASE` is still set somewhere.
 
 ### 2. Generate Build Configuration
 
@@ -296,6 +493,20 @@ fprime-util generate -DBOARD=nucleo_h7a3zi_q
 ```
 
 This generates the CMake build files and Zephyr configuration for the target board.
+
+**Expected output:**
+```
+[INFO] Generating build directory at: .../build-fprime-automatic-zephyr
+[INFO] Using toolchain file .../fprime-zephyr/cmake/toolchain/zephyr.cmake
+Loading Zephyr default modules (Freestanding).
+-- Zephyr version: 4.3.0 (/path/to/local/zephyr)
+-- Found west (found suitable version "1.5.0", minimum required is "0.14.0")
+...
+-- Configuring done
+-- Generating done
+```
+
+**Verify it's using the LOCAL Zephyr**: The path should show your project's `zephyr/` subdirectory, NOT an external path like `~/zephyrproject/zephyr`.
 
 ### 3. Build the Firmware
 
@@ -494,12 +705,38 @@ CONFIG_MAX_THREAD_BYTES=5
 
 **Note**: The STM32H7A3ZI-Q has 640KB RAM. With CONFIG_USERSPACE enabled, memory requirements increase significantly. If you get "region RAM overflowed" errors, disable userspace or reduce heap size.
 
-#### CMSIS Module Missing
+#### Issue: "include could not find requested file: zephyr_default"
 
-#### Issue: CMake can't find Zephyr
-**Solution**: Ensure `ZEPHYR_BASE` is set:
+**Full Error**:
+```
+CMake Error at .../ZephyrConfig.cmake:66 (include):
+  include could not find requested file:
+    zephyr_default
+```
+
+**Cause**: This occurs when `ZEPHYR_BASE` environment variable is set and points to an external Zephyr installation, causing conflicts with the local west workspace.
+
+**Solution**:
 ```bash
-export ZEPHYR_BASE=~/zephyrproject/zephyr
+# Unset ZEPHYR_BASE
+unset ZEPHYR_BASE
+
+# Also remove it from ~/.bashrc or ~/.profile if present
+# Then clean and rebuild
+rm -rf build-fprime-automatic-zephyr
+fprime-util generate -DBOARD=nucleo_h7a3zi_q
+```
+
+**Important**: When using the local west workspace (recommended), **never** set `ZEPHYR_BASE`. The west workspace manages all paths automatically.
+
+#### Issue: CMake can't find Zephyr (west workspace not initialized)
+
+**Symptom**: CMake errors about missing Zephyr package during generation.
+
+**Solution**: Initialize the west workspace:
+```bash
+west init -l .
+west update
 ```
 
 #### Issue: lxml build error - "too few arguments to function '_PyLong_AsByteArray'"
@@ -657,15 +894,16 @@ list(APPEND FPRIME_PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}")
 
 ## Version Information
 
-| Component | Version |
-|-----------|---------|
-| F' Framework | v3.4.3 |
-| Zephyr RTOS | v4.3.99 (development) |
-| Zephyr SDK | 0.16.1 |
-| West | 1.5.0 |
-| Python | 3.13.5 |
-| CMake | 3.26.0 |
-| st-flash | 1.8.0 |
+| Component | Version | Notes |
+|-----------|---------|-------|
+| F' Framework | v4.1.1 | Submodule |
+| Zephyr RTOS | v4.3.0 | Managed by west |
+| Zephyr SDK | 0.17.0 | Optional but recommended |
+| West | 1.5.0+ | Python package |
+| Python | 3.11+ | Tested with 3.13.5 |
+| CMake | 3.20.0+ | System package |
+| Ninja | Latest | Build tool |
+| st-flash | 1.8.0+ | For STM32 flashing |
 
 ---
 
