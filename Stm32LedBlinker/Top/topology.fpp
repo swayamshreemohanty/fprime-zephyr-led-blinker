@@ -79,18 +79,16 @@ module Stm32LedBlinker {
     }
 
     connections Communications {
-      # ComDriver <-> ByteStreamBufferAdapter
-      # ComDriver buffer allocations (single connection point)
+      # ComStub <-> UART Driver (via ByteStreamDriver interface)
+      # The ComCcsds subtopology handles internal framing, we just connect the driver
+      ComCcsds.comStub.drvSendOut -> commDriver.$send
+      commDriver.ready -> ComCcsds.comStub.drvConnected
+      commDriver.$recv -> ComCcsds.comStub.drvReceiveIn
+      ComCcsds.comStub.drvReceiveReturnOut -> commDriver.recvReturnIn
+      
+      # ComDriver buffer allocations
       commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
-      
-      # UART receive path: commDriver -> ByteStreamBufferAdapter
-      commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
-      uartBufferAdapter.fromByteStreamDriverReturn -> ComCcsds.commsBufferManager.bufferSendIn
-      
-      # UART send path: ByteStreamBufferAdapter -> commDriver
-      uartBufferAdapter.toByteStreamDriver -> commDriver.$send
-      commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
     }
 
     connections RateGroups {
