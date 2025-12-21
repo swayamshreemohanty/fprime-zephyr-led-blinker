@@ -31,14 +31,17 @@ module Stm32LedBlinker {
     instance rateDriver
     instance rateGroup1
     instance rateGroupDriver
+    instance uartBufferAdapter
+    instance rpiHub
+    instance cmdSplitter
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    event connections instance CdhCore.events
-    telemetry connections instance CdhCore.tlmSend
+    event connections instance rpiHub
+    telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -48,13 +51,18 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # Core events and telemetry to communication queue
-      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
-      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
+      # Core events and telemetry routed to GenericHub instead of comQueue
+      # This allows RPi master to receive STM32 telemetry/events
 
-      # Router to Command Dispatcher
-      ComCcsds.fprimeRouter.commandOut -> CdhCore.cmdDisp.seqCmdBuff
-      CdhCore.cmdDisp.seqCmdStatus -> ComCcsds.fprimeRouter.cmdResponseIn
+      # Router to CmdSplitter for command routing
+      # Commands from RPi hub are routed through splitter
+      ComCcsds.fprimeRouter.commandOut -> cmdSplitter.CmdBuff
+      cmdSplitter.RemoteCmd[0] -> CdhCore.cmdDisp.seqCmdBuff
+      
+      # Command responses route back through splitter to hub
+      CdhCore.cmdDisp.seqCmdStatus -> cmdSplitter.seqCmdStatus[1]
+      cmdSplitter.forwardSeqCmdStatus[0] -> ComCcsds.fprimeRouter.cmdResponseIn
+      cmdSplitter.forwardSeqCmdStatus[1] -> ComCcsds.fprimeRouter.cmdResponseIn
     }
 
     connections Communications {
@@ -62,13 +70,13 @@ module Stm32LedBlinker {
       commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
 
-      # ComDriver <-> ComStub (Uplink)
-      commDriver.$recv -> ComCcsds.comStub.drvReceiveIn
-      ComCcsds.comStub.drvReceiveReturnOut -> commDriver.recvReturnIn
+      # ComDriver <-> ByteStreamBufferAdapter (Uplink from RPi)
+      commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
+      uartBufferAdapter.fromByteStreamDriverReturn -> ComCcsds.commsBufferManager.bufferSendIn
       
-      # ComStub <-> ComDriver (Downlink)
-      ComCcsds.comStub.drvSendOut -> commDriver.$send
-      commDriver.ready -> ComCcsds.comStub.drvConnected
+      # ByteStreamBufferAdapter <-> ComDriver (Downlink to RPi)
+      uartBufferAdapter.toByteStreamDriver -> commDriver.$send
+      commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
     }
 
     connections RateGroups {
@@ -80,10 +88,9 @@ module Stm32LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
       rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
       rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
-      rateGroup1.RateGroupMemberOut[4] -> led.run
-      rateGroup1.RateGroupMemberOut[5] -> led1.run
-      rateGroup1.RateGroupMemberOut[6] -> led2.run
+      rateGroup1.RateGroupMemberOut[3] -> led.run
+      rateGroup1.RateGroupMemberOut[4] -> led1.run
+      rateGroup1.RateGroupMemberOut[5] -> led2.run
     }
 
     connections LedConnections {
@@ -93,8 +100,38 @@ module Stm32LedBlinker {
       led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
-    connections Stm32LedBlinker {
-      # Add here connections to user-defined components
+    # ----------------------------------------------------------------------
+    # RPi Communication - NASA GenericHub Pattern over UART
+    # ----------------------------------------------------------------------
+    # STM32 acts as remote node receiving commands from RPi master
+    # Events and telemetry are sent back to RPi for GDS display
+    
+    connections send_hub {
+      # GenericHub serializes telemetry/events and sends to buffer adapter
+      rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
+      uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
+      
+      # Buffer adapter manages UART transmission
+      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+    }
+
+    connections recv_hub {
+      # UART receives commands from RPi and delivers to buffer adapter
+      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      
+      # Buffer adapter delivers to GenericHub for deserialization
+      uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
+      rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
+    }
+
+    connections hub {
+      # Hub deserializes commands from RPi and routes to command dispatcher
+      rpiHub.serialOut[0] -> ComCcsds.fprimeRouter.serialRecv[0]
+      ComCcsds.fprimeRouter.serialSend[0] -> rpiHub.serialIn[0]
+      
+      # GenericHub needs buffer allocation for serializing telemetry/events
+      rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
   }

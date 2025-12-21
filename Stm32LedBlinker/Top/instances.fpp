@@ -10,6 +10,22 @@ module Stm32LedBlinker {
   }
 
   # ----------------------------------------------------------------------
+  # GenericHub port array sizes (matches RPi deployment)
+  # ----------------------------------------------------------------------
+  
+  @ Number of typed serial input ports for hub
+  constant GenericHubInputPorts = 2
+  
+  @ Number of typed serial output ports for hub
+  constant GenericHubOutputPorts = 2
+  
+  @ Number of buffer input ports for hub
+  constant GenericHubInputBuffers = 1
+  
+  @ Number of buffer output ports for hub
+  constant GenericHubOutputBuffers = 1
+
+  # ----------------------------------------------------------------------
   # Passive component instances
   # ----------------------------------------------------------------------
 
@@ -34,5 +50,24 @@ module Stm32LedBlinker {
   instance led1: Components.Stm32Led base id 0x10100
 
   instance led2: Components.Stm32Led base id 0x10200
+
+  # ----------------------------------------------------------------------
+  # Distributed Communication with RPi Master (NASA Hub Pattern)
+  # ----------------------------------------------------------------------
+  # STM32 acts as remote node controlled by RPi master via UART
+  # Uses GenericHub pattern for distributed F-Prime deployments
+
+  @ ByteStream buffer adapter - bridges ByteStreamDriver to PassiveBufferDriver
+  @ Converts byte streams to/from F-Prime buffer objects for UART communication
+  instance uartBufferAdapter: Drv.ByteStreamBufferAdapter base id 0x5000
+
+  @ Generic Hub - NASA's official distributed communication pattern
+  @ Deserializes commands from RPi and serializes telemetry/events to RPi
+  @ Allows RPi master to control STM32 as if components were local
+  instance rpiHub: Svc.GenericHub base id 0x5100
+
+  @ Command Splitter - Routes command responses back to RPi
+  @ On STM32 side, mainly used for command response routing
+  instance cmdSplitter: Svc.CmdSplitter base id 0x5200
 
 }
