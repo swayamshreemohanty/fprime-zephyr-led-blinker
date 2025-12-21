@@ -41,11 +41,6 @@ void configureTopology() {
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    printk("  configureTopology: Configuring command splitter for hub pattern...\n");
-    // Configure CmdSplitter threshold - all commands stay local on STM32
-    // Threshold set high so STM32 processes all its own commands locally
-    cmdSplitter.configure(0x100000);
-
     printk("  configureTopology: Configuring GPIO for all 3 LEDs...\n");
     // Open GPIO for all 3 LEDs
     gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
