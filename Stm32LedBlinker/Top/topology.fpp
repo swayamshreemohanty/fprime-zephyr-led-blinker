@@ -131,9 +131,6 @@ module Stm32LedBlinker {
       # GenericHub needs buffer allocation for serializing telemetry/events
       rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
-      
-      # Hub buffers out for cleanup
-      rpiHub.buffersOut -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
   }
