@@ -66,8 +66,4 @@ module Stm32LedBlinker {
   @ Allows RPi master to control STM32 as if components were local
   instance rpiHub: Svc.GenericHub base id 0x5100
 
-  @ Command Splitter - Routes command responses back to RPi
-  @ On STM32 side, mainly used for command response routing
-  instance cmdSplitter: Svc.CmdSplitter base id 0x5200
-
 }

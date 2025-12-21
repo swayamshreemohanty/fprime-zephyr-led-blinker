@@ -33,15 +33,14 @@ module Stm32LedBlinker {
     instance rateGroupDriver
     instance uartBufferAdapter
     instance rpiHub
-    instance cmdSplitter
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    event connections instance CdhCore.events
-    telemetry connections instance CdhCore.tlmSend
+    event connections instance rpiHub
+    telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -51,25 +50,14 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # STM32 operates standalone with local event/telemetry processing
-      # Events and telemetry go to ComQueue for local UART output
-      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
-      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
-
-      # Router to CmdSplitter for command routing
-      # Local UART commands from ComCcsds router go through splitter
-      ComCcsds.fprimeRouter.commandOut -> cmdSplitter.CmdBuff[0]
+      # STM32 receives commands from RPi via GenericHub ONLY
+      # No local CCSDS/ComStub communication - purely hub-based
       
-      # Remote commands from RPi GenericHub also go through splitter
-      rpiHub.serialOut[0] -> cmdSplitter.CmdBuff[1]
+      # Remote commands from RPi GenericHub go directly to command dispatcher
+      rpiHub.serialOut[0] -> CdhCore.cmdDisp.seqCmdBuff
       
-      # All commands (local or remote) route to command dispatcher
-      cmdSplitter.RemoteCmd[0] -> CdhCore.cmdDisp.seqCmdBuff
-      
-      # Command responses route back through splitter
-      CdhCore.cmdDisp.seqCmdStatus -> cmdSplitter.seqCmdStatus[1]
-      cmdSplitter.forwardSeqCmdStatus[0] -> ComCcsds.fprimeRouter.cmdResponseIn
-      cmdSplitter.forwardSeqCmdStatus[1] -> rpiHub.serialIn[0]
+      # Command responses go back to hub to send to RPi
+      CdhCore.cmdDisp.seqCmdStatus -> rpiHub.serialIn[0]
     }
 
     connections Communications {
@@ -96,10 +84,9 @@ module Stm32LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
       rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
       rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
-      rateGroup1.RateGroupMemberOut[4] -> led.run
-      rateGroup1.RateGroupMemberOut[5] -> led1.run
-      rateGroup1.RateGroupMemberOut[6] -> led2.run
+      rateGroup1.RateGroupMemberOut[3] -> led.run
+      rateGroup1.RateGroupMemberOut[4] -> led1.run
+      rateGroup1.RateGroupMemberOut[5] -> led2.run
     }
 
     connections LedConnections {

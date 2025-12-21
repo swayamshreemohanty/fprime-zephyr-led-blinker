@@ -15,7 +15,6 @@ set(MOD_DEPS
   Fw/Logger
   Drv/ByteStreamBufferAdapter
   Svc/GenericHub
-  Svc/CmdSplitter
 )
 
 register_fprime_module()
