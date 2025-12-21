@@ -323,7 +323,12 @@ Build time: ~5-10 minutes depending on your system.
 The dictionary is required by GDS to interpret commands and telemetry:
 
 ```bash
+# From project root
+source .venv/bin/activate
 ninja -C build-fprime-automatic-zephyr dictionary
+
+# Or with full path
+cd /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker && source .venv/bin/activate && ninja -C build-fprime-automatic-zephyr dictionary
 ```
 
 This runs F' autocoding: **FPP files → fpp-to-xml → fpp-to-dict → JSON dictionary**
@@ -493,11 +498,11 @@ CONFIG_EARLY_CONSOLE=n
 
 # F' and dynamic threading support
 CONFIG_FPRIME=y
-CONFIG_DYNAMIC_OBJECTS=y
+CONFIG_DYNAMIC_OBJECTS=n
 CONFIG_DYNAMIC_THREAD=y
 CONFIG_DYNAMIC_THREAD_ALLOC=y
-CONFIG_HEAP_MEM_POOL_SIZE=200000
-CONFIG_MAIN_STACK_SIZE=10000
+CONFIG_HEAP_MEM_POOL_SIZE=256000
+CONFIG_MAIN_STACK_SIZE=8192
 ```
 
 **Why disable console output?**
@@ -506,27 +511,6 @@ CONFIG_MAIN_STACK_SIZE=10000
 - Prevents GDS from synchronizing with frame headers
 - Result: No green connection dot in GDS
 
-### Subtopology Configuration
-
-**Stm32LedBlinker/config/CdhCoreConfig.fpp:**
-```fpp
-module Stm32LedBlinker {
-  constant BASE_ID = 0x01000000
-  constant CMD_QUEUE_DEPTH = 10
-  constant EVENT_QUEUE_DEPTH = 25
-  constant STACK_SIZE = 8192
-}
-```
-
-**Stm32LedBlinker/config/ComCcsdsConfig.fpp:**
-```fpp
-module Stm32LedBlinker {
-  constant BASE_ID = 0x02000000
-  constant COMMS_BUFF_SIZE = 2048
-  constant COMMS_BUFF_COUNT = 5
-  constant EVENT_QUEUE_DEPTH = 10
-}
-```
 
 ### Topology Files
 
@@ -551,13 +535,40 @@ default_toolchain: zephyr
 library_locations: ./fprime-zephyr
 ```
 
+### Configuration Override System
+
+This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `Stm32LedBlinker/config/`:
+
+- `CMakeLists.txt` - Registers configuration overrides with `register_fprime_config()`
+- `PlatformCfg.fpp` - Overrides platform constants (e.g., task handle sizes)
+- `CdhCoreConfig.fpp` - CdhCore subtopology configuration
+- `ComCcsdsConfig.fpp` - ComCcsds subtopology configuration
+
+**Benefits:**
+- ✅ Keeps F´ framework pristine (no git conflicts on updates)
+- ✅ Deployment-specific settings isolated in one location
+- ✅ Easy to maintain and version control
+- ✅ Follows F´ best practices
+
+**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `Stm32LedBlinker/config/` take precedence during build.
+
+
+
+```ini
+[fprime]
+framework_path: ./fprime
+default_toolchain: zephyr
+library_locations: ./fprime-zephyr
+```
+
 ---
 
 ## Project Structure
 
 ```
 fprime-zephyr-led-blinker/
-├── fprime/                                    # F' framework (v4.1.1)
+├── fprime/                                    # F' framework (v4.1.1) - unmodified
+│   └── default/config/                        # Framework defaults (not modified)
 ├── fprime-zephyr/                             # Zephyr integration with F'
 ├── zephyr/                                    # Zephyr RTOS v4.3.0 (from west update)
 ├── Components/
@@ -572,8 +583,9 @@ fprime-zephyr-led-blinker/
 │   │   ├── Stm32LedBlinkerTopology.hpp       # Topology header
 │   │   ├── Stm32LedBlinkerTopologyDefs.hpp   # Type definitions & state
 │   │   └── Stm32LedBlinkerPackets.xml        # Telemetry packet definitions
-│   └── config/
-│       ├── CMakeLists.txt                     # Config build file
+│   └── config/                                # Project-level configuration overrides
+│       ├── CMakeLists.txt                     # Registers config overrides
+│       ├── PlatformCfg.fpp                    # Platform constants (overrides fprime defaults)
 │       ├── CdhCoreConfig.fpp                  # CdhCore subtopology settings
 │       └── ComCcsdsConfig.fpp                 # ComCcsds subtopology settings
 ├── boards/
