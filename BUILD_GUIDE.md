@@ -636,8 +636,8 @@ kill <PID>
 ```bash
 source .venv/bin/activate
 fprime-gds -n \
-  --dictionary ./build-artifacts/zephyr/LedBlinker/dict/LedBlinkerTopologyAppDictionary.xml \
-  --comm-adapter uart \
+  --dictionary ./build-artifacts/zephyr/Stm32LedBlinker/dict/Stm32LedBlinkerTopologyDictionary.json \
+  --communication-selection uart \
   --uart-device /dev/ttyACM0 \
   --uart-baud 115200
 ```
