@@ -11,14 +11,17 @@ module Stm32LedBlinker {
   topology Stm32LedBlinker {
 
     # ----------------------------------------------------------------------
+    # Subtopology imports
+    # ----------------------------------------------------------------------
+    import CdhCore.Subtopology
+    import ComCcsds.Subtopology
+
+    # ----------------------------------------------------------------------
     # Instances used in the topology
     # ----------------------------------------------------------------------
 
-    instance cmdDisp
+    instance chronoTime
     instance commDriver
-    instance eventLogger
-    instance fatalAdapter
-    instance fatalHandler
     instance gpioDriver
     instance gpioDriver1
     instance gpioDriver2
@@ -28,28 +31,45 @@ module Stm32LedBlinker {
     instance rateDriver
     instance rateGroup1
     instance rateGroupDriver
-    instance systemResources
-    instance textLogger
-    instance timeHandler
-    instance tlmSend
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
     # ----------------------------------------------------------------------
 
-    command connections instance cmdDisp
-
-    event connections instance eventLogger
-
-    telemetry connections instance tlmSend
-
-    text event connections instance textLogger
-
-    time connections instance timeHandler
+    command connections instance CdhCore.cmdDisp
+    event connections instance CdhCore.events
+    telemetry connections instance CdhCore.tlmSend
+    text event connections instance CdhCore.textLogger
+    health connections instance CdhCore.$health
+    time connections instance chronoTime
 
     # ----------------------------------------------------------------------
     # Direct graph specifiers
     # ----------------------------------------------------------------------
+
+    connections ComCcsds_CdhCore {
+      # Core events and telemetry to communication queue
+      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
+      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
+
+      # Router to Command Dispatcher
+      ComCcsds.fprimeRouter.commandOut -> CdhCore.cmdDisp.seqCmdBuff
+      CdhCore.cmdDisp.seqCmdStatus -> ComCcsds.fprimeRouter.cmdResponseIn
+    }
+
+    connections Communications {
+      # ComDriver buffer allocations
+      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+
+      # ComDriver <-> ComStub (Uplink)
+      commDriver.$recv -> ComCcsds.comStub.drvReceiveIn
+      ComCcsds.comStub.drvReceiveReturnOut -> commDriver.recvReturnIn
+      
+      # ComStub <-> ComDriver (Downlink)
+      ComCcsds.comStub.drvSendOut -> commDriver.$send
+      commDriver.ready -> ComCcsds.comStub.drvConnected
+    }
 
     connections RateGroups {
       # Block driver
@@ -57,23 +77,13 @@ module Stm32LedBlinker {
 
       # Rate group 1 - All periodic components
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> tlmSend.Run
-      rateGroup1.RateGroupMemberOut[1] -> systemResources.run
-      rateGroup1.RateGroupMemberOut[2] -> led.run
-      rateGroup1.RateGroupMemberOut[3] -> led1.run
-      rateGroup1.RateGroupMemberOut[4] -> led2.run
-    }
-
-    # NOTE: Communication connections removed temporarily
-    # Will add proper framing protocol in next iteration
-    # connections Communication {
-    #   tlmSend.PktSend -> commDriver.$send
-    #   eventLogger.PktSend -> commDriver.$send
-    #   commDriver.$recv -> cmdDisp.seqCmdBuff
-    # }
-
-    connections FaultProtection {
-      # No event logger, so just keep fatal handler standalone
+      rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
+      rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
+      rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
+      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
+      rateGroup1.RateGroupMemberOut[4] -> led.run
+      rateGroup1.RateGroupMemberOut[5] -> led1.run
+      rateGroup1.RateGroupMemberOut[6] -> led2.run
     }
 
     connections LedConnections {

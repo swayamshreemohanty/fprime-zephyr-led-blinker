@@ -6,12 +6,25 @@
 #ifndef STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGYDEFS_HPP
 #define STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGYDEFS_HPP
 
+// Subtopology includes
+#include "Svc/Subtopologies/CdhCore/PingEntries.hpp"
+#include "Svc/Subtopologies/ComCcsds/PingEntries.hpp"
+#include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
+#include "Svc/Subtopologies/ComCcsds/SubtopologyTopologyDefs.hpp"
+#include "Svc/Subtopologies/ComCcsds/Ports_ComPacketQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComCcsds/Ports_ComBufferQueueEnumAc.hpp"
+
 #include "Fw/Types/MallocAllocator.hpp"
 #include "Stm32LedBlinker/Top/FppConstantsAc.hpp"
 
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
+
+// Ping entries from subtopologies - extend the global PingEntries namespace
+namespace PingEntries {
+    namespace Stm32LedBlinker_rateGroup1 {enum { WARN = 3, FATAL = 5 };}
+}
 
 // Definitions are placed within a namespace named after the deployment
 namespace Stm32LedBlinker {
@@ -21,12 +34,13 @@ namespace Stm32LedBlinker {
  *
  * The topology autocoder requires an object that carries state with the name `Stm32LedBlinker::TopologyState`. Only the type
  * definition is required by the autocoder and the contents of this object are otherwise opaque to the autocoder. The
- * contents are entirely up to the definition of the project. This reference application specifies hostname and port
- * fields, which are derived by command line inputs.
+ * contents are entirely up to the definition of the project. This deployment uses subtopologies.
  */
 struct TopologyState {
     const struct device *dev;
     PlatformIntType uartBaud;
+    CdhCore::SubtopologyState cdhCore;
+    ComCcsds::SubtopologyState comCcsds;
 };
 
 /**
@@ -48,19 +62,5 @@ struct TopologyState {
  * }
  * ```
  */
-namespace PingEntries {
-namespace tlmSend {
-enum { WARN = 3, FATAL = 5 };
-}
-namespace cmdDisp {
-enum { WARN = 3, FATAL = 5 };
-}
-namespace eventLogger {
-enum { WARN = 3, FATAL = 5 };
-}
-namespace rateGroup1 {
-enum { WARN = 3, FATAL = 5 };
-}
-}  // namespace PingEntries
 }  // namespace Stm32LedBlinker
 #endif

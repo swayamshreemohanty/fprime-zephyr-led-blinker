@@ -62,12 +62,16 @@ void setupTopology(const TopologyState& state) {
     printk("  setBaseIds...\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
-    printk("  connectComponents...\n");
     // Autocoded connection wiring. Function provided by autocoder.
+    printk("  connectComponents...\n");
     connectComponents();
     printk("  regCommands...\n");
     // Autocoded command registration. Function provided by autocoder.
     regCommands();
+    printk("  configComponents...\n");
+    // Autocoded component configuration (including subtopologies). Function provided by autocoder.
+    configComponents(state);
+
     printk("  configureTopology...\n");
     // Project-specific component configuration. Function provided above. May be inlined, if desired.
     configureTopology();
