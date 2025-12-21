@@ -66,4 +66,22 @@ module Stm32LedBlinker {
   @ Allows RPi master to control STM32 as if components were local
   instance rpiHub: Svc.GenericHub base id 0x5100
 
+  # ----------------------------------------------------------------------
+  # Proxy Components for Hub Pattern (obcB pattern)
+  # ----------------------------------------------------------------------
+  # These components act as intermediaries between hub and cmdDisp
+  # They forward commands from RPi through the hub pattern
+  
+  @ Proxy for ground interface commands - receives from hub, forwards to cmdDisp
+  instance proxyGroundInterface: Components.CmdSequenceForwarder base id 0x5200 \
+      queue size Default.QUEUE_SIZE \
+      stack size Default.STACK_SIZE \
+      priority 100 \
+
+  @ Proxy for sequencer commands - receives from hub, forwards to cmdDisp  
+  instance proxySequencer: Components.CmdSequenceForwarder base id 0x5300 \
+      queue size Default.QUEUE_SIZE \
+      stack size Default.STACK_SIZE \
+      priority 100 \
+
 }

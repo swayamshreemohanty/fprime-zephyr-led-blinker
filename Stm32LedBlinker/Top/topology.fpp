@@ -33,13 +33,17 @@ module Stm32LedBlinker {
     instance rateGroupDriver
     instance uartBufferAdapter
     instance rpiHub
+    instance proxyGroundInterface
+    instance proxySequencer
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
+    # event connections instance CdhCore.events
     event connections instance rpiHub
+    # telemetry connections instance CdhCore.tlmSend
     telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
@@ -50,14 +54,23 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # STM32 receives commands from RPi via GenericHub ONLY
-      # No local CCSDS/ComStub communication - purely hub-based
+      # STM32 receives commands from RPi via GenericHub
+      # Commands route: Hub -> Proxies -> cmdDisp (obcB pattern)
       
-      # Remote commands from RPi GenericHub go directly to command dispatcher
-      rpiHub.serialOut[0] -> CdhCore.cmdDisp.seqCmdBuff
+      # Hub output ports connect to proxy inputs
+      rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
+      rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
       
-      # Command responses go back to hub to send to RPi
-      CdhCore.cmdDisp.seqCmdStatus -> rpiHub.serialIn[0]
+      # Proxies forward commands to cmdDisp
+      proxyGroundInterface.comCmdOut -> CdhCore.cmdDisp.seqCmdBuff
+      proxySequencer.comCmdOut -> CdhCore.cmdDisp.seqCmdBuff
+      
+      # Command responses go back through proxies to hub
+      CdhCore.cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
+      CdhCore.cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
+      
+      proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
+      proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
     }
 
     connections Communications {
@@ -118,6 +131,9 @@ module Stm32LedBlinker {
       # GenericHub needs buffer allocation for serializing telemetry/events
       rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+      
+      # Hub buffers out for cleanup
+      rpiHub.buffersOut -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
   }
