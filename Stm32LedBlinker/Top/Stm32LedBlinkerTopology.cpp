@@ -18,15 +18,8 @@ static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpi
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace Stm32LedBlinker;
 
-// Memory allocator for components that need dynamic memory
-Fw::MallocAllocator mallocAllocator;
-
-// Buffers for static memory and comQueue
-Svc::ComQueue::QueueConfigurationTable configurationTable;
-U8 mallocBuffer[3000];
-
-// The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz, 5Hz, and 1Hz
-Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0}, {200, 0}, {1000, 0} }};
+// The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz
+Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0} }};
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
@@ -47,14 +40,6 @@ void configureTopology() {
     printk("  configureTopology: Setting up rate groups...\n");
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
-
-    printk("  configureTopology: Setting up comQueue...\n");
-    // ComQueue configuration - set all queues to same priority and depth
-    for (U32 i = 0; i < FW_NUM_ARRAY_ELEMENTS(configurationTable.entries); i++) {
-        configurationTable.entries[i].priority = 0;
-        configurationTable.entries[i].depth = 3;
-    }
-    comQueue.configure(configurationTable, 0, mallocAllocator);
 
     printk("  configureTopology: Configuring GPIO for all 3 LEDs...\n");
     // Open GPIO for all 3 LEDs
@@ -90,13 +75,9 @@ void setupTopology(const TopologyState& state) {
     // Autocoded parameter loading. Function provided by autocoder.
     // loadParameters();  // No PrmDb component in topology
     
-    // NOTE: startTasks() starts the active components (cmdDisp, eventLogger, tlmSend, comQueue)
-    printk("  Starting active component tasks...\n");
+    // NOTE: startTasks() starts active components (cmdDisp, eventLogger, tlmSend)
+    printk("  Starting active component tasks...\\n");
     startTasks(state);
-    
-    // Disable commDriver for now - causes crashes
-    // printk("  configure commDriver...\n");
-    // commDriver.configure(state.dev, state.uartBaud);
     
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);

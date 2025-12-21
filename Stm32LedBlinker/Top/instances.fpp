@@ -5,8 +5,8 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
 
   module Default {
-    constant QUEUE_SIZE = 3
-    constant STACK_SIZE = 32 * 1024
+    constant QUEUE_SIZE = 5
+    constant STACK_SIZE = 64 * 1024 
   }
 
   # ----------------------------------------------------------------------
@@ -34,11 +34,7 @@ module Stm32LedBlinker {
 
   instance rateGroup1: Svc.PassiveRateGroup base id 0x1000
 
-  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x1100
-
-  instance commDriver: Zephyr.ZephyrUartDriver base id 0x4000
-
-  instance framer: Svc.FprimeFramer base id 0x4100
+  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x1B00
 
   instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4200
 
@@ -48,22 +44,7 @@ module Stm32LedBlinker {
 
   instance rateGroupDriver: Svc.RateGroupDriver base id 0x4500
 
-  instance staticMemory: Svc.StaticMemory base id 0x4600
-
-  instance textLogger: Svc.PassiveTextLogger base id 0x4700
-
-  instance deframer: Svc.FprimeDeframer base id 0x4800
-
   instance systemResources: Svc.SystemResources base id 0x4900
-
-  instance comQueue: Svc.ComQueue base id 0x4A00 \
-    queue size Default.QUEUE_SIZE\
-    stack size Default.STACK_SIZE \
-    priority 100
-
-  instance comStub: Svc.ComStub base id 0x4B00
-
-  instance fprimeRouter: Svc.FprimeRouter base id 0x5000
 
   instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x4C00
 
