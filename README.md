@@ -105,7 +105,7 @@ west update  # Downloads Zephyr v4.3.0 (~2GB, 10-20 min)
 # 6. Build firmware
 fprime-util generate -DBOARD=nucleo_h7a3zi_q
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr dictionary
+ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
 
 # 7. Flash to board
 sudo st-flash --connect-under-reset write build-fprime-automatic-zephyr/zephyr/zephyr.bin 0x08000000
@@ -325,10 +325,10 @@ The dictionary is required by GDS to interpret commands and telemetry:
 ```bash
 # From project root
 source .venv/bin/activate
-ninja -C build-fprime-automatic-zephyr dictionary
+ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
 
-# Or with full path
-cd /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker && source .venv/bin/activate && ninja -C build-fprime-automatic-zephyr dictionary
+# Or with full path (works from any directory)
+cd /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker && source .venv/bin/activate && ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
 ```
 
 This runs F' autocoding: **FPP files → fpp-to-xml → fpp-to-dict → JSON dictionary**
@@ -372,7 +372,7 @@ fprime-util generate -DBOARD=teensy41
 
 # Build
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr dictionary
+ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
 ```
 
 ---
