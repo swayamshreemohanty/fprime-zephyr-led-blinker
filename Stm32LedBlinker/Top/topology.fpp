@@ -71,15 +71,16 @@ module Stm32LedBlinker {
     }
 
     connections Communications {
-      # ComDriver buffer allocations
+      # ComDriver <-> ByteStreamBufferAdapter
+      # ComDriver buffer allocations (single connection point)
       commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
-
-      # ComDriver <-> ByteStreamBufferAdapter (Uplink from RPi)
+      
+      # UART receive path: commDriver -> ByteStreamBufferAdapter
       commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
       uartBufferAdapter.fromByteStreamDriverReturn -> ComCcsds.commsBufferManager.bufferSendIn
       
-      # ByteStreamBufferAdapter <-> ComDriver (Downlink to RPi)
+      # UART send path: ByteStreamBufferAdapter -> commDriver
       uartBufferAdapter.toByteStreamDriver -> commDriver.$send
       commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
     }
@@ -115,15 +116,9 @@ module Stm32LedBlinker {
       # GenericHub serializes telemetry/events and sends to buffer adapter
       rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
       uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
-      
-      # Buffer adapter manages UART transmission
-      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
     connections recv_hub {
-      # UART receives commands from RPi and delivers to buffer adapter
-      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
-      
       # Buffer adapter delivers to GenericHub for deserialization
       uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
       rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
