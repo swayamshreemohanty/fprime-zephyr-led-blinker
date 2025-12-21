@@ -8,7 +8,6 @@
 
 #include "Fw/Types/MallocAllocator.hpp"
 #include "Stm32LedBlinker/Top/FppConstantsAc.hpp"
-#include "Svc/FramingProtocol/FprimeProtocol.hpp"
 
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>

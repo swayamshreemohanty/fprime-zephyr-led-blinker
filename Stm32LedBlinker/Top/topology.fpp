@@ -68,13 +68,13 @@ module Stm32LedBlinker {
 
       # Rate group 1
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> tlmSend.Run
-      rateGroup1.RateGroupMemberOut[2] -> comQueue.run
-      rateGroup1.RateGroupMemberOut[3] -> systemResources.run
-      rateGroup1.RateGroupMemberOut[4] -> led.run
-      rateGroup1.RateGroupMemberOut[5] -> led1.run
-      rateGroup1.RateGroupMemberOut[6] -> led2.run
+      # GDS components (commDriver, comQueue) temporarily removed from rate group
+      # They cause system hang - need to debug UART/buffer configuration
+      rateGroup1.RateGroupMemberOut[0] -> tlmSend.Run
+      rateGroup1.RateGroupMemberOut[1] -> systemResources.run
+      rateGroup1.RateGroupMemberOut[2] -> led.run
+      rateGroup1.RateGroupMemberOut[3] -> led1.run
+      rateGroup1.RateGroupMemberOut[4] -> led2.run
     }
 
     connections FaultProtection {
