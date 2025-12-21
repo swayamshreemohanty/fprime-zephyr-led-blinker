@@ -124,6 +124,44 @@ The fprime build encountered several Python 3.13 specific errors that required w
 
 This project uses a **local west workspace** to manage Zephyr RTOS v4.3.0 and its dependencies. Unlike external Zephyr installations, the west workspace is self-contained within the project directory.
 
+### ⚠️ CRITICAL: Unset ZEPHYR_BASE
+
+**Before starting setup, check for conflicting Zephyr installations:**
+
+If you have previously installed Zephyr externally (e.g., in `~/zephyrproject`, `~/Documents/libraries/zephyr`, etc.) and set the `ZEPHYR_BASE` environment variable, you **MUST** unset it:
+
+```bash
+# Check current value
+echo "Current ZEPHYR_BASE: $ZEPHYR_BASE"
+
+# Unset for current session
+unset ZEPHYR_BASE
+
+# Verify it's unset
+echo "After unset: $ZEPHYR_BASE"
+# Should print: After unset:
+
+# Find and remove from shell configuration files
+grep -rn "ZEPHYR_BASE" ~/.bashrc ~/.bash_profile ~/.profile ~/.zshrc 2>/dev/null
+
+# Remove the export line from the files (example for ~/.bashrc)
+sed -i '/export ZEPHYR_BASE/d' ~/.bashrc
+
+# Reload shell configuration
+source ~/.bashrc
+```
+
+**Why this is critical:**
+- The local west workspace automatically configures all Zephyr paths
+- Setting `ZEPHYR_BASE` forces CMake to use the external Zephyr installation
+- This causes module path mismatches and build failures
+- Common error: "CMake Error: include could not find requested file: zephyr_default"
+
+**Solution we discovered:**
+- During troubleshooting, the build failed when `ZEPHYR_BASE` pointed to `/home/swayamshreemohanty/Documents/libraries/zephyr/zephyrproject/zephyr`
+- Unsetting `ZEPHYR_BASE` and using only the local workspace (managed by `west update`) resolved all issues
+- The generation succeeded with: `Loading Zephyr default modules (Freestanding)` indicating proper local workspace usage
+
 ### 1. Install System Dependencies
 
 ```bash
@@ -433,7 +471,20 @@ cd ~/work/practice/fprime/fprime-zephyr-led-blinker
 source .venv/bin/activate
 ```
 
-**IMPORTANT**: Do **NOT** export `ZEPHYR_BASE`! The local west workspace handles all paths automatically.
+**⚠️ CRITICAL: Verify ZEPHYR_BASE is NOT set**
+
+```bash
+# This should print nothing or an empty line
+echo "ZEPHYR_BASE is: $ZEPHYR_BASE"
+
+# If it shows a path, unset it immediately
+if [ -n "$ZEPHYR_BASE" ]; then
+    echo "ERROR: ZEPHYR_BASE is set! Unsetting..."
+    unset ZEPHYR_BASE
+fi
+```
+
+**Important:** Do **NOT** export `ZEPHYR_BASE`! The local west workspace handles all paths automatically. If you see the error "include could not find requested file: zephyr_default" during generation, it means `ZEPHYR_BASE` is still set somewhere.
 
 ### 2. Generate Build Configuration
 

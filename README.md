@@ -7,6 +7,16 @@ F´ (F Prime) is a component-driven framework that enables rapid development and
 
 ## Quick Start
 
+**⚠️ IMPORTANT - If you have used Zephyr before:**
+```bash
+# If you previously installed Zephyr externally and set ZEPHYR_BASE, unset it now!
+unset ZEPHYR_BASE
+
+# Also remove it from ~/.bashrc or ~/.profile if present:
+# sed -i '/ZEPHYR_BASE/d' ~/.bashrc
+# source ~/.bashrc
+```
+
 ```bash
 # 1. Install system dependencies
 sudo apt-get update
@@ -62,6 +72,28 @@ fprime-gds -n \
 ### Prerequisites
 
 This project uses Zephyr RTOS v4.3.0 managed by a local west workspace. The workspace is self-contained within the project directory.
+
+**⚠️ CRITICAL - Check for Conflicting Zephyr Installation:**
+
+If you have previously installed Zephyr in an external location (like `~/zephyrproject`), you **must** unset the `ZEPHYR_BASE` environment variable:
+
+```sh
+# Check if ZEPHYR_BASE is set
+echo $ZEPHYR_BASE
+
+# If it shows a path, unset it
+unset ZEPHYR_BASE
+
+# Check your shell configuration files and remove ZEPHYR_BASE exports
+grep -r "ZEPHYR_BASE" ~/.bashrc ~/.profile ~/.zshrc 2>/dev/null
+
+# Remove the line(s) containing ZEPHYR_BASE from those files
+# For example, if found in ~/.bashrc:
+sed -i '/ZEPHYR_BASE/d' ~/.bashrc
+source ~/.bashrc
+```
+
+**Why this matters:** Setting `ZEPHYR_BASE` forces CMake to use an external Zephyr installation instead of the local west workspace, causing build failures with errors like "cannot find zephyr_default".
 
 **System Requirements:**
 - Linux (tested on Debian/Ubuntu, Raspberry Pi OS)
@@ -124,7 +156,15 @@ pip install lxml==5.3.0 pyzmq==26.2.0 legacy-cgi
 
 The project includes `west.yml` which specifies Zephyr v4.3.0 and required modules.
 
+**Before initializing, ensure ZEPHYR_BASE is not set:**
 ```sh
+# Verify ZEPHYR_BASE is not set
+if [ -n "$ZEPHYR_BASE" ]; then
+    echo "WARNING: ZEPHYR_BASE is set to $ZEPHYR_BASE"
+    echo "This will cause conflicts! Unsetting now..."
+    unset ZEPHYR_BASE
+fi
+
 # Initialize west workspace using the local manifest
 west init -l .
 
