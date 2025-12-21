@@ -41,10 +41,10 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    # event connections instance CdhCore.events
-    event connections instance rpiHub
-    # telemetry connections instance CdhCore.tlmSend
-    telemetry connections instance rpiHub
+    event connections instance CdhCore.events
+    # event connections instance rpiHub
+    telemetry connections instance CdhCore.tlmSend
+    # telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -54,7 +54,12 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # STM32 receives commands from RPi via GenericHub
+      # STM32 operates standalone with local event/telemetry processing
+      # Events and telemetry go to ComQueue for local UART output
+      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
+      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
+      
+      # STM32 also receives commands from RPi via GenericHub
       # Commands route: Hub -> Proxies -> cmdDisp (obcB pattern)
       
       # Hub output ports connect to proxy inputs
@@ -97,9 +102,10 @@ module Stm32LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
       rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
       rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[3] -> led.run
-      rateGroup1.RateGroupMemberOut[4] -> led1.run
-      rateGroup1.RateGroupMemberOut[5] -> led2.run
+      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
+      rateGroup1.RateGroupMemberOut[4] -> led.run
+      rateGroup1.RateGroupMemberOut[5] -> led1.run
+      rateGroup1.RateGroupMemberOut[6] -> led2.run
     }
 
     connections LedConnections {

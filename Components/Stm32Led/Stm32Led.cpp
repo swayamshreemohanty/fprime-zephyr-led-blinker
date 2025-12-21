@@ -61,14 +61,17 @@ void Stm32Led ::run_handler(FwIndexType portNum, U32 context) {
         // A transition has occurred
         if (this->state != new_state) {
             this->transitions = this->transitions + 1;
-            this->tlmWrite_LedTransitions(this->transitions);
+            // TEMPORARILY DISABLED: Testing if telemetry blocks without RPI connected
+            // this->tlmWrite_LedTransitions(this->transitions);
 
             // Port may not be connected, so check before sending output
             if (this->isConnected_gpioSet_OutputPort(0)) {
                 this->gpioSet_out(0, (Fw::On::ON == new_state) ? Fw::Logic::HIGH : Fw::Logic::LOW);
+                printk("[LED] GPIO transition to %s\n", (new_state == Fw::On::ON) ? "ON" : "OFF");
             }
 
-            this->log_ACTIVITY_LO_LedState(new_state);
+            // TEMPORARILY DISABLED: Testing if events block without RPI connected
+            // this->log_ACTIVITY_LO_LedState(new_state);
             this->state = new_state;
         }
 
