@@ -101,10 +101,32 @@ connections hub {
 **Updated Communications connections:**
 - Replaced `ComStub` with `ByteStreamBufferAdapter`
 - UART driver now connects to buffer adapter instead of ComStub
+- Added two command sources: ComCcsds.fprimeRouter and rpiHub
+- Both command sources feed into cmdSplitter for unified processing
 
-**Removed ComQueue from rate groups:**
-- Removed `ComCcsds.comQueue.run` from rateGroup1 (index 3)
-- Adjusted LED connections to fill the gap
+3. **hub** - Routes commands and manages buffers
+```fpp
+connections hub {
+  # GenericHub needs buffer allocation for serializing telemetry/events
+  rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+  rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+}
+```
+
+**Updated Command Routing:**
+```fpp
+# Two command sources feed into CmdSplitter
+ComCcsds.fprimeRouter.commandOut -> cmdSplitter.CmdBuff[0]  # Local UART
+rpiHub.serialOut[0] -> cmdSplitter.CmdBuff[1]               # Remote from RPi
+
+# Commands route to dispatcher
+cmdSplitter.RemoteCmd[0] -> CdhCore.cmdDisp.seqCmdBuff
+
+# Responses route back to both sources
+CdhCore.cmdDisp.seqCmdStatus -> cmdSplitter.seqCmdStatus[1]
+cmdSplitter.forwardSeqCmdStatus[0] -> ComCcsds.fprimeRouter.cmdResponseIn
+cmdSplitter.forwardSeqCmdStatus[1] -> rpiHub.serialIn[0]
+```
 
 ### 3. `/Stm32LedBlinker/Top/CMakeLists.txt`
 

@@ -55,14 +55,19 @@ module Stm32LedBlinker {
       # This allows RPi master to receive STM32 telemetry/events
 
       # Router to CmdSplitter for command routing
-      # Commands from RPi hub are routed through splitter
-      ComCcsds.fprimeRouter.commandOut -> cmdSplitter.CmdBuff
+      # Local UART commands from ComCcsds router go through splitter
+      ComCcsds.fprimeRouter.commandOut -> cmdSplitter.CmdBuff[0]
+      
+      # Remote commands from RPi GenericHub also go through splitter
+      rpiHub.serialOut[0] -> cmdSplitter.CmdBuff[1]
+      
+      # All commands (local or remote) route to command dispatcher
       cmdSplitter.RemoteCmd[0] -> CdhCore.cmdDisp.seqCmdBuff
       
-      # Command responses route back through splitter to hub
+      # Command responses route back through splitter
       CdhCore.cmdDisp.seqCmdStatus -> cmdSplitter.seqCmdStatus[1]
       cmdSplitter.forwardSeqCmdStatus[0] -> ComCcsds.fprimeRouter.cmdResponseIn
-      cmdSplitter.forwardSeqCmdStatus[1] -> ComCcsds.fprimeRouter.cmdResponseIn
+      cmdSplitter.forwardSeqCmdStatus[1] -> rpiHub.serialIn[0]
     }
 
     connections Communications {
@@ -125,10 +130,6 @@ module Stm32LedBlinker {
     }
 
     connections hub {
-      # Hub deserializes commands from RPi and routes to command dispatcher
-      rpiHub.serialOut[0] -> ComCcsds.fprimeRouter.serialRecv[0]
-      ComCcsds.fprimeRouter.serialSend[0] -> rpiHub.serialIn[0]
-      
       # GenericHub needs buffer allocation for serializing telemetry/events
       rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
