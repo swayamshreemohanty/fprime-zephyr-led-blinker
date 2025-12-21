@@ -394,24 +394,41 @@ Defines how components connect, including:
 
 ```
 fprime-zephyr-led-blinker/
-├── fprime/                          # F' framework (v4.1.1)
-├── fprime-zephyr/                   # Zephyr integration
+├── fprime/                                    # F' framework (v4.1.1)
+├── fprime-zephyr/                             # Zephyr integration with F'
+├── zephyr/                                    # Zephyr RTOS v4.3.0 (from west update)
 ├── Components/
-│   └── Stm32Led/                    # LED component
+│   └── Stm32Led/                              # LED component implementation
 ├── Stm32LedBlinker/
-│   ├── Main.cpp                     # Entry point
-│   ├── Top/                         # Topology
-│   │   ├── topology.fpp            # Connections
-│   │   ├── instances.fpp           # Component instances
-│   │   └── Stm32LedBlinkerTopology.cpp
+│   ├── Main.cpp                               # Application entry point
+│   ├── Stub.cpp                               # Platform stubs
+│   ├── Top/                                   # Topology definition
+│   │   ├── topology.fpp                      # Component connections
+│   │   ├── instances.fpp                     # Component instances
+│   │   ├── Stm32LedBlinkerTopology.cpp       # Topology implementation
+│   │   ├── Stm32LedBlinkerTopology.hpp       # Topology header
+│   │   ├── Stm32LedBlinkerTopologyDefs.hpp   # Type definitions & state
+│   │   └── Stm32LedBlinkerPackets.xml        # Telemetry packet definitions
 │   └── config/
-│       ├── CdhCoreConfig.fpp       # CdhCore settings
-│       └── ComCcsdsConfig.fpp      # Communication settings
+│       ├── CMakeLists.txt                     # Config build file
+│       ├── CdhCoreConfig.fpp                  # CdhCore subtopology settings
+│       └── ComCcsdsConfig.fpp                 # ComCcsds subtopology settings
 ├── boards/
-│   └── nucleo_h7a3zi_q.overlay     # Device tree overlay
-├── prj.conf                         # Zephyr Kconfig
-├── west.yml                         # Zephyr v4.3.0 manifest
-└── settings.ini                     # F' settings
+│   ├── nucleo_h7a3zi_q.overlay                # STM32 Nucleo H7A3ZI-Q overlay
+│   ├── teensy40.overlay                       # Teensy 4.0 overlay
+│   └── teensy41.overlay                       # Teensy 4.1 overlay
+├── build-fprime-automatic-zephyr/             # Build directory (generated)
+│   ├── Stm32LedBlinker/Top/
+│   │   └── Stm32LedBlinkerTopologyDictionary.json  # GDS dictionary
+│   └── zephyr/
+│       ├── zephyr.bin                         # Flashable binary
+│       ├── zephyr.elf                         # ELF with debug symbols
+│       └── zephyr.hex                         # Intel HEX format
+├── prj.conf                                   # Zephyr Kconfig options
+├── west.yml                                   # West manifest (Zephyr v4.3.0)
+├── settings.ini                               # F' build settings
+├── project.cmake                              # CMake Zephyr integration
+└── CMakeLists.txt                             # Top-level build configuration
 ```
 
 ---
