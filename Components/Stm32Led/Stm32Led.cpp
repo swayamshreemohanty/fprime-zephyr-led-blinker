@@ -105,9 +105,9 @@ void Stm32Led ::BLINKING_ON_OFF_cmdHandler(const FwOpcodeType opCode, const U32 
         this->tlmWrite_BlinkingState(on_off);
     }
 
-    printk("[LED CMD] cmdResp=%u blinking=%d count=%u state=%u transitions=%llu\n",
-           static_cast<U32>(cmdResp.e), this->blinking ? 1 : 0, this->count, static_cast<U32>(this->state.e),
-           static_cast<unsigned long long>(this->transitions));
+        printk("[LED CMD] cmdResp=%u blinking=%d count=%u state=%u transitions=%llu\n",
+            static_cast<U32>(cmdResp), this->blinking ? 1 : 0, this->count, static_cast<U32>(this->state),
+            static_cast<unsigned long long>(this->transitions));
 
     // Provide command response
     this->cmdResponse_out(opCode, cmdSeq, cmdResp);
