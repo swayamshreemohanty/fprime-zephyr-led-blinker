@@ -8,7 +8,7 @@
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopology.hpp>
 #include <Fw/Logger/Logger.hpp>
 
-const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(lpuart1));
+const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(usart3));
 
 // Fatal error handler
 extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch_esf *esf)

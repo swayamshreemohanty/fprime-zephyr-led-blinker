@@ -17,9 +17,7 @@
 
     chosen {
         zephyr,sram = &sram0;
-        // Use USART3 (ST-Link VCP) for console/debug output
-        zephyr,console = &usart3;
-        zephyr,shell-uart = &usart3;
+        // Console disabled - USART3 used for F' CCSDS communication via ST-Link VCP
     };
 
     aliases {
