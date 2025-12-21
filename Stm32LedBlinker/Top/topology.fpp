@@ -15,6 +15,7 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     instance cmdDisp
+    instance commDriver
     instance eventLogger
     instance fatalAdapter
     instance fatalHandler
@@ -28,6 +29,7 @@ module Stm32LedBlinker {
     instance rateGroup1
     instance rateGroupDriver
     instance systemResources
+    instance textLogger
     instance timeHandler
     instance tlmSend
 
@@ -40,6 +42,8 @@ module Stm32LedBlinker {
     event connections instance eventLogger
 
     telemetry connections instance tlmSend
+
+    text event connections instance textLogger
 
     time connections instance timeHandler
 
@@ -59,6 +63,14 @@ module Stm32LedBlinker {
       rateGroup1.RateGroupMemberOut[3] -> led1.run
       rateGroup1.RateGroupMemberOut[4] -> led2.run
     }
+
+    # NOTE: Communication connections removed temporarily
+    # Will add proper framing protocol in next iteration
+    # connections Communication {
+    #   tlmSend.PktSend -> commDriver.$send
+    #   eventLogger.PktSend -> commDriver.$send
+    #   commDriver.$recv -> cmdDisp.seqCmdBuff
+    # }
 
     connections FaultProtection {
       # No event logger, so just keep fatal handler standalone

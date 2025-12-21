@@ -81,6 +81,10 @@ void setupTopology(const TopologyState& state) {
     
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
+    
+    printk("  configure commDriver (UART)...\n");
+    commDriver.configure(state.dev, state.uartBaud);
+    
     printk("  start rateDriver...\n");
     rateDriver.start();
     printk("setupTopology complete!\n");

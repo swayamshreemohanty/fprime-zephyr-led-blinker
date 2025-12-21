@@ -36,6 +36,8 @@ module Stm32LedBlinker {
 
   instance rateDriver: Zephyr.ZephyrRateDriver base id 0x1B00
 
+  instance commDriver: Zephyr.ZephyrUartDriver base id 0x4000
+
   instance fatalAdapter: Svc.AssertFatalAdapter base id 0x4200
 
   instance fatalHandler: Svc.FatalHandler base id 0x4300
@@ -43,6 +45,8 @@ module Stm32LedBlinker {
   instance timeHandler: Svc.OsTime base id 0x4400
 
   instance rateGroupDriver: Svc.RateGroupDriver base id 0x4500
+
+  instance textLogger: Svc.PassiveTextLogger base id 0x4700
 
   instance systemResources: Svc.SystemResources base id 0x4900
 
