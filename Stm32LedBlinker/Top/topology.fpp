@@ -118,6 +118,11 @@ module Stm32LedBlinker {
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
+    # Ensure AssertFatalAdapter logs have a connected sink (prevents assert(0))
+    connections fatal_logging {
+      CdhCore.fatalAdapter.Log -> rpiHub.eventIn
+    }
+
   }
 
 }
