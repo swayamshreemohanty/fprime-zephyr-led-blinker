@@ -17,7 +17,10 @@
 
     chosen {
         zephyr,sram = &sram0;
-        // Console disabled - USART3 used for F' CCSDS communication via ST-Link VCP
+        /* Route Zephyr console/stdout to USART3 so POSIX stdio has a device */
+        zephyr,console = &usart3;
+        zephyr,stdout = &usart3;
+        zephyr,stdin = &usart3;
     };
 
     aliases {
