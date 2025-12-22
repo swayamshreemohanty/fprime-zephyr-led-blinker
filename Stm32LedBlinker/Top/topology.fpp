@@ -71,12 +71,13 @@ module Stm32LedBlinker {
       # Rate group 1 - All periodic components
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
-      rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
-      rateGroup1.RateGroupMemberOut[4] -> led.run
-      rateGroup1.RateGroupMemberOut[5] -> led1.run
-      rateGroup1.RateGroupMemberOut[6] -> led2.run
+      # disable ComCcsds periodic tasks; telemetry now flows through GenericHub
+      # rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
+      # rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
+      # rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
+      rateGroup1.RateGroupMemberOut[1] -> led.run
+      rateGroup1.RateGroupMemberOut[2] -> led1.run
+      rateGroup1.RateGroupMemberOut[3] -> led2.run
     }
 
     connections LedConnections {
