@@ -115,9 +115,6 @@ module Stm32LedBlinker {
       # GenericHub needs buffer allocation for serializing telemetry/events
       rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
-      
-      # Connect AssertFatalAdapter log output to prevent assert
-      CdhCore.fatalAdapter.Log -> rpiHub.eventIn
     }
 
   }
