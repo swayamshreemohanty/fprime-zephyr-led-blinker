@@ -52,10 +52,6 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # Forward local events/telemetry to GenericHub for RPi uplink
-      CdhCore.events.PktSend -> rpiHub.bufferIn[0]
-      rpiHub.bufferInReturn[0] -> CdhCore.events.bufferReturn
-      
       # STM32 receives commands from RPi via GenericHub (obcB pattern)
       rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
       rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
