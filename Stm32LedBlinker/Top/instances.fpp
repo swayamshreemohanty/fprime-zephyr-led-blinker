@@ -1,6 +1,15 @@
 module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
+  # Base ID Offset for Remote Node
+  # ----------------------------------------------------------------------
+  # STM32 is a remote node in NASA Hub Pattern, must have opcodes ABOVE
+  # the CmdSplitter threshold so they route through RemoteCmd to the hub.
+  # Threshold on RPi is 0x1000000, so STM32 base IDs must be >= 0x1000000
+  
+  constant BASE_ID_OFFSET = 0x2000000
+  
+  # ----------------------------------------------------------------------
   # Defaults
   # ----------------------------------------------------------------------
 
@@ -45,11 +54,11 @@ module Stm32LedBlinker {
 
   instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x4E00
 
-  instance led: Components.Stm32Led base id 0x10000
+  instance led: Components.Stm32Led base id BASE_ID_OFFSET + 0x10000
 
-  instance led1: Components.Stm32Led base id 0x10100
+  instance led1: Components.Stm32Led base id BASE_ID_OFFSET + 0x10100
 
-  instance led2: Components.Stm32Led base id 0x10200
+  instance led2: Components.Stm32Led base id BASE_ID_OFFSET + 0x10200
 
   # ----------------------------------------------------------------------
   # Distributed Communication with RPi Master (NASA Hub Pattern)
