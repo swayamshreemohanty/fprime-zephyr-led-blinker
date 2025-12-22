@@ -679,6 +679,24 @@ sudo st-flash --connect-under-reset write build-fprime-automatic-zephyr/zephyr/z
 
 **Check these in order:**
 
+**0. Correct command syntax:**
+```bash
+# ❌ WRONG (Windows port names won't work on Linux)
+fprime-gds -n --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json --comm-adapter uart --uart-device COM3 --uart-baud 115200
+
+# ✅ CORRECT (Linux/Raspberry Pi)
+fprime-gds -n \
+  --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json \
+  --communication-selection uart \
+  --uart-device /dev/ttyACM0 \
+  --uart-baud 115200 \
+  --framing-selection space-packet-space-data-link
+```
+**Common mistakes:**
+- Using `COM3` (Windows) instead of `/dev/ttyACM0` (Linux)
+- Using `--comm-adapter` instead of `--communication-selection`
+- Missing `--framing-selection space-packet-space-data-link`
+
 **1. Verify UART device** in `Stm32LedBlinker/Main.cpp`:
 ```cpp
 // Line 11 - Should be usart3 for STM32 Nucleo
