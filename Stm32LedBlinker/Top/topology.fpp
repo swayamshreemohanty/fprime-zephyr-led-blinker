@@ -41,8 +41,8 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    event connections instance rpiHub
-    telemetry connections instance rpiHub
+    event connections instance CdhCore.events
+    telemetry connections instance CdhCore.tlmSend
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -52,6 +52,10 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
+      # Forward local events/telemetry to GenericHub for RPi uplink
+      CdhCore.events.PktSend -> rpiHub.bufferIn[0]
+      rpiHub.bufferInReturn[0] -> CdhCore.events.bufferReturn
+      
       # STM32 receives commands from RPi via GenericHub (obcB pattern)
       rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
       rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
