@@ -8,5 +8,6 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/CdhCoreConfig.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/ComCcsdsConfig.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/PlatformCfg.fpp"
+        "${CMAKE_CURRENT_LIST_DIR}/GenericHubCfg.fpp"
     INTERFACE
 )
