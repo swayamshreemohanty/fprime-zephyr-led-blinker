@@ -41,7 +41,6 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    # Route events/telemetry through GenericHub for RPi uplink
     event connections instance rpiHub
     telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
@@ -116,11 +115,6 @@ module Stm32LedBlinker {
       # GenericHub needs buffer allocation for serializing telemetry/events
       rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
-    }
-
-    # Ensure AssertFatalAdapter logs have a connected sink (prevents assert(0))
-    connections fatal_logging {
-      CdhCore.fatalAdapter.Log -> rpiHub.eventIn
     }
 
   }
