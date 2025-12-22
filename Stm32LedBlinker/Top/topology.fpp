@@ -41,10 +41,9 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    event connections instance CdhCore.events
-    # event connections instance rpiHub
-    telemetry connections instance CdhCore.tlmSend
-    # telemetry connections instance rpiHub
+    # Route events/telemetry through GenericHub for RPi uplink
+    event connections instance rpiHub
+    telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -54,41 +53,15 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # STM32 operates standalone with local event/telemetry processing
-      # Events and telemetry go to ComQueue for local UART output
-      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
-      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
-      
-      # STM32 also receives commands from RPi via GenericHub
-      # Commands route: Hub -> Proxies -> cmdDisp (obcB pattern)
-      
-      # Hub output ports connect to proxy inputs
+      # STM32 receives commands from RPi via GenericHub (obcB pattern)
       rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
       rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
-      
-      # Proxies forward commands to cmdDisp
       proxyGroundInterface.comCmdOut -> CdhCore.cmdDisp.seqCmdBuff
       proxySequencer.comCmdOut -> CdhCore.cmdDisp.seqCmdBuff
-      
-      # Command responses go back through proxies to hub
       CdhCore.cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
       CdhCore.cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
-      
       proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
       proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
-    }
-
-    connections Communications {
-      # ComStub <-> UART Driver (via ByteStreamDriver interface)
-      # The ComCcsds subtopology handles internal framing, we just connect the driver
-      ComCcsds.comStub.drvSendOut -> commDriver.$send
-      commDriver.ready -> ComCcsds.comStub.drvConnected
-      commDriver.$recv -> ComCcsds.comStub.drvReceiveIn
-      ComCcsds.comStub.drvReceiveReturnOut -> commDriver.recvReturnIn
-      
-      # ComDriver buffer allocations
-      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
-      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
     connections RateGroups {
@@ -123,10 +96,17 @@ module Stm32LedBlinker {
       # GenericHub serializes telemetry/events and sends to buffer adapter
       rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
       uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
+      # Adapter drives UART TX
+      uartBufferAdapter.toByteStreamDriver -> commDriver.$send
+      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
     connections recv_hub {
-      # Buffer adapter delivers to GenericHub for deserialization
+      # UART RX into adapter, then into GenericHub for deserialization
+      commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
+      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
+      uartBufferAdapter.fromByteStreamDriverReturn -> ComCcsds.commsBufferManager.bufferSendIn
       uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
       rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
     }
