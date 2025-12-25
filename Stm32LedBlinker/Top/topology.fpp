@@ -33,8 +33,6 @@ module Stm32LedBlinker {
     instance rateGroupDriver
     instance uartBufferAdapter
     instance rpiHub
-    instance rpiFramer
-    instance rpiDeframer
     instance proxyGroundInterface
     instance proxySequencer
 
