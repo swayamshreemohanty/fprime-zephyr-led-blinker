@@ -52,20 +52,15 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     connections ComCcsds_CdhCore {
-      # STM32 receives commands from RPi via GenericHub (spoke side)
-      # GenericHub deserializes incoming commands to typed port calls
-      rpiHub.portOut[0] -> proxyGroundInterface.seqCmdBuf
-      rpiHub.portOut[1] -> proxySequencer.seqCmdBuf
-      
-      # Proxies forward commands to command dispatcher
+      # STM32 receives commands from RPi via GenericHub (obcB pattern)
+      rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
+      rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
       proxyGroundInterface.comCmdOut -> CdhCore.cmdDisp.seqCmdBuff
       proxySequencer.comCmdOut -> CdhCore.cmdDisp.seqCmdBuff
-      
-      # Command responses flow back through proxies to hub
       CdhCore.cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
       CdhCore.cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
-      proxyGroundInterface.seqCmdStatus -> rpiHub.portIn[0]
-      proxySequencer.seqCmdStatus -> rpiHub.portIn[1]
+      proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
+      proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
     }
 
     connections RateGroups {
