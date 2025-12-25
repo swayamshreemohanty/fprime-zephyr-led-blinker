@@ -120,6 +120,14 @@ module Stm32LedBlinker {
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
+    connections hub_routing {
+      # Route STM32 events/telemetry TO RPi via GenericHub
+      # Events: local EventManager broadcasts to GenericHub
+      CdhCore.events.PktSend -> rpiHub.eventIn
+      # Telemetry: local TlmChan broadcasts to GenericHub
+      CdhCore.tlmSend.PktSend -> rpiHub.tlmIn
+    }
+
   }
 
 }
