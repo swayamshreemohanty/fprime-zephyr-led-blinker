@@ -75,12 +75,6 @@ module Stm32LedBlinker {
   @ Allows RPi master to control STM32 as if components were local
   instance rpiHub: Svc.GenericHub base id 0x5100
 
-  @ Framer for RPi hub - Wraps buffers with F´ protocol headers before UART TX
-  instance rpiFramer: Svc.Framer base id 0x5400
-
-  @ Deframer for RPi hub - Extracts F´ protocol packets from UART RX stream
-  instance rpiDeframer: Svc.Deframer base id 0x5500
-
   # ----------------------------------------------------------------------
   # Proxy Components for Hub Pattern (obcB pattern)
   # ----------------------------------------------------------------------
