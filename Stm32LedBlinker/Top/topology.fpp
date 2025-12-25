@@ -97,60 +97,35 @@ module Stm32LedBlinker {
     # STM32 acts as remote spoke receiving commands from RPi hub
     # Events and telemetry are sent back to RPi for GDS display
     #
-    # Communication Stack (Official F´ Hub Pattern - Spoke Side):
-    # Send Path (STM32 → RPi):
-    # 1. Events/Telemetry → GenericHub (serialization)
-    # 2. GenericHub.dataOut → Framer (protocol wrapping)
-    # 3. Framer → ByteStreamBufferAdapter (buffer conversion)
-    # 4. ByteStreamBufferAdapter → UART Driver (transmission)
-    #
-    # Receive Path (RPi → STM32):
-    # 1. UART Driver → ByteStreamBufferAdapter (reception)
-    # 2. ByteStreamBufferAdapter → Deframer (protocol extraction)
-    # 3. Deframer → GenericHub (deserialization)
-    # 4. GenericHub.portOut → Command handlers
+    # ----------------------------------------------------------------------
+    # RPi Communication - NASA GenericHub Pattern over UART
+    # ----------------------------------------------------------------------
+    # STM32 acts as remote node receiving commands from RPi master
+    # GenericHub handles serialization directly without Framer/Deframer
     
-    connections RpiHub_Send {
-      # GenericHub serializes responses/events/telemetry and sends buffers to framer
-      rpiHub.dataOut -> rpiFramer.bufferIn
-      rpiHub.dataOutAllocate -> ComCcsds.commsBufferManager.bufferGetCallee
-      
-      # Framer wraps buffers with F´ protocol and sends to buffer adapter
-      rpiFramer.framedOut -> uartBufferAdapter.bufferIn
-      rpiFramer.bufferDeallocate -> ComCcsds.commsBufferManager.bufferSendIn
-      rpiFramer.framedAllocate -> ComCcsds.commsBufferManager.bufferGetCallee
-      
-      # Buffer adapter converts framed buffers to byte stream for UART driver
-      uartBufferAdapter.bufferInReturn -> rpiFramer.framedReturn
+    connections send_hub {
+      # GenericHub serializes telemetry/events and sends to buffer adapter
+      rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
+      uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
+      # Adapter drives UART TX
       uartBufferAdapter.toByteStreamDriver -> commDriver.$send
       commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
-    connections RpiHub_Receive {
-      # UART driver receives byte stream and passes to buffer adapter
+    connections recv_hub {
+      # UART RX into adapter, then into GenericHub for deserialization
       commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
       commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
-      
-      # Buffer adapter converts byte stream to buffers and sends to deframer
-      uartBufferAdapter.bufferOut -> rpiDeframer.framedIn
-      uartBufferAdapter.bufferOutReturn -> ComCcsds.commsBufferManager.bufferSendIn
       uartBufferAdapter.fromByteStreamDriverReturn -> ComCcsds.commsBufferManager.bufferSendIn
-      
-      # Deframer extracts F´ protocol packets and sends to hub
-      rpiDeframer.bufferOut -> rpiHub.dataIn
-      rpiDeframer.bufferAllocate -> ComCcsds.commsBufferManager.bufferGetCallee
-      rpiDeframer.framedDeallocate -> ComCcsds.commsBufferManager.bufferSendIn
-      
-      # Hub deallocates processed buffers
-      rpiHub.dataInDeallocate -> ComCcsds.commsBufferManager.bufferSendIn
+      uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
+      rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
     }
 
-    connections RpiHub_EventsTelemetry {
-      # Route STM32 events and telemetry through GenericHub to RPi
-      # This allows RPi GDS to display STM32 events and telemetry
-      CdhCore.events.LogSend -> rpiHub.LogRecv
-      CdhCore.tlmSend.TlmSend -> rpiHub.TlmRecv
+    connections hub {
+      # GenericHub needs buffer allocation for serializing telemetry/events
+      rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
   }
