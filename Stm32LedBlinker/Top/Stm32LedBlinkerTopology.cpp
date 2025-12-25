@@ -10,9 +10,6 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
 
-// F´ Protocol instances for RPi hub framing/deframing
-#include <Svc/FramingProtocol/FprimeProtocol.hpp>
-
 // Define GPIO specs for all 3 LEDs
 static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);   // Green LED
 static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);  // Yellow LED
@@ -20,10 +17,6 @@ static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpi
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace Stm32LedBlinker;
-
-// F´ Protocol instances for RPi hub framing/deframing
-Svc::FprimeFraming rpiFraming;
-Svc::FprimeDeframing rpiDeframing;
 
 // The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz
 Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0} }};
