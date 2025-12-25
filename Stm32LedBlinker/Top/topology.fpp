@@ -101,7 +101,6 @@ module Stm32LedBlinker {
     connections send_hub {
       # GenericHub serializes telemetry/events and sends to buffer adapter
       rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
-      uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
       # Adapter drives UART TX
       uartBufferAdapter.toByteStreamDriver -> commDriver.$send
       commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
@@ -112,9 +111,7 @@ module Stm32LedBlinker {
       commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
       commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
-      uartBufferAdapter.fromByteStreamDriverReturn -> ComCcsds.commsBufferManager.bufferSendIn
       uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
-      rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
     }
 
     connections hub {
