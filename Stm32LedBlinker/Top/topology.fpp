@@ -136,8 +136,8 @@ module Stm32LedBlinker {
       proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
       proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
 
-      # Hub buffer cleanup
-      rpiHub.buffersOut -> hubBufferManager.bufferSendIn
+      # Hub buffer cleanup (bufferOut not buffersOut)
+      rpiHub.bufferOut[0] -> hubBufferManager.bufferSendIn
     }
 
     # ----------------------------------------------------------------------
