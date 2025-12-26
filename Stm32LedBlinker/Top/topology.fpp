@@ -125,12 +125,11 @@ module Stm32LedBlinker {
       # Hub deserializes commands from RPi and routes directly to cmdDisp
       # This is the simplest approach for embedded spoke nodes
       # NOTE: serial ports can connect directly to typed ports (Fw.Com)
+      # Due to FPP matched port rules, we can only use ONE index per instance
       rpiHub.serialOut[0] -> CdhCore.cmdDisp.seqCmdBuff[0]
-      rpiHub.serialOut[1] -> CdhCore.cmdDisp.seqCmdBuff[1]
       
       # Command responses route back to hub for transmission to RPi
       CdhCore.cmdDisp.seqCmdStatus[0] -> rpiHub.serialIn[0]
-      CdhCore.cmdDisp.seqCmdStatus[1] -> rpiHub.serialIn[1]
       
       # Buffer management for hub - deallocate used buffers
       rpiHub.deallocate -> hubBufferManager.bufferSendIn
