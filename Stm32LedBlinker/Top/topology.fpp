@@ -41,8 +41,9 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    event connections instance CdhCore.events
-    telemetry connections instance CdhCore.tlmSend
+    # Remote node: events and telemetry routed THROUGH hub to master (RPi)
+    event connections instance rpiHub
+    telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -115,13 +116,12 @@ module Stm32LedBlinker {
     }
 
     connections hub {
-      # GenericHub needs buffer allocation for serializing telemetry/events
+      # GenericHub needs buffer allocation for serialization
       rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
       
-      # Route STM32 events and telemetry TO RPi via GenericHub
-      CdhCore.events.PktSend -> rpiHub.eventIn
-      CdhCore.tlmSend.PktSend -> rpiHub.tlmIn
+      # Hub buffer cleanup (obcB pattern)
+      rpiHub.buffersOut -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
   }
