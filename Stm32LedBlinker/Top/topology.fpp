@@ -44,13 +44,13 @@ module Stm32LedBlinker {
     # Commands are dispatched locally by CdhCore.cmdDisp
     command connections instance CdhCore.cmdDisp
 
-    # Events go to local logger for now (hub routing will be added later)
-    event connections instance CdhCore.events
+    # Events route THROUGH the hub to RPi master for GDS display
+    event connections instance rpiHub
 
-    # Telemetry goes to local channel for now (hub routing will be added later)
-    telemetry connections instance CdhCore.tlmSend
+    # Telemetry routes THROUGH the hub to RPi master for GDS display
+    telemetry connections instance rpiHub
 
-    # Text events go to local logger
+    # Text events go to local logger (for serial debug output)
     text event connections instance CdhCore.textLogger
 
     # Health connections to local health component
