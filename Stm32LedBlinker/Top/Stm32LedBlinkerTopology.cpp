@@ -97,10 +97,7 @@ void setupTopology(const TopologyState& state) {
     
     printk("  configure commDriver (UART)...\n");
     commDriver.configure(state.dev, state.uartBaud);
-    
-    printk("  start commDriver (UART receive thread)...\n");
-    commDriver.start(0, 100, 10 * 1024);  // Start UART read thread for bidirectional communication
-    printk("  commDriver started\n");
+    printk("  commDriver configured (Zephyr handles threading internally)\n");
     
     printk("  start rateDriver...\n");
     rateDriver.start();
