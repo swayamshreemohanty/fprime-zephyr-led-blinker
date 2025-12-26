@@ -117,11 +117,12 @@ module Stm32LedBlinker {
     # Hub Command Routing (matching OBC B pattern)
     # ----------------------------------------------------------------------
     # Commands flow: RPi GDS → Hub → ProxyForwarders → CmdDispatcher → Components
+    # Uses serialOut/serialIn ports (not portOut/portIn)
 
     connections HubCommandRouting {
       # Hub receives commands and forwards to proxy components
-      rpiHub.portOut[0] -> proxyGroundInterface.seqCmdBuf
-      rpiHub.portOut[1] -> proxySequencer.seqCmdBuf
+      rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
+      rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
 
       # Proxy components forward commands to local CmdDispatcher
       proxyGroundInterface.comCmdOut -> cmdDisp.seqCmdBuff
@@ -132,8 +133,8 @@ module Stm32LedBlinker {
       cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
 
       # Proxy components send command responses back to hub
-      proxyGroundInterface.seqCmdStatus -> rpiHub.portIn[0]
-      proxySequencer.seqCmdStatus -> rpiHub.portIn[1]
+      proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
+      proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
 
       # Hub buffer cleanup
       rpiHub.buffersOut -> hubBufferManager.bufferSendIn
