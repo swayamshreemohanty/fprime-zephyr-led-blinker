@@ -45,7 +45,7 @@ module Stm32LedBlinker {
     command connections instance CdhCore.cmdDisp
 
     # Events go to local logger for now (hub routing will be added later)
-    event connections instance CdhCore.eventLogger
+    event connections instance CdhCore.events
 
     # Telemetry goes to local channel for now (hub routing will be added later)
     telemetry connections instance CdhCore.tlmSend
