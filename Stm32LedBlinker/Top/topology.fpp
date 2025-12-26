@@ -42,16 +42,13 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     # Commands are dispatched locally by CdhCore.cmdDisp
-    # NOTE: This may need adjustment for hub pattern command routing
     command connections instance CdhCore.cmdDisp
 
-    # Events route directly to hub (bypassing local CdhCore.events)
-    # Each component's logOut port connects to rpiHub.eventIn
-    event connections instance rpiHub
+    # Events processed locally (hub routing TBD - causes crash during regCommands)
+    event connections instance CdhCore.events
 
-    # Telemetry routes directly to hub (bypassing local CdhCore.tlmSend)
-    # Each component's tlmOut port connects to rpiHub.tlmIn
-    telemetry connections instance rpiHub
+    # Telemetry processed locally (hub routing TBD - causes crash during regCommands)
+    telemetry connections instance CdhCore.tlmSend
 
     # Text events go to local logger (for serial debug output)
     text event connections instance CdhCore.textLogger
