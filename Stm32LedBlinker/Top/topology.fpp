@@ -42,13 +42,16 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     # Commands are dispatched locally by CdhCore.cmdDisp
+    # NOTE: This may need adjustment for hub pattern command routing
     command connections instance CdhCore.cmdDisp
 
-    # Events go to local CdhCore.events (we'll manually wire to hub below)
-    event connections instance CdhCore.events
+    # Events route directly to hub (bypassing local CdhCore.events)
+    # Each component's logOut port connects to rpiHub.eventIn
+    event connections instance rpiHub
 
-    # Telemetry goes to local CdhCore.tlmSend (we'll manually wire to hub below)
-    telemetry connections instance CdhCore.tlmSend
+    # Telemetry routes directly to hub (bypassing local CdhCore.tlmSend)
+    # Each component's tlmOut port connects to rpiHub.tlmIn
+    telemetry connections instance rpiHub
 
     # Text events go to local logger (for serial debug output)
     text event connections instance CdhCore.textLogger
@@ -100,7 +103,7 @@ module Stm32LedBlinker {
     }
 
     connections HubUartConnection {
-      # Basic hub to UART wiring (no command routing yet)
+      # Basic hub to UART wiring
       rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
       uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
       uartBufferAdapter.toByteStreamDriver -> commDriver.$send
@@ -111,20 +114,6 @@ module Stm32LedBlinker {
       uartBufferAdapter.fromByteStreamDriverReturn -> commDriver.recvReturnIn
       uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
       rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
-    }
-
-    # ----------------------------------------------------------------------
-    # Forward Events and Telemetry to Hub for RPi GDS
-    # ----------------------------------------------------------------------
-    # CdhCore processes events/telemetry locally, then we forward to hub
-    # Hub serializes and sends via UART to RPi master
-
-    connections HubEventTelemetryForwarding {
-      # Forward events from local event manager to hub for RPi
-      CdhCore.events.PktSend -> rpiHub.eventIn
-      
-      # Forward telemetry from local TlmChan to hub for RPi
-      CdhCore.tlmSend.PktSend -> rpiHub.tlmIn
     }
 
   }
