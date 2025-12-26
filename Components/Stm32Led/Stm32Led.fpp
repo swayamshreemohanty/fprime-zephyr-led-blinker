@@ -57,8 +57,10 @@ module Components {
         @ Port for sending command responses
         command resp port cmdResponseOut
 
-        @ Port for sending textual representation of events
-        text event port logTextOut
+        # Text events disabled - no text logger available in this F' version
+        # Binary events (logOut) still work perfectly via GenericHub to RPi GDS
+        # @ Port for sending textual representation of events
+        # text event port logTextOut
 
         @ Port for sending events to downlink
         event port logOut
