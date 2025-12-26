@@ -85,6 +85,6 @@ module Stm32LedBlinker {
       led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
-    # ----------------------------------------------------------------------
-  
+  }
+
 }
