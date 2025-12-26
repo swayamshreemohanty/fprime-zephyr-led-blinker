@@ -33,6 +33,7 @@ module Stm32LedBlinker {
     instance rpiHub
     instance uartBufferAdapter
     instance hubBufferManager
+    instance nullTextLogger
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers - Hub-Native Configuration
@@ -43,6 +44,9 @@ module Stm32LedBlinker {
 
     # Telemetry routes directly to GenericHub, which forwards to RPi
     telemetry connections instance rpiHub
+
+    # Text events go to null logger (binary events still go to hub/RPi)
+    text event connections instance nullTextLogger
 
     # Time connections to local time component
     time connections instance chronoTime

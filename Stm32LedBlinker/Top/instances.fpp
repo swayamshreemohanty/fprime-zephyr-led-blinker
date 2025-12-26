@@ -69,4 +69,7 @@ module Stm32LedBlinker {
   @ Buffer manager for hub communication buffers
   instance hubBufferManager: Svc.BufferManager base id 0x5400
 
+  @ Null text logger - discards text events (binary events go to hub/RPi)
+  instance nullTextLogger: Stm32LedBlinker.NullTextLogger base id 0x5500
+
 }
