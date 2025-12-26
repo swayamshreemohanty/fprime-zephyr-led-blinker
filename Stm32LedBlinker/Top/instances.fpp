@@ -13,12 +13,12 @@ module Stm32LedBlinker {
   # GenericHub Configuration for Spoke Node
   # ----------------------------------------------------------------------
   # STM32 is the SPOKE node - receives commands from RPi master
-  # All events/telemetry route THROUGH the hub to RPi
+  # Events/telemetry route through hub to RPi, commands come from RPi
   
-  @ Number of typed serial input ports for hub (receiving from local components)
-  constant GenericHubInputPorts = 2
+  @ Number of typed serial input ports for hub (receiving command responses TO RPi)
+  constant GenericHubInputPorts = 0      # Spoke doesn't send serial data back to master
   
-  @ Number of typed serial output ports for hub (sending to local cmdDisp)
+  @ Number of typed serial output ports for hub (receiving commands FROM RPi)
   constant GenericHubOutputPorts = 2
   
   @ Number of buffer input ports for hub
@@ -47,7 +47,7 @@ module Stm32LedBlinker {
 
   instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x4E00
 
-  # LED components with base ID >= 0x10000 (remote commands from RPi)
+  # LED components with base ID >= 0x10000 (matches RPi GDS dictionary routing)
   instance led: Components.Stm32Led base id 0x10000
 
   instance led1: Components.Stm32Led base id 0x10100
@@ -55,13 +55,12 @@ module Stm32LedBlinker {
   instance led2: Components.Stm32Led base id 0x10200
 
   # ----------------------------------------------------------------------
-  # Hub Pattern Components - Spoke Node (STM32)
+  # Hub Pattern Components - Spoke Node (STM32) - Hub Native Topology
   # ----------------------------------------------------------------------
-  # STM32 receives commands from RPi master hub and sends telemetry/events back
-  # Uses simplified architecture: GenericHub <-> ByteStreamBufferAdapter <-> UartDriver
-  # No proxy components needed - GenericHub.serialOut connects directly to cmdDisp
+  # Unlike CdhCore approach, this is hub-native: events/telemetry go DIRECTLY to hub
+  # No local event manager or telemetry channel - everything routes through RPi
   
-  @ GenericHub - Receives serialized commands from RPi, sends telemetry/events to RPi
+  @ GenericHub - Routes events/telemetry TO RPi, receives commands FROM RPi
   instance rpiHub: Svc.GenericHub base id 0x5000
 
   @ ByteStreamBufferAdapter - Bridges byte stream (UART) to F-Prime buffers
@@ -69,5 +68,8 @@ module Stm32LedBlinker {
 
   @ Buffer manager for hub communication buffers
   instance hubBufferManager: Svc.BufferManager base id 0x5400
+  
+  @ Text logger for local debug output over serial
+  instance textLogger: Svc.PassiveConsoleTextLogger base id 0x5500
 
 }

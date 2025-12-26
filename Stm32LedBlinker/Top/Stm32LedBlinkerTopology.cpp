@@ -95,18 +95,18 @@ void setupTopology(const TopologyState& state) {
     // Autocoded command registration. Function provided by autocoder.
     regCommands();
     printk("  configComponents...\n");
-    // Autocoded component configuration (including subtopologies). Function provided by autocoder.
+    // Autocoded component configuration. Function provided by autocoder.
     configComponents(state);
 
     printk("  configureTopology...\n");
     // Project-specific component configuration. Function provided above. May be inlined, if desired.
     configureTopology();
     printk("  loadParameters (skipped - no PrmDb)...\n");
-    // Autocoded parameter loading. Function provided by autocoder.
-    // loadParameters();  // No PrmDb component in topology
+    // No parameter loading - this is a spoke node without PrmDb
     
-    // NOTE: startTasks() starts active components (cmdDisp, eventLogger, tlmSend from CdhCore)
-    printk("  Starting active component tasks...\n");
+    // NOTE: In hub-native topology, startTasks() only starts any active components
+    // This spoke topology has NO active components - all passive for minimal memory footprint
+    printk("  Starting active component tasks (none in spoke node)...\n");
     startTasks(state);
     
     printk("  configure rateDriver...\n");
@@ -118,7 +118,7 @@ void setupTopology(const TopologyState& state) {
     
     printk("  start rateDriver...\n");
     rateDriver.start();
-    printk("setupTopology complete! STM32 spoke node ready for RPi hub communication.\n");
+    printk("setupTopology complete! STM32 hub-native spoke node ready for RPi communication.\n");
 }
 
 void teardownTopology(const TopologyState& state) {

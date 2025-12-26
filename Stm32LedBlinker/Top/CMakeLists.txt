@@ -13,10 +13,11 @@ set(SOURCE_FILES
 )
 set(MOD_DEPS
   Fw/Logger
-  # Hub pattern components (simplified - no proxies, no Framer/Deframer)
+  # Hub-native spoke node components
   Drv/ByteStreamBufferAdapter
   Svc/GenericHub
   Svc/BufferManager
+  Svc/PassiveConsoleTextLogger
 )
 
 register_fprime_module()

@@ -6,10 +6,6 @@
 #ifndef STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGYDEFS_HPP
 #define STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGYDEFS_HPP
 
-// Subtopology includes - CdhCore only (ComCcsds removed for hub pattern)
-#include "Svc/Subtopologies/CdhCore/PingEntries.hpp"
-#include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
-
 #include "Fw/Types/MallocAllocator.hpp"
 #include "Stm32LedBlinker/Top/FppConstantsAc.hpp"
 
@@ -17,7 +13,7 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
 
-// Ping entries from subtopologies - extend the global PingEntries namespace
+// Ping entries for rate group - extend the global PingEntries namespace
 namespace PingEntries {
     namespace Stm32LedBlinker_rateGroup1 {enum { WARN = 3, FATAL = 5 };}
 }
@@ -35,7 +31,6 @@ namespace Stm32LedBlinker {
 struct TopologyState {
     const struct device *dev;
     PlatformIntType uartBaud;
-    CdhCore::SubtopologyState cdhCore;
 };
 
 /**

@@ -11,14 +11,11 @@ module Stm32LedBlinker {
   topology Stm32LedBlinker {
 
     # ----------------------------------------------------------------------
-    # Subtopology imports
+    # Instances used in the topology - Hub-Native Spoke Node
     # ----------------------------------------------------------------------
-    # CdhCore provides cmdDisp, eventLogger, tlmSend, health, textLogger
-    import CdhCore.Subtopology
-
-    # ----------------------------------------------------------------------
-    # Instances used in the topology
-    # ----------------------------------------------------------------------
+    # This is a SPOKE NODE topology - no local command dispatcher needed
+    # All events/telemetry route through GenericHub to RPi master node
+    # RPi master handles command dispatch and routes commands back via hub
 
     instance chronoTime
     instance commDriver
@@ -32,32 +29,32 @@ module Stm32LedBlinker {
     instance rateGroup1
     instance rateGroupDriver
 
-    # Hub pattern components for spoke node (temporarily simplified)
+    # Hub pattern components for spoke node
     instance rpiHub
     instance uartBufferAdapter
     instance hubBufferManager
+    
+    # Local text logger for debugging (passive - no active components)
+    instance textLogger
 
     # ----------------------------------------------------------------------
-    # Pattern graph specifiers
+    # Pattern graph specifiers - Hub-Native Configuration
     # ----------------------------------------------------------------------
 
-    # Commands are dispatched locally by CdhCore.cmdDisp
-    command connections instance CdhCore.cmdDisp
+    # Events route directly to GenericHub, which forwards to RPi
+    event connections instance rpiHub
 
-    # Events processed locally (hub routing TBD - causes crash during regCommands)
-    event connections instance CdhCore.events
+    # Telemetry routes directly to GenericHub, which forwards to RPi
+    telemetry connections instance rpiHub
 
-    # Telemetry processed locally (hub routing TBD - causes crash during regCommands)
-    telemetry connections instance CdhCore.tlmSend
-
-    # Text events go to local logger (for serial debug output)
-    text event connections instance CdhCore.textLogger
-
-    # Health connections to local health component
-    health connections instance CdhCore.$health
+    # Text events go to local logger for serial debug output
+    text event connections instance textLogger
 
     # Time connections to local time component
     time connections instance chronoTime
+    
+    # NOTE: No command connections - spoke nodes receive commands via hub.serialOut
+    # Command routing would require CmdDispatcher, which is on the master (RPi) side
 
     # ----------------------------------------------------------------------
     # Direct graph specifiers
