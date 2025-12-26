@@ -86,12 +86,6 @@ void setupTopology(const TopologyState& state) {
     printk("  Starting active component tasks...\n");
     startTasks(state);
     
-    // Start proxy active components for hub pattern
-    printk("  Starting proxy components for hub pattern...\n");
-    proxyGroundInterface.start(0, 100, 10 * 1024);
-    proxySequencer.start(0, 100, 10 * 1024);
-    printk("  Proxy components started\n");
-    
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
     
