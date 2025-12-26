@@ -29,6 +29,11 @@ module Stm32LedBlinker {
     instance rateGroup1
     instance rateGroupDriver
 
+    # Command infrastructure (matching OBC B pattern)
+    instance cmdDisp
+    instance proxyGroundInterface
+    instance proxySequencer
+
     # Hub pattern components for spoke node
     instance rpiHub
     instance uartBufferAdapter
@@ -36,8 +41,11 @@ module Stm32LedBlinker {
     instance textLogger
 
     # ----------------------------------------------------------------------
-    # Pattern graph specifiers - Hub-Native Configuration
+    # Pattern graph specifiers - Hub-Native Configuration with Commands
     # ----------------------------------------------------------------------
+
+    # Commands route to CommandDispatcher (same as OBC B)
+    command connections instance cmdDisp
 
     # Events route directly to GenericHub, which forwards to RPi
     event connections instance rpiHub
@@ -50,9 +58,6 @@ module Stm32LedBlinker {
 
     # Time connections to local time component
     time connections instance chronoTime
-    
-    # NOTE: No command connections - spoke nodes receive commands via hub.serialOut
-    # Command routing would require CmdDispatcher, which is on the master (RPi) side
 
     # ----------------------------------------------------------------------
     # Direct graph specifiers
@@ -106,6 +111,32 @@ module Stm32LedBlinker {
       uartBufferAdapter.fromByteStreamDriverReturn -> commDriver.recvReturnIn
       uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
       rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
+    }
+
+    # ----------------------------------------------------------------------
+    # Hub Command Routing (matching OBC B pattern)
+    # ----------------------------------------------------------------------
+    # Commands flow: RPi GDS → Hub → ProxyForwarders → CmdDispatcher → Components
+
+    connections HubCommandRouting {
+      # Hub receives commands and forwards to proxy components
+      rpiHub.portOut[0] -> proxyGroundInterface.seqCmdBuf
+      rpiHub.portOut[1] -> proxySequencer.seqCmdBuf
+
+      # Proxy components forward commands to local CmdDispatcher
+      proxyGroundInterface.comCmdOut -> cmdDisp.seqCmdBuff
+      proxySequencer.comCmdOut -> cmdDisp.seqCmdBuff
+      
+      # CmdDispatcher sends command responses back to proxy components
+      cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
+      cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
+
+      # Proxy components send command responses back to hub
+      proxyGroundInterface.seqCmdStatus -> rpiHub.portIn[0]
+      proxySequencer.seqCmdStatus -> rpiHub.portIn[1]
+
+      # Hub buffer cleanup
+      rpiHub.buffersOut -> hubBufferManager.bufferSendIn
     }
 
     # ----------------------------------------------------------------------
