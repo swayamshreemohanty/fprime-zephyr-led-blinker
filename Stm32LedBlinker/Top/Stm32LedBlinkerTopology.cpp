@@ -83,14 +83,24 @@ void setupTopology(const TopologyState& state) {
     // loadParameters();  // No PrmDb component in topology
     
     // NOTE: startTasks() starts active components (cmdDisp, eventLogger, tlmSend)
-    printk("  Starting active component tasks...\\n");
+    printk("  Starting active component tasks...\n");
     startTasks(state);
+    
+    // Start proxy active components for hub pattern
+    printk("  Starting proxy components for hub pattern...\n");
+    proxyGroundInterface.start(0, 100, 10 * 1024);
+    proxySequencer.start(0, 100, 10 * 1024);
+    printk("  Proxy components started\n");
     
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
     
     printk("  configure commDriver (UART)...\n");
     commDriver.configure(state.dev, state.uartBaud);
+    
+    printk("  start commDriver (UART receive thread)...\n");
+    commDriver.start(0, 100, 10 * 1024);  // Start UART read thread for bidirectional communication
+    printk("  commDriver started\n");
     
     printk("  start rateDriver...\n");
     rateDriver.start();
