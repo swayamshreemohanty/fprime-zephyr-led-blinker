@@ -17,7 +17,6 @@ set(MOD_DEPS
   Drv/ByteStreamBufferAdapter
   Svc/GenericHub
   Svc/BufferManager
-  Svc/PassiveConsoleTextLogger
 )
 
 register_fprime_module()

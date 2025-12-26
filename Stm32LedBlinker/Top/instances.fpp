@@ -68,8 +68,5 @@ module Stm32LedBlinker {
 
   @ Buffer manager for hub communication buffers
   instance hubBufferManager: Svc.BufferManager base id 0x5400
-  
-  @ Text logger for local debug output over serial
-  instance textLogger: Svc.PassiveConsoleTextLogger base id 0x5500
 
 }
