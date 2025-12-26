@@ -51,9 +51,6 @@ module Stm32LedBlinker {
     # Time connections to local time component
     time connections instance chronoTime
     
-    # NOTE: No text event connections - LogText port disabled in components (no logger available)
-    # Binary events (Log port) route perfectly to RPi GDS via GenericHub!
-    
     # NOTE: No command connections - spoke nodes receive commands via hub.serialOut
     # Command routing would require CmdDispatcher, which is on the master (RPi) side
 
