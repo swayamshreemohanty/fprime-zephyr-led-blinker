@@ -10,6 +10,9 @@
 # Deployment is only compatible with the Zephyr platform
 restrict_platforms(Zephyr)
 
+# Enable text loggers (PassiveTextLogger) for this deployment
+set(FPRIME_ENABLE_TEXT_LOGGERS ON CACHE BOOL "Enable text logging components" FORCE)
+
 ###
 # Topology and Components
 ###
