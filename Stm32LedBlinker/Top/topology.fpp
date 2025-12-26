@@ -13,8 +13,9 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
     # Subtopology imports
     # ----------------------------------------------------------------------
+    # NOTE: Removed ComCcsds subtopology for hub pattern spoke node
+    # The hub pattern routes all commands/events/telemetry through GenericHub to RPi master
     import CdhCore.Subtopology
-    import ComCcsds.Subtopology
 
     # ----------------------------------------------------------------------
     # Instances used in the topology
@@ -32,30 +33,36 @@ module Stm32LedBlinker {
     instance rateGroup1
     instance rateGroupDriver
 
+    # Hub pattern components for spoke node
+    instance rpiHub
+    instance uartBufferAdapter
+    instance hubBufferManager
+
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
     # ----------------------------------------------------------------------
 
+    # Commands are dispatched locally by CdhCore.cmdDisp
     command connections instance CdhCore.cmdDisp
-    event connections instance CdhCore.events
-    telemetry connections instance CdhCore.tlmSend
+
+    # Events route THROUGH the hub to RPi master (not local processing)
+    event connections instance rpiHub
+
+    # Telemetry routes THROUGH the hub to RPi master (not local processing)
+    telemetry connections instance rpiHub
+
+    # Text events still go to local logger (optional, for debug)
     text event connections instance CdhCore.textLogger
+
+    # Health connections to local health component
     health connections instance CdhCore.$health
+
+    # Time connections to local time component
     time connections instance chronoTime
 
     # ----------------------------------------------------------------------
     # Direct graph specifiers
     # ----------------------------------------------------------------------
-
-    connections ComCcsds_CdhCore {
-      # Standard local command routing (no hub pattern)
-      ComCcsds.fprimeRouter.commandOut -> CdhCore.cmdDisp.seqCmdBuff
-      CdhCore.cmdDisp.seqCmdStatus -> ComCcsds.fprimeRouter.cmdResponseIn
-      
-      # Core events and telemetry to communication queue
-      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
-      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
-    }
 
     connections RateGroups {
       # Block driver
@@ -64,12 +71,10 @@ module Stm32LedBlinker {
       # Rate group 1 - All periodic components
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
       rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> CdhCore.tlmSend.Run
-      rateGroup1.RateGroupMemberOut[2] -> ComCcsds.commsBufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
-      rateGroup1.RateGroupMemberOut[4] -> led.run
-      rateGroup1.RateGroupMemberOut[5] -> led1.run
-      rateGroup1.RateGroupMemberOut[6] -> led2.run
+      rateGroup1.RateGroupMemberOut[1] -> hubBufferManager.schedIn
+      rateGroup1.RateGroupMemberOut[2] -> led.run
+      rateGroup1.RateGroupMemberOut[3] -> led1.run
+      rateGroup1.RateGroupMemberOut[4] -> led2.run
     }
 
     connections LedConnections {
@@ -79,18 +84,56 @@ module Stm32LedBlinker {
       led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
-    connections Communications {
-      # ComDriver buffer allocations
-      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
-      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+    # ----------------------------------------------------------------------
+    # Hub Pattern - Spoke Node (STM32) Communication with RPi Master
+    # ----------------------------------------------------------------------
+    # STM32 is a remote spoke node controlled by RPi master hub
+    # Uses same architecture as RPi: GenericHub <-> ByteStreamBufferAdapter <-> UartDriver
+    # Commands flow: RPi -> UART -> uartBufferAdapter -> rpiHub -> cmdDisp
+    # Events/Telemetry flow: components -> rpiHub -> uartBufferAdapter -> UART -> RPi
+
+    connections HubSend {
+      # GenericHub sends serialized telemetry/events to ByteStreamBufferAdapter
+      rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
+      rpiHub.allocate -> hubBufferManager.bufferGetCallee
       
-      # ComDriver <-> ComStub (Uplink)
-      commDriver.$recv -> ComCcsds.comStub.drvReceiveIn
-      ComCcsds.comStub.drvReceiveReturnOut -> commDriver.recvReturnIn
+      # Return ownership of buffers to GenericHub after they're sent
+      uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
       
-      # ComStub <-> ComDriver (Downlink)
-      ComCcsds.comStub.drvSendOut -> commDriver.$send
-      commDriver.ready -> ComCcsds.comStub.drvConnected
+      # ByteStreamBufferAdapter converts to byte stream and sends to UART driver
+      uartBufferAdapter.toByteStreamDriver -> commDriver.$send
+    }
+
+    connections HubReceive {
+      # UART driver receives byte stream and passes to ByteStreamBufferAdapter
+      commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
+      commDriver.allocate -> hubBufferManager.bufferGetCallee
+      commDriver.deallocate -> hubBufferManager.bufferSendIn
+      commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
+      
+      # Return ownership of buffers received from UART driver
+      uartBufferAdapter.fromByteStreamDriverReturn -> commDriver.recvReturnIn
+      
+      # ByteStreamBufferAdapter converts byte stream to buffers and sends to GenericHub
+      uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
+      
+      # Hub returns processed buffers
+      rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
+    }
+
+    connections HubPortRouting {
+      # Hub deserializes commands from RPi and routes directly to cmdDisp
+      # This is the simplest approach for embedded spoke nodes
+      # NOTE: serial ports can connect directly to typed ports (Fw.Com)
+      rpiHub.serialOut[0] -> CdhCore.cmdDisp.seqCmdBuff[0]
+      rpiHub.serialOut[1] -> CdhCore.cmdDisp.seqCmdBuff[1]
+      
+      # Command responses route back to hub for transmission to RPi
+      CdhCore.cmdDisp.seqCmdStatus[0] -> rpiHub.serialIn[0]
+      CdhCore.cmdDisp.seqCmdStatus[1] -> rpiHub.serialIn[1]
+      
+      # Buffer management for hub - deallocate used buffers
+      rpiHub.deallocate -> hubBufferManager.bufferSendIn
     }
 
   }

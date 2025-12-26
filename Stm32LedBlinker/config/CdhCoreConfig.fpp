@@ -3,16 +3,17 @@ module CdhCoreConfig {
     constant BASE_ID = 0x01000000
     
     module QueueSizes {
-        constant cmdDisp     = 10
-        constant events      = 25
-        constant tlmSend     = 5
-        constant $health     = 10
+        constant cmdDisp     = 5     # Reduced for embedded
+        constant events      = 10    # Reduced for embedded
+        constant tlmSend     = 5     # Reduced for embedded
+        constant $health     = 5     # Reduced for embedded
     }
     
     module StackSizes {
-        constant cmdDisp     = 8 * 1024
-        constant events      = 8 * 1024
-        constant tlmSend     = 8 * 1024
+        # Reduced stack sizes for embedded STM32 (was 8KB each)
+        constant cmdDisp     = 4 * 1024
+        constant events      = 4 * 1024
+        constant tlmSend     = 4 * 1024
     }
 
     module Priorities {

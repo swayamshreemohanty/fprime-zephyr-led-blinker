@@ -7,6 +7,9 @@
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 
+// Hub pattern components
+#include <Fw/Types/MallocAllocator.hpp>
+
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
 
@@ -24,6 +27,16 @@ Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0} }};
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
 U32 rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupOutputPorts] = {};
+
+// Memory allocator for buffer manager
+Fw::MallocAllocator hubMallocator;
+
+// Buffer manager configuration - sized for embedded STM32
+enum BufferConstants {
+    HUB_BUFFER_SIZE = 512,    // Size of each buffer
+    HUB_BUFFER_COUNT = 5,     // Number of buffers
+    HUB_BUFFER_MANAGER_ID = 100
+};
 
 /**
  * \brief configure/setup components in project-specific way
@@ -52,8 +65,18 @@ void configureTopology() {
     gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
     printk("    GPIO driver opened for Red LED\n");
 
-    // GenericHub handles serialization directly - no Framer/Deframer needed
-    printk("  configureTopology: GenericHub ready for RPi communication\n");
+    // Configure Hub Pattern components for spoke node communication
+    printk("  configureTopology: Configuring hub buffer manager...\n");
+    Svc::BufferManager::BufferBins hubBuffMgrBins;
+    memset(&hubBuffMgrBins, 0, sizeof(hubBuffMgrBins));
+    hubBuffMgrBins.bins[0].bufferSize = HUB_BUFFER_SIZE;
+    hubBuffMgrBins.bins[0].numBuffers = HUB_BUFFER_COUNT;
+    hubBufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
+    printk("    Hub buffer manager configured with %d buffers of %d bytes\n", HUB_BUFFER_COUNT, HUB_BUFFER_SIZE);
+
+    // GenericHub and ByteStreamBufferAdapter are passive and don't need explicit configuration
+    // They use the same architecture as RPi: GenericHub <-> ByteStreamBufferAdapter <-> UartDriver
+    printk("  configureTopology: GenericHub and ByteStreamBufferAdapter ready for RPi communication\n");
 }
 
 // Public functions for use in main program are namespaced with deployment name Stm32LedBlinker
@@ -82,25 +105,28 @@ void setupTopology(const TopologyState& state) {
     // Autocoded parameter loading. Function provided by autocoder.
     // loadParameters();  // No PrmDb component in topology
     
-    // NOTE: startTasks() starts active components (cmdDisp, eventLogger, tlmSend)
+    // NOTE: startTasks() starts active components (cmdDisp, eventLogger, tlmSend from CdhCore)
     printk("  Starting active component tasks...\n");
     startTasks(state);
     
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
     
-    printk("  configure commDriver (UART)...\n");
+    printk("  configure commDriver (UART for hub communication)...\n");
     commDriver.configure(state.dev, state.uartBaud);
-    printk("  commDriver configured (Zephyr handles threading internally)\n");
+    printk("  commDriver configured at %d baud\n", state.uartBaud);
     
     printk("  start rateDriver...\n");
     rateDriver.start();
-    printk("setupTopology complete!\n");
+    printk("setupTopology complete! STM32 spoke node ready for RPi hub communication.\n");
 }
 
 void teardownTopology(const TopologyState& state) {
     // Autocoded (active component) task clean-up. Functions provided by topology autocoder.
     stopTasks(state);
     freeThreads(state);
+    
+    // Clean up buffer manager
+    hubBufferManager.cleanup();
 }
 };  // namespace Stm32LedBlinker

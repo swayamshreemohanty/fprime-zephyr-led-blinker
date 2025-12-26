@@ -13,9 +13,10 @@ set(SOURCE_FILES
 )
 set(MOD_DEPS
   Fw/Logger
+  # Hub pattern components (simplified - no proxies, no Framer/Deframer)
   Drv/ByteStreamBufferAdapter
   Svc/GenericHub
-  Components/CmdSequenceForwarder
+  Svc/BufferManager
 )
 
 register_fprime_module()

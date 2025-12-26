@@ -1,4 +1,5 @@
-module GenericHubCfg {
+module Svc {
+  module GenericHubCfg {
 
     @ Number of typed serial input ports for GenericHub
     @ Must match the number of serialIn ports used in topology
@@ -16,4 +17,5 @@ module GenericHubCfg {
     @ Must match the number of bufferOut ports used in topology
     constant NumBufferOutputPorts = 1
 
+  }
 }
