@@ -110,12 +110,6 @@ module Stm32LedBlinker {
       rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
     }
 
-    connections hub {
-      # Hub receives events/telemetry FROM STM32 components and routes to RPi master
-      rpiHub.LogSend -> CdhCore.events.LogRecv
-      rpiHub.TlmSend -> CdhCore.tlmSend.TlmRecv
-    }
-
   }
 
 }
