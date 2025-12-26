@@ -41,8 +41,10 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
 
     command connections instance CdhCore.cmdDisp
-    event connections instance CdhCore.events
-    telemetry connections instance CdhCore.tlmSend
+    # event connections instance CdhCore.events
+    event connections instance rpiHub
+    # telemetry connections instance CdhCore.tlmSend
+    telemetry connections instance rpiHub
     text event connections instance CdhCore.textLogger
     health connections instance CdhCore.$health
     time connections instance chronoTime
@@ -83,6 +85,35 @@ module Stm32LedBlinker {
       led.gpioSet -> gpioDriver.gpioWrite
       led1.gpioSet -> gpioDriver1.gpioWrite
       led2.gpioSet -> gpioDriver2.gpioWrite
+    }
+
+    connections RPi_HubSend {
+      # GenericHub serializes typed ports and sends to ByteStreamBufferAdapter
+      rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
+      rpiHub.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      
+      # Buffer adapter converts buffers to byte stream for UART driver
+      uartBufferAdapter.toByteStreamDriver -> commDriver.$send
+    }
+
+    connections RPi_HubReceive {
+      # UART driver receives byte stream and passes to buffer adapter  
+      commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
+      commDriver.allocate -> ComCcsds.commsBufferManager.bufferGetCallee
+      commDriver.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+      commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
+      
+      # Buffer adapter converts byte stream to buffers and sends to GenericHub
+      uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
+      
+      # Hub deallocates processed buffers
+      rpiHub.deallocate -> ComCcsds.commsBufferManager.bufferSendIn
+    }
+
+    connections hub {
+      # Hub receives events/telemetry FROM STM32 components and routes to RPi master
+      rpiHub.LogSend -> CdhCore.events.LogRecv
+      rpiHub.TlmSend -> CdhCore.tlmSend.TlmRecv
     }
 
   }
