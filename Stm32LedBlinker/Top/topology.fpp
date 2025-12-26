@@ -44,11 +44,11 @@ module Stm32LedBlinker {
     # Commands are dispatched locally by CdhCore.cmdDisp
     command connections instance CdhCore.cmdDisp
 
-    # Events route THROUGH the hub to RPi master for GDS display
-    event connections instance rpiHub
+    # Events go to local CdhCore.events (we'll manually wire to hub below)
+    event connections instance CdhCore.events
 
-    # Telemetry routes THROUGH the hub to RPi master for GDS display
-    telemetry connections instance rpiHub
+    # Telemetry goes to local CdhCore.tlmSend (we'll manually wire to hub below)
+    telemetry connections instance CdhCore.tlmSend
 
     # Text events go to local logger (for serial debug output)
     text event connections instance CdhCore.textLogger
@@ -111,6 +111,20 @@ module Stm32LedBlinker {
       uartBufferAdapter.fromByteStreamDriverReturn -> commDriver.recvReturnIn
       uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
       rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
+    }
+
+    # ----------------------------------------------------------------------
+    # Forward Events and Telemetry to Hub for RPi GDS
+    # ----------------------------------------------------------------------
+    # CdhCore processes events/telemetry locally, then we forward to hub
+    # Hub serializes and sends via UART to RPi master
+
+    connections HubEventTelemetryForwarding {
+      # Forward events from local event manager to hub for RPi
+      CdhCore.events.PktSend -> rpiHub.eventIn
+      
+      # Forward telemetry from local TlmChan to hub for RPi
+      CdhCore.tlmSend.PktSend -> rpiHub.tlmIn
     }
 
   }
