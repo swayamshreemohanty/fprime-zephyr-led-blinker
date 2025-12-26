@@ -135,9 +135,6 @@ module Stm32LedBlinker {
       # Proxy components send command responses back to hub
       proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
       proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
-
-      # Hub buffer cleanup (bufferOut not buffersOut)
-      rpiHub.bufferOut[0] -> hubBufferManager.bufferSendIn
     }
 
     # ----------------------------------------------------------------------
