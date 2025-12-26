@@ -13,9 +13,6 @@
 #include "Fw/Types/MallocAllocator.hpp"
 #include "Stm32LedBlinker/Top/FppConstantsAc.hpp"
 
-// Framing protocol for hub communication
-#include "Svc/FramingProtocol/FprimeProtocol.hpp"
-
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
@@ -23,8 +20,6 @@
 // Ping entries from subtopologies - extend the global PingEntries namespace
 namespace PingEntries {
     namespace Stm32LedBlinker_rateGroup1 {enum { WARN = 3, FATAL = 5 };}
-    namespace Stm32LedBlinker_proxyGroundInterface {enum { WARN = 3, FATAL = 5 };}
-    namespace Stm32LedBlinker_proxySequencer {enum { WARN = 3, FATAL = 5 };}
 }
 
 // Definitions are placed within a namespace named after the deployment
