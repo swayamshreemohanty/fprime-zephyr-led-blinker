@@ -11,14 +11,14 @@ module Stm32LedBlinker {
   topology Stm32LedBlinker {
 
     # ----------------------------------------------------------------------
-    # Instances used in the topology - Hub-Native Spoke Node
+    # Instances used in the topology - Remote Spoke Node
     # ----------------------------------------------------------------------
-    # This is a SPOKE NODE topology - no local command dispatcher needed
-    # All events/telemetry route through GenericHub to RPi master node
-    # RPi master handles command dispatch and routes commands back via hub
+    # This is a SPOKE (remote) NODE in GenericHub pattern
+    # All events/telemetry route through hub to RPi master
+    # Commands come from RPi master via hub
 
     instance chronoTime
-    instance commDriver
+    instance uartDriver
     instance gpioDriver
     instance gpioDriver1
     instance gpioDriver2
@@ -29,31 +29,31 @@ module Stm32LedBlinker {
     instance rateGroup1
     instance rateGroupDriver
 
-    # Command infrastructure (matching OBC B pattern)
+    # Command infrastructure
     instance cmdDisp
-    instance proxyGroundInterface
-    instance proxySequencer
 
-    # Hub pattern components for spoke node
-    instance rpiHub
-    instance uartBufferAdapter
-    instance hubBufferManager
+    # Hub pattern components for remote spoke node
+    instance hub
+    instance bufferAdapter
+    instance bufferManager
     instance textLogger
 
     # ----------------------------------------------------------------------
-    # Pattern graph specifiers - Hub-Native Configuration with Commands
+    # Pattern graph specifiers - Remote Spoke Node
     # ----------------------------------------------------------------------
+    # Commands route through hub from RPi, then to local CommandDispatcher
+    # Events/telemetry route from components through hub to RPi
 
-    # Commands route to CommandDispatcher (same as OBC B)
+    # Commands route to local CommandDispatcher
     command connections instance cmdDisp
 
-    # Events route directly to GenericHub, which forwards to RPi
-    event connections instance rpiHub
+    # Events route through GenericHub to RPi master (not local logger)
+    event connections instance hub
 
-    # Telemetry routes directly to GenericHub, which forwards to RPi
-    telemetry connections instance rpiHub
+    # Telemetry routes through GenericHub to RPi master
+    telemetry connections instance hub
 
-    # Text events go to text logger (binary events still go to hub/RPi)
+    # Text events go to text logger (binary events go to hub)
     text event connections instance textLogger
 
     # Time connections to local time component
@@ -67,10 +67,10 @@ module Stm32LedBlinker {
       # Block driver
       rateDriver.CycleOut -> rateGroupDriver.CycleIn
 
-      # Rate group 1 - All periodic components
+      # Rate group 1 - Periodic scheduling
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> commDriver.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> hubBufferManager.schedIn
+      rateGroup1.RateGroupMemberOut[0] -> uartDriver.schedIn
+      rateGroup1.RateGroupMemberOut[1] -> bufferManager.schedIn
       rateGroup1.RateGroupMemberOut[2] -> led.run
       rateGroup1.RateGroupMemberOut[3] -> led1.run
       rateGroup1.RateGroupMemberOut[4] -> led2.run
@@ -84,68 +84,44 @@ module Stm32LedBlinker {
     }
 
     # ----------------------------------------------------------------------
-    # Hub Pattern - Basic UART Communication (simplified for testing)
+    # Hub Pattern - UART Communication (Remote Spoke Node)
     # ----------------------------------------------------------------------
-    # For now, just wire up buffer allocation - no command routing through hub yet
-    # This allows us to test basic LED functionality first
+    # Matches RemoteDeployment from fprime-generichub-reference but with
+    # ByteStreamBufferAdapter (current F´ API) instead of ComStub+Framer
+    # 
+    # Architecture: Hub ↔ ByteStreamBufferAdapter ↔ UART Driver
+
+    connections HubToDriver {
+      # Hub -> ByteStreamBufferAdapter -> UART Driver (downlink)
+      hub.toBufferDriver -> bufferAdapter.bufferIn
+      bufferAdapter.bufferInReturn -> hub.toBufferDriverReturn
+      bufferAdapter.toByteStreamDriver -> uartDriver.$send
+      
+      # UART Driver -> ByteStreamBufferAdapter -> Hub (uplink)
+      uartDriver.$recv -> bufferAdapter.fromByteStreamDriver
+      uartDriver.ready -> bufferAdapter.byteStreamDriverReady
+      bufferAdapter.fromByteStreamDriverReturn -> uartDriver.recvReturnIn
+      bufferAdapter.bufferOut -> hub.fromBufferDriver
+      hub.fromBufferDriverReturn -> bufferAdapter.bufferOutReturn
+    }
 
     connections HubBufferManagement {
-      # Hub buffer allocation
-      rpiHub.allocate -> hubBufferManager.bufferGetCallee
-      rpiHub.deallocate -> hubBufferManager.bufferSendIn
+      # Hub buffer allocation/deallocation
+      hub.allocate -> bufferManager.bufferGetCallee
+      hub.deallocate -> bufferManager.bufferSendIn
       
-      # UART driver buffer allocation  
-      commDriver.allocate -> hubBufferManager.bufferGetCallee
-      commDriver.deallocate -> hubBufferManager.bufferSendIn
+      # UART driver buffer allocation/deallocation
+      uartDriver.allocate -> bufferManager.bufferGetCallee
+      uartDriver.deallocate -> bufferManager.bufferSendIn
     }
 
-    connections HubUartConnection {
-      # Basic hub to UART wiring
-      rpiHub.toBufferDriver -> uartBufferAdapter.bufferIn
-      uartBufferAdapter.bufferInReturn -> rpiHub.toBufferDriverReturn
-      uartBufferAdapter.toByteStreamDriver -> commDriver.$send
+    connections HubToDeployment {
+      # Hub receives commands from RPi and sends to local CommandDispatcher
+      # Command flow: RPi -> UART -> Hub.serialOut[0] -> CmdDispatcher
+      hub.serialOut[0] -> cmdDisp.seqCmdBuff
       
-      # UART receive to hub
-      commDriver.$recv -> uartBufferAdapter.fromByteStreamDriver
-      commDriver.ready -> uartBufferAdapter.byteStreamDriverReady
-      uartBufferAdapter.fromByteStreamDriverReturn -> commDriver.recvReturnIn
-      uartBufferAdapter.bufferOut -> rpiHub.fromBufferDriver
-      rpiHub.fromBufferDriverReturn -> uartBufferAdapter.bufferOutReturn
-    }
-
-    # ----------------------------------------------------------------------
-    # Hub Command Routing (matching OBC B pattern)
-    # ----------------------------------------------------------------------
-    # Commands flow: RPi GDS → Hub → ProxyForwarders → CmdDispatcher → Components
-    # Uses serialOut/serialIn ports (not portOut/portIn)
-
-    connections HubCommandRouting {
-      # Hub receives commands and forwards to proxy components
-      rpiHub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
-      rpiHub.serialOut[1] -> proxySequencer.seqCmdBuf
-
-      # Proxy components forward commands to local CmdDispatcher
-      proxyGroundInterface.comCmdOut -> cmdDisp.seqCmdBuff
-      proxySequencer.comCmdOut -> cmdDisp.seqCmdBuff
-      
-      # CmdDispatcher sends command responses back to proxy components
-      cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
-      cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
-
-      # Proxy components send command responses back to hub
-      proxyGroundInterface.seqCmdStatus -> rpiHub.serialIn[0]
-      proxySequencer.seqCmdStatus -> rpiHub.serialIn[1]
-    }
-
-    # ----------------------------------------------------------------------
-    # Workaround: Manual LogText connections to unconnected ports
-    # Since no text logger is available, connect to an input port that accepts but ignores them
-    # LogText events won't be visible, but prevents assertion failures
-    # Binary events (logOut) still route perfectly to RPi GDS via hub!
-    # ----------------------------------------------------------------------
-    connections TextEventStubs {
-      # Connect each component's text event output to nowhere (unconnected outputs cause assertion)
-      # TODO: Find or create a proper passive text logger for this F' version
+      # Command responses flow back: CmdDispatcher -> Hub.serialIn[0] -> UART -> RPi
+      cmdDisp.seqCmdStatus -> hub.serialIn[0]
     }
 
   }

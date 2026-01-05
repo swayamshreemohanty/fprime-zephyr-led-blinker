@@ -1,6 +1,13 @@
 module Stm32LedBlinker {
 
   # ----------------------------------------------------------------------
+  # Remote Node Base ID Offset
+  # ----------------------------------------------------------------------
+  # All STM32 components use this base offset to avoid ID conflicts with RPi master
+  # This matches the pattern from fprime-generichub-reference RemoteDeployment
+  constant REMOTE_TOPOLOGY_BASE = 0x10000000
+
+  # ----------------------------------------------------------------------
   # Defaults - Optimized for embedded STM32
   # ----------------------------------------------------------------------
 
@@ -15,14 +22,11 @@ module Stm32LedBlinker {
   # STM32 is the SPOKE node - receives commands from RPi master
   # Events/telemetry route through hub to RPi, commands come from RPi
   #
-  # CRITICAL PORT MAPPING (must match RPi's stm32Hub):
-  # - InputPorts (STM32 → RPi): Sends command responses back to RPi
-  # - OutputPorts (RPi → STM32): Receives commands from RPi
+  # CRITICAL PORT MAPPING (must match RPi master expectations):
+  # - serialIn ports: Receives command responses FROM local proxies TO send to RPi
+  # - serialOut ports: Sends commands FROM RPi TO local proxies
   # 
-  # RPi's stm32Hub has:
-  #   GenericHubInputPorts = 2 (receives FROM spoke)
-  #   GenericHubOutputPorts = 2 (sends TO spoke)
-  # So STM32's rpiHub must have MATCHING configuration:
+  # Matches GitHub RemoteDeployment pattern but with current F´ API
   
   @ Number of typed serial input ports for hub (sending command responses TO RPi)
   constant GenericHubInputPorts = 2      # Port[0]: Ground, Port[1]: Sequencer
@@ -37,69 +41,60 @@ module Stm32LedBlinker {
   constant GenericHubOutputBuffers = 1
 
   # ----------------------------------------------------------------------
-  # Passive component instances
+  # Passive component instances - Remote Node Pattern
+  # ----------------------------------------------------------------------
+  # Using REMOTE_TOPOLOGY_BASE offset to avoid conflicts with RPi master
+
+  instance chronoTime: Svc.ChronoTime base id REMOTE_TOPOLOGY_BASE + 0x4500
+
+  instance rateGroup1: Svc.PassiveRateGroup base id REMOTE_TOPOLOGY_BASE + 0x1000
+
+  instance rateDriver: Zephyr.ZephyrRateDriver base id REMOTE_TOPOLOGY_BASE + 0x4100
+
+  instance uartDriver: Zephyr.ZephyrUartDriver base id REMOTE_TOPOLOGY_BASE + 0x4000
+
+  instance rateGroupDriver: Svc.RateGroupDriver base id REMOTE_TOPOLOGY_BASE + 0x4600
+
+  instance gpioDriver: Zephyr.ZephyrGpioDriver base id REMOTE_TOPOLOGY_BASE + 0x4C00
+
+  instance gpioDriver1: Zephyr.ZephyrGpioDriver base id REMOTE_TOPOLOGY_BASE + 0x4D00
+
+  instance gpioDriver2: Zephyr.ZephyrGpioDriver base id REMOTE_TOPOLOGY_BASE + 0x4E00
+
+  # LED components - Remote node application components
+  instance led: Components.Stm32Led base id REMOTE_TOPOLOGY_BASE + 0x5000
+
+  instance led1: Components.Stm32Led base id REMOTE_TOPOLOGY_BASE + 0x5100
+
+  instance led2: Components.Stm32Led base id REMOTE_TOPOLOGY_BASE + 0x5200
+
+  # ----------------------------------------------------------------------
+  # Active Components - Command Infrastructure (Remote Node Pattern)
   # ----------------------------------------------------------------------
 
-  instance chronoTime: Svc.ChronoTime base id 0x0F00
-
-  instance rateGroup1: Svc.PassiveRateGroup base id 0x1000
-
-  instance rateDriver: Zephyr.ZephyrRateDriver base id 0x1B00
-
-  instance commDriver: Zephyr.ZephyrUartDriver base id 0x4000
-
-  instance rateGroupDriver: Svc.RateGroupDriver base id 0x4500
-
-  instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x4C00
-
-  instance gpioDriver1: Zephyr.ZephyrGpioDriver base id 0x4D00
-
-  instance gpioDriver2: Zephyr.ZephyrGpioDriver base id 0x4E00
-
-  # LED components with base ID >= 0x10000 (matches RPi GDS dictionary routing)
-  instance led: Components.Stm32Led base id 0x10000
-
-  instance led1: Components.Stm32Led base id 0x10100
-
-  instance led2: Components.Stm32Led base id 0x10200
-
-  # ----------------------------------------------------------------------
-  # Active Components - Command Infrastructure (matching OBC B pattern)
-  # ----------------------------------------------------------------------
-
-  @ Command Dispatcher - Routes commands to components
-  instance cmdDisp: Svc.CommandDispatcher base id 0x3000 \
+  @ Command Dispatcher - Routes commands from hub to local components
+  instance cmdDisp: Svc.CommandDispatcher base id REMOTE_TOPOLOGY_BASE + 0x0500 \
     queue size 20 \
     stack size Default.STACK_SIZE \
     priority 101
 
-  @ Proxy components for hub command forwarding (same as OBC B)
-  instance proxyGroundInterface: Components.CmdSequenceForwarder base id 0x3100 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 100
-
-  instance proxySequencer: Components.CmdSequenceForwarder base id 0x3200 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 100
-
   # ----------------------------------------------------------------------
-  # Hub Pattern Components - Spoke Node (STM32) - Hub Native Topology
+  # Hub Pattern Components - Remote Spoke Node (STM32)
   # ----------------------------------------------------------------------
-  # Unlike CdhCore approach, this is hub-native: events/telemetry go DIRECTLY to hub
-  # No local event manager or telemetry channel - everything routes through RPi
+  # This is a SPOKE NODE using current F´ GenericHub pattern:
+  # GenericHub ↔ ByteStreamBufferAdapter ↔ ZephyrUartDriver
+  # Matches RPi master hub architecture but as remote node
   
-  @ GenericHub - Routes events/telemetry TO RPi, receives commands FROM RPi
-  instance rpiHub: Svc.GenericHub base id 0x5000
+  @ GenericHub - Routes events/telemetry TO RPi master, receives commands FROM RPi
+  instance hub: Svc.GenericHub base id REMOTE_TOPOLOGY_BASE + 0x100000
 
-  @ ByteStreamBufferAdapter - Bridges byte stream (UART) to F-Prime buffers
-  instance uartBufferAdapter: Drv.ByteStreamBufferAdapter base id 0x5100
+  @ ByteStreamBufferAdapter - Bridges PassiveBufferDriver to ByteStreamDriver (UART)
+  instance bufferAdapter: Drv.ByteStreamBufferAdapter base id REMOTE_TOPOLOGY_BASE + 0x100100
 
   @ Buffer manager for hub communication buffers
-  instance hubBufferManager: Svc.BufferManager base id 0x5400
+  instance bufferManager: Svc.BufferManager base id REMOTE_TOPOLOGY_BASE + 0x4400
 
-  @ Text logger for LogText ports (matches RPi deployment pattern)
-  instance textLogger: Svc.PassiveTextLogger base id 0x5500
+  @ Text logger for LogText ports
+  instance textLogger: Svc.PassiveTextLogger base id REMOTE_TOPOLOGY_BASE + 0x4800
 
 }

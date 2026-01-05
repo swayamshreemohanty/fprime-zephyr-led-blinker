@@ -65,13 +65,13 @@ void configureTopology() {
     gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
     printk("    GPIO driver opened for Red LED\n");
 
-    // Configure Hub Pattern components for spoke node communication
+    // Configure Hub Pattern components for remote spoke node communication
     printk("  configureTopology: Configuring hub buffer manager...\n");
     Svc::BufferManager::BufferBins hubBuffMgrBins;
     memset(&hubBuffMgrBins, 0, sizeof(hubBuffMgrBins));
     hubBuffMgrBins.bins[0].bufferSize = HUB_BUFFER_SIZE;
     hubBuffMgrBins.bins[0].numBuffers = HUB_BUFFER_COUNT;
-    hubBufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
+    bufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
     printk("    Hub buffer manager configured with %d buffers of %d bytes\n", HUB_BUFFER_COUNT, HUB_BUFFER_SIZE);
 
     // GenericHub and ByteStreamBufferAdapter are passive and don't need explicit configuration
@@ -112,13 +112,13 @@ void setupTopology(const TopologyState& state) {
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
     
-    printk("  configure commDriver (UART for hub communication)...\n");
-    commDriver.configure(state.dev, state.uartBaud);
-    printk("  commDriver configured at %d baud\n", state.uartBaud);
+    printk("  configure uartDriver (UART for hub communication)...\n");
+    uartDriver.configure(state.dev, state.uartBaud);
+    printk("  uartDriver configured at %d baud\n", state.uartBaud);
     
     printk("  start rateDriver...\n");
     rateDriver.start();
-    printk("setupTopology complete! STM32 hub-native spoke node ready for RPi communication.\n");
+    printk("setupTopology complete! STM32 remote spoke node ready for RPi master communication.\n");
 }
 
 void teardownTopology(const TopologyState& state) {
@@ -127,6 +127,6 @@ void teardownTopology(const TopologyState& state) {
     freeThreads(state);
     
     // Clean up buffer manager
-    hubBufferManager.cleanup();
+    bufferManager.cleanup();
 }
 };  // namespace Stm32LedBlinker
