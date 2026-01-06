@@ -22,7 +22,7 @@ static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpi
 using namespace Stm32LedBlinker;
 
 // The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz
-Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0} }};
+Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {10, 0} }};
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
@@ -34,7 +34,7 @@ Fw::MallocAllocator hubMallocator;
 // Buffer manager configuration - sized for embedded STM32
 enum BufferConstants {
     HUB_BUFFER_SIZE = 512,    // Size of each buffer
-    HUB_BUFFER_COUNT = 20,    // Number of buffers - increased for command registration
+    HUB_BUFFER_COUNT = 100,   // Number of buffers - large pool for telemetry buffering
     HUB_BUFFER_MANAGER_ID = 100
 };
 
