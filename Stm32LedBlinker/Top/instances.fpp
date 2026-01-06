@@ -78,6 +78,17 @@ module Stm32LedBlinker {
     stack size Default.STACK_SIZE \
     priority 101
 
+  @ Proxy components for hub command forwarding (matches RPi pattern)
+  instance proxyGroundInterface: Components.CmdSequenceForwarder base id REMOTE_TOPOLOGY_BASE + 0x0600 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 100
+
+  instance proxySequencer: Components.CmdSequenceForwarder base id REMOTE_TOPOLOGY_BASE + 0x0700 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 100
+
   # ----------------------------------------------------------------------
   # Hub Pattern Components - Remote Spoke Node (STM32)
   # ----------------------------------------------------------------------

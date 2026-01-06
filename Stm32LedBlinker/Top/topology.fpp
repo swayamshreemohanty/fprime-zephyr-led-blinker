@@ -31,6 +31,8 @@ module Stm32LedBlinker {
 
     # Command infrastructure
     instance cmdDisp
+    instance proxyGroundInterface
+    instance proxySequencer
 
     # Hub pattern components for remote spoke node
     instance hub
@@ -119,15 +121,22 @@ module Stm32LedBlinker {
     }
 
     connections HubToDeployment {
-      # Hub receives commands from RPi and sends to local CommandDispatcher
-      # RPi sends on 2 ports (RemoteCmd[0,1]), so STM32 must receive on 2 ports (serialOut[0,1])
-      # Command flow: RPi -> UART -> Hub.serialOut[0,1] -> CmdDispatcher
-      hub.serialOut[0] -> cmdDisp.seqCmdBuff
-      hub.serialOut[1] -> cmdDisp.seqCmdBuff
+      # Hub receives commands from RPi and forwards to proxy components
+      # This matches the RPi local command routing pattern
+      hub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
+      hub.serialOut[1] -> proxySequencer.seqCmdBuf
       
-      # Command responses flow back: CmdDispatcher -> Hub.serialIn[0,1] -> UART -> RPi
-      cmdDisp.seqCmdStatus -> hub.serialIn[0]
-      cmdDisp.seqCmdStatus -> hub.serialIn[1]
+      # Proxies forward commands to local CommandDispatcher
+      proxyGroundInterface.comCmdOut -> cmdDisp.seqCmdBuff
+      proxySequencer.comCmdOut -> cmdDisp.seqCmdBuff
+      
+      # CommandDispatcher sends responses back to proxies
+      cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
+      cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
+      
+      # Proxies send responses back to hub, which forwards to RPi
+      proxyGroundInterface.seqCmdStatus -> hub.serialIn[0]
+      proxySequencer.seqCmdStatus -> hub.serialIn[1]
     }
 
   }
