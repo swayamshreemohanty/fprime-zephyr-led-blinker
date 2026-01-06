@@ -120,11 +120,14 @@ module Stm32LedBlinker {
 
     connections HubToDeployment {
       # Hub receives commands from RPi and sends to local CommandDispatcher
-      # Command flow: RPi -> UART -> Hub.serialOut[0] -> CmdDispatcher
+      # RPi sends on 2 ports (RemoteCmd[0,1]), so STM32 must receive on 2 ports (serialOut[0,1])
+      # Command flow: RPi -> UART -> Hub.serialOut[0,1] -> CmdDispatcher
       hub.serialOut[0] -> cmdDisp.seqCmdBuff
+      hub.serialOut[1] -> cmdDisp.seqCmdBuff
       
-      # Command responses flow back: CmdDispatcher -> Hub.serialIn[0] -> UART -> RPi
+      # Command responses flow back: CmdDispatcher -> Hub.serialIn[0,1] -> UART -> RPi
       cmdDisp.seqCmdStatus -> hub.serialIn[0]
+      cmdDisp.seqCmdStatus -> hub.serialIn[1]
     }
 
   }
