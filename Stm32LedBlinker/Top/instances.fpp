@@ -13,7 +13,7 @@ module Stm32LedBlinker {
 
   module Default {
     constant QUEUE_SIZE = 5
-    constant STACK_SIZE = 4 * 1024   # Reduced from 8KB to 4KB for embedded
+    constant STACK_SIZE = 64 * 1024   # Reduced from 8KB to 4KB for embedded
   }
 
   # ----------------------------------------------------------------------
@@ -93,6 +93,9 @@ module Stm32LedBlinker {
 
   @ Buffer manager for hub communication buffers
   instance bufferManager: Svc.BufferManager base id REMOTE_TOPOLOGY_BASE + 0x4400
+
+  @ Event manager for local event handling
+  instance eventLogger: Svc.EventManager base id REMOTE_TOPOLOGY_BASE + 0x4700 queue size Default.QUEUE_SIZE
 
   @ Text logger for LogText ports
   instance textLogger: Svc.PassiveTextLogger base id REMOTE_TOPOLOGY_BASE + 0x4800

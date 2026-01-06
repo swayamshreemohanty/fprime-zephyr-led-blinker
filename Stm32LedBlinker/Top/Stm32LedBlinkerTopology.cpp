@@ -34,7 +34,7 @@ Fw::MallocAllocator hubMallocator;
 // Buffer manager configuration - sized for embedded STM32
 enum BufferConstants {
     HUB_BUFFER_SIZE = 512,    // Size of each buffer
-    HUB_BUFFER_COUNT = 5,     // Number of buffers
+    HUB_BUFFER_COUNT = 20,    // Number of buffers - increased for command registration
     HUB_BUFFER_MANAGER_ID = 100
 };
 
@@ -85,22 +85,32 @@ void setupTopology(const TopologyState& state) {
     printk("  initComponents...\n");
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
+    printk("  initComponents DONE\n");
     printk("  setBaseIds...\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
+    printk("  setBaseIds DONE\n");
     // Autocoded connection wiring. Function provided by autocoder.
     printk("  connectComponents...\n");
     connectComponents();
-    printk("  regCommands...\n");
-    // Autocoded command registration. Function provided by autocoder.
-    regCommands();
-    printk("  configComponents...\n");
-    // Autocoded component configuration. Function provided by autocoder.
-    configComponents(state);
-
+    printk("  connectComponents DONE\n");
+    
+    // CRITICAL: Configure topology BEFORE regCommands to ensure BufferManager
+    // is set up before any events/telemetry can be generated
     printk("  configureTopology...\n");
     // Project-specific component configuration. Function provided above. May be inlined, if desired.
     configureTopology();
+    printk("  configureTopology DONE\n");
+    
+    printk("  regCommands...\n");
+    // Autocoded command registration. Function provided by autocoder.
+    regCommands();
+    printk("  regCommands DONE\n");
+    printk("  configComponents...\n");
+    // Autocoded component configuration. Function provided by autocoder.
+    configComponents(state);
+    printk("  configComponents DONE\n");
+
     printk("  loadParameters (skipped - no PrmDb)...\n");
     // No parameter loading - this is a spoke node without PrmDb
     
