@@ -13,7 +13,7 @@ module Stm32LedBlinker {
 
   module Default {
     constant QUEUE_SIZE = 5
-    constant STACK_SIZE = 64 * 1024   # Reduced from 8KB to 4KB for embedded
+    constant STACK_SIZE = 16 * 1024   # 16KB per active component (4 components = 64KB total)
   }
 
   # ----------------------------------------------------------------------
