@@ -36,7 +36,6 @@ module Stm32LedBlinker {
     instance hub
     instance bufferAdapter
     instance bufferManager
-    instance eventLogger
     instance textLogger
 
     # ----------------------------------------------------------------------
@@ -48,8 +47,11 @@ module Stm32LedBlinker {
     # Commands route to local CommandDispatcher
     command connections instance cmdDisp
 
-    # Events route to local event logger
-    event connections instance eventLogger
+    # Events route through GenericHub to RPi master (NOT local logger)
+    event connections instance hub
+
+    # Telemetry routes through GenericHub to RPi master
+    telemetry connections instance hub
 
     # Text events go to text logger
     text event connections instance textLogger
