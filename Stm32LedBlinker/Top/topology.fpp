@@ -55,8 +55,7 @@ module Stm32LedBlinker {
 
     # Telemetry routes through GenericHub to RPi GDS
     # CRITICAL: RPi master MUST be running BEFORE STM32 boots, or you'll get assertion failures!
-    # Comment out this line for standalone testing without RPi
-    # telemetry connections instance hub
+    telemetry connections instance hub
 
     # Text events go to text logger
     text event connections instance textLogger
