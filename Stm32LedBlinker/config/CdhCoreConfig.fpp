@@ -10,10 +10,10 @@ module CdhCoreConfig {
     }
     
     module StackSizes {
-        # Reduced stack sizes for embedded STM32 (was 8KB each)
-        constant cmdDisp     = 4 * 1024
-        constant events      = 4 * 1024
-        constant tlmSend     = 4 * 1024
+        # Increased stack sizes for embedded STM32 with events/telemetry enabled
+        constant cmdDisp     = 8 * 1024
+        constant events      = 8 * 1024
+        constant tlmSend     = 8 * 1024
     }
 
     module Priorities {

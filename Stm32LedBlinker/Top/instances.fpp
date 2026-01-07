@@ -12,8 +12,8 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
 
   module Default {
-    constant QUEUE_SIZE = 5
-    constant STACK_SIZE = 16 * 1024   # 16KB per active component (4 components = 64KB total)
+    constant QUEUE_SIZE = 10
+    constant STACK_SIZE = 64 * 1024   # 64KB per active component (matches fprime-generichub-reference)
   }
 
   # ----------------------------------------------------------------------

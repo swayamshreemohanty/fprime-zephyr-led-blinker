@@ -45,15 +45,18 @@ module Stm32LedBlinker {
     # Pattern graph specifiers - Remote Spoke Node
     # ----------------------------------------------------------------------
     # Commands route through hub from RPi, then to local CommandDispatcher
-    # Events/telemetry route from components through hub to RPi
+    # Events route locally; Telemetry routes through hub to RPi
 
     # Commands route to local CommandDispatcher
     command connections instance cmdDisp
 
-    # Events route through hub to RPi (official GenericHub pattern)
-    event connections instance hub
-
-    # Telemetry routes through hub to RPi (official GenericHub pattern)
+    # CRITICAL FOR ZEPHYR: Events MUST route locally to eventLogger
+    # Routing through hub causes port object name crash during regCommands()
+    # This is different from Linux reference - Zephyr has different initialization
+    event connections instance eventLogger
+    
+    # Telemetry routes through GenericHub to RPi (this works fine)
+    # CRITICAL: RPi master MUST be running BEFORE STM32 boots!
     telemetry connections instance hub
 
     # Text events go to text logger

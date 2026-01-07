@@ -34,8 +34,8 @@ Fw::MallocAllocator hubMallocator;
 
 // Buffer manager configuration - sized for embedded STM32
 enum BufferConstants {
-    HUB_BUFFER_SIZE = 512,    // Size of each buffer
-    HUB_BUFFER_COUNT = 100,   // Number of buffers - large pool for telemetry buffering
+    HUB_BUFFER_SIZE = 1024,   // Increased for event routing through hub
+    HUB_BUFFER_COUNT = 200,   // Increased to handle both events and telemetry
     HUB_BUFFER_MANAGER_ID = 100
 };
 
@@ -73,7 +73,8 @@ void configureTopology() {
     hubBuffMgrBins.bins[0].bufferSize = HUB_BUFFER_SIZE;
     hubBuffMgrBins.bins[0].numBuffers = HUB_BUFFER_COUNT;
     bufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
-    printk("    Hub buffer manager configured with %d buffers of %d bytes\n", HUB_BUFFER_COUNT, HUB_BUFFER_SIZE);
+    printk("    Hub buffer manager configured with %d buffers of %d bytes (Total: %d KB)\n", 
+           HUB_BUFFER_COUNT, HUB_BUFFER_SIZE, (HUB_BUFFER_COUNT * HUB_BUFFER_SIZE) / 1024);
 
     // GenericHub and ByteStreamBufferAdapter are passive and don't need explicit configuration
     // They use the same architecture as RPi: GenericHub <-> ByteStreamBufferAdapter <-> UartDriver
@@ -87,38 +88,36 @@ void setupTopology(const TopologyState& state) {
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
     printk("  initComponents DONE\n");
+    
     printk("  setBaseIds...\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
     printk("  setBaseIds DONE\n");
+    
     // Autocoded connection wiring. Function provided by autocoder.
     printk("  connectComponents...\n");
     connectComponents();
     printk("  connectComponents DONE\n");
     
-    // CRITICAL: Configure topology BEFORE regCommands to ensure BufferManager
-    // is set up before any events/telemetry can be generated
+    // CRITICAL: Configure topology BEFORE regCommands
+    // BufferManager.setup() must be called before components register commands
+    // This matches the RemoteDeployment pattern from fprime-generichub-reference
     printk("  configureTopology...\n");
-    // Project-specific component configuration. Function provided above. May be inlined, if desired.
     configureTopology();
     printk("  configureTopology DONE\n");
     
-    printk("  regCommands...\n");
-    // Autocoded command registration. Function provided by autocoder.
-    regCommands();
-    printk("  regCommands DONE\n");
-    printk("  configComponents...\n");
-    // Autocoded component configuration. Function provided by autocoder.
-    configComponents(state);
-    printk("  configComponents DONE\n");
-
     printk("  loadParameters (skipped - no PrmDb)...\n");
     // No parameter loading - this is a spoke node without PrmDb
     
-    // NOTE: In hub-native topology, startTasks() only starts any active components
-    // This spoke topology has NO active components - all passive for minimal memory footprint
-    printk("  Starting active component tasks (none in spoke node)...\n");
+    // Register commands AFTER BufferManager is configured
+    printk("  regCommands...\n");
+    regCommands();
+    printk("  regCommands DONE\n");
+    
+    // Start active component tasks (EventManager) last
+    printk("  Starting active component tasks (EventManager)...\n");
     startTasks(state);
+    printk("  startTasks DONE\n");
     
     printk("  configure rateDriver...\n");
     rateDriver.configure(1);
