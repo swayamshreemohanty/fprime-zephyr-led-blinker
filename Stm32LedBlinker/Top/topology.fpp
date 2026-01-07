@@ -50,11 +50,10 @@ module Stm32LedBlinker {
     # Commands route to local CommandDispatcher
     command connections instance cmdDisp
 
-    # Events route to local eventLogger (prevents buffer exhaustion during init)
-    event connections instance eventLogger
+    # Events route through hub to RPi (official GenericHub pattern)
+    event connections instance hub
 
-    # Telemetry routes through GenericHub to RPi GDS
-    # CRITICAL: RPi master MUST be running BEFORE STM32 boots, or you'll get assertion failures!
+    # Telemetry routes through hub to RPi (official GenericHub pattern)
     telemetry connections instance hub
 
     # Text events go to text logger
