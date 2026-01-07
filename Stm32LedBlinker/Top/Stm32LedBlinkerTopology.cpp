@@ -22,6 +22,7 @@ static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpi
 using namespace Stm32LedBlinker;
 
 // The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz
+// 100Hz rate group (10 divisor) = LED runs at ~5Hz with blink interval 10
 Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {10, 0} }};
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The

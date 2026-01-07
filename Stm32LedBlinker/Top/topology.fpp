@@ -72,12 +72,13 @@ module Stm32LedBlinker {
       rateDriver.CycleOut -> rateGroupDriver.CycleIn
 
       # Rate group 1 - Periodic scheduling
+      # NOTE: uartDriver.schedIn removed - UART transmits on-demand, not periodically
+      # This prevents buffer exhaustion from periodic forced transmissions
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> uartDriver.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> bufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[2] -> led.run
-      rateGroup1.RateGroupMemberOut[3] -> led1.run
-      rateGroup1.RateGroupMemberOut[4] -> led2.run
+      rateGroup1.RateGroupMemberOut[0] -> bufferManager.schedIn
+      rateGroup1.RateGroupMemberOut[1] -> led.run
+      rateGroup1.RateGroupMemberOut[2] -> led1.run
+      rateGroup1.RateGroupMemberOut[3] -> led2.run
     }
 
     connections LedConnections {
