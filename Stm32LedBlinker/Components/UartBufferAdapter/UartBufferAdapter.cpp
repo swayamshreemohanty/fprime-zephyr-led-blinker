@@ -54,19 +54,12 @@ void UartBufferAdapter::fromByteStreamDriver_handler(FwIndexType portNum,
                                                       Fw::Buffer& buffer,
                                                       const Drv::ByteStreamStatus& status) {
     // RX path: UART → this → GenericHub
-    //
-    // CRITICAL ISSUE: RPi and STM32 are using incompatible fprime versions
-    // - RPi: fprime v4.1.1 with NEW GenericHub (toBufferDriver/fromBufferDriver ports)
-    // - STM32: OLD fprime with OLD GenericHub (dataOut/dataIn ports) + Framer/Deframer
-    //
-    // Forwarding STM32 data (F' protocol framed) to RPi GenericHub (expects GenericHub format)
-    // causes assertion failure at GenericHub.cpp:83
-    //
-    // TODO: Update STM32 to fprime v4.1.1 to match RPi deployment
-    //
-    // For now: Drop all RX data to allow testing TX (commands to STM32)
     
-    if (status == Drv::ByteStreamStatus::OP_OK) {
+    if (status == Drv::ByteStreamStatus::OP_OK && buffer.getSize() > 0) {
+        // Forward received data to GenericHub for deserialization
+        bufferOut_out(0, buffer);
+    } else {
+        // Error or empty buffer - return immediately
         fromByteStreamDriverReturn_out(0, buffer);
     }
 }
