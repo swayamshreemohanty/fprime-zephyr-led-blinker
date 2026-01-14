@@ -8,7 +8,9 @@
 #include <Stm32LedBlinker/Top/Stm32LedBlinkerTopology.hpp>
 #include <Fw/Logger/Logger.hpp>
 
-const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(lpuart1));
+// USART2 for RPi communication (PA2=TX, PA3=RX @ 115200 baud, 8N1)
+// Matches working uart_rpi_stm_test configuration
+const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(usart2));
 
 // Fatal error handler
 extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch_esf *esf)
