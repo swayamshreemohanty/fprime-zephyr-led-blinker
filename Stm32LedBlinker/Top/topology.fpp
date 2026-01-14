@@ -139,6 +139,10 @@ module Stm32LedBlinker {
       # Proxies send responses back to hub, which forwards to RPi
       proxyGroundInterface.seqCmdStatus -> hub.serialIn[0]
       proxySequencer.seqCmdStatus -> hub.serialIn[1]
+      
+      # Forward events from eventLogger to hub for transmission to RPi
+      # Events are collected locally by eventLogger, then sent to RPi via hub
+      eventLogger.PktSend -> hub.eventIn
     }
 
   }
