@@ -99,8 +99,9 @@ module Stm32LedBlinker {
   @ GenericHub - Routes events/telemetry TO RPi master, receives commands FROM RPi
   instance hub: Svc.GenericHub base id REMOTE_TOPOLOGY_BASE + 0x100000
 
-  @ ByteStreamBufferAdapter - Bridges PassiveBufferDriver to ByteStreamDriver (UART)
-  instance bufferAdapter: Drv.ByteStreamBufferAdapter base id REMOTE_TOPOLOGY_BASE + 0x100100
+  @ Custom UartBufferAdapter - Bridges PassiveBufferDriver to ByteStreamDriver (UART)
+  @ Shared implementation with RPi deployment for protocol compatibility
+  instance bufferAdapter: Components.UartBufferAdapter base id REMOTE_TOPOLOGY_BASE + 0x100100
 
   @ Buffer manager for hub communication buffers
   instance bufferManager: Svc.BufferManager base id REMOTE_TOPOLOGY_BASE + 0x4400

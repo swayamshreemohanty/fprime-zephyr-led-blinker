@@ -107,7 +107,7 @@ module Stm32LedBlinker {
       # UART Driver -> ByteStreamBufferAdapter -> Hub (uplink)
       uartDriver.$recv -> bufferAdapter.fromByteStreamDriver
       uartDriver.ready -> bufferAdapter.byteStreamDriverReady
-      bufferAdapter.fromByteStreamDriverReturn -> uartDriver.recvReturnIn
+      bufferAdapter.fromByteStreamDriverReturn -> bufferManager.bufferSendIn
       bufferAdapter.bufferOut -> hub.fromBufferDriver
       hub.fromBufferDriverReturn -> bufferAdapter.bufferOutReturn
     }
