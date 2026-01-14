@@ -55,9 +55,9 @@ module Stm32LedBlinker {
     # This is different from Linux reference - Zephyr has different initialization
     event connections instance eventLogger
     
-    # Telemetry routes through GenericHub to RPi (this works fine)
+    # Telemetry routes to TlmChan component (which then forwards to hub)
     # CRITICAL: RPi master MUST be running BEFORE STM32 boots!
-    telemetry connections instance hub
+    telemetry connections instance tlmSend
 
     # Text events go to text logger
     text event connections instance textLogger
@@ -143,6 +143,10 @@ module Stm32LedBlinker {
       # Forward events from eventLogger to hub for transmission to RPi
       # Events are collected locally by eventLogger, then sent to RPi via hub
       eventLogger.PktSend -> hub.eventIn
+      
+      # Forward telemetry from tlmSend to hub for transmission to RPi
+      # Telemetry is collected by TlmChan, then sent to RPi via hub
+      tlmSend.PktSend -> hub.tlmIn
     }
 
   }
