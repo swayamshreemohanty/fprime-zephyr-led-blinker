@@ -111,12 +111,6 @@ module Stm32LedBlinker {
     stack size Default.STACK_SIZE \
     priority 100
 
-  @ Telemetry channel component for collecting telemetry
-  instance tlmSend: Svc.TlmChan base id REMOTE_TOPOLOGY_BASE + 0x4900 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 100
-
   @ Text logger for LogText ports
   instance textLogger: Svc.PassiveTextLogger base id REMOTE_TOPOLOGY_BASE + 0x4800
 

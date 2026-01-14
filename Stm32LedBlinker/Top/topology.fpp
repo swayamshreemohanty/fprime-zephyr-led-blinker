@@ -55,9 +55,8 @@ module Stm32LedBlinker {
     # This is different from Linux reference - Zephyr has different initialization
     event connections instance eventLogger
     
-    # Telemetry routes to hub (uses pattern specifier)
-    # Hub is not designed to look like a telemetry source, so we still need
-    # to connect hub.tlmOut to actual telemetry handling
+    # Telemetry routes directly to hub (spoke node pattern)
+    # Components send telemetry -> hub collects and transmits to RPi
     telemetry connections instance hub
 
     # Text events go to text logger
@@ -140,13 +139,6 @@ module Stm32LedBlinker {
       # Proxies send responses back to hub, which forwards to RPi
       proxyGroundInterface.seqCmdStatus -> hub.serialIn[0]
       proxySequencer.seqCmdStatus -> hub.serialIn[1]
-      
-      # Hub must forward telemetry to TlmChan for packaging and transmission to RPi
-      # This is required because "hub is not designed to look like a telemetry source"
-      hub.tlmOut -> tlmSend.TlmRecv
-      
-      # TlmChan sends packaged telemetry back to hub for transmission
-      tlmSend.PktSend -> hub.tlmIn
     }
 
   }
