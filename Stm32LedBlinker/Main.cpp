@@ -51,7 +51,7 @@ int main()
     while(true)
     {
         Stm32LedBlinker::rateDriver.cycle();
-        k_usleep(1);
+        k_usleep(1000);  // 1ms = 1kHz cycle rate (reasonable for embedded system)
     }
 
     printk("ERROR: Exited main loop unexpectedly!\n");
