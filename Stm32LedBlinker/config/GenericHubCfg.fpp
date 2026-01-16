@@ -1,21 +1,15 @@
 module Svc {
   module GenericHubCfg {
 
-    @ Number of typed serial input ports for GenericHub
-    @ Must match the number of serialIn ports used in topology
-    constant NumSerialInputPorts = 2
-
-    @ Number of typed serial output ports for GenericHub
-    @ Must match the number of serialOut ports used in topology
-    constant NumSerialOutputPorts = 2
-
-    @ Number of buffer input ports for GenericHub
-    @ Must match the number of bufferIn ports used in topology
-    constant NumBufferInputPorts = 1
-
-    @ Number of buffer output ports for GenericHub
-    @ Must match the number of bufferOut ports used in topology
-    constant NumBufferOutputPorts = 1
+    @ Hub connections. Connections on all deployments should mirror these settings.
+    @ These values match the F-Prime GenericHub documentation standard pattern.
+    @ Serial ports: for typed port calls (commands, parameters, etc.)
+    @ Buffer ports: for buffer data transfers (files, data products, etc.)
+    
+    constant NumSerialInputPorts = 10
+    constant NumSerialOutputPorts = 10
+    constant NumBufferInputPorts = 10
+    constant NumBufferOutputPorts = 10
 
   }
 }

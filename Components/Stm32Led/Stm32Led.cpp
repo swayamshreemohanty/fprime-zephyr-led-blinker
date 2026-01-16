@@ -67,7 +67,7 @@ void Stm32Led ::run_handler(FwIndexType portNum, U32 context) {
             // Port may not be connected, so check before sending output
             if (this->isConnected_gpioSet_OutputPort(0)) {
                 this->gpioSet_out(0, (Fw::On::ON == new_state) ? Fw::Logic::HIGH : Fw::Logic::LOW);
-                printk("[LED] GPIO transition to %s\n", (new_state == Fw::On::ON) ? "ON" : "OFF");
+                // printk("[LED] GPIO transition to %s\n", (new_state == Fw::On::ON) ? "ON" : "OFF");
             }
 
             // TEMPORARILY DISABLED: Testing if events block without RPI connected

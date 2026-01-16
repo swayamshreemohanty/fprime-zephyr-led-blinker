@@ -38,51 +38,20 @@ extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch
 
 int main()
 {
-    printk("Starting F' LED Blinker\n");
+    printk("\n=== STM32 F-Prime LED Blinker - Listening for UART data ===\n\n");
 
     // Object for communicating state to the reference topology
     Stm32LedBlinker::TopologyState inputs;
     inputs.dev = serial;
     inputs.uartBaud = 115200;
 
-    printk("Setting up topology...\n");
     // Setup topology
     Stm32LedBlinker::setupTopology(inputs);
-
-    printk("Entering main loop\n");
-    printk("DEBUG: About to enter while loop...\n");
     
-    U32 cycleCount = 0;
     while(true)
     {
-        if (cycleCount == 0) {
-            printk("DEBUG: First iteration of while loop\n");
-        }
-        
-        // Call cycle which will trigger rate groups if timer expired
-        if (cycleCount < 5) {
-            printk("DEBUG: Before rateDriver.cycle() - iteration %u\n", cycleCount);
-        }
-        
         Stm32LedBlinker::rateDriver.cycle();
-        
-        if (cycleCount < 5) {
-            printk("DEBUG: After rateDriver.cycle() - iteration %u\n", cycleCount);
-        }
-        
-        cycleCount++;
-        if (cycleCount % 100 == 0) {
-            printk("Main loop running, cycles: %u\n", cycleCount);
-        }
-        
-        // Small yield to allow timer ISR to run
-        if (cycleCount < 5) {
-            printk("DEBUG: Before k_usleep() - iteration %u\n", cycleCount);
-        }
         k_usleep(1);
-        if (cycleCount < 5) {
-            printk("DEBUG: After k_usleep() - iteration %u\n", cycleCount);
-        }
     }
 
     printk("ERROR: Exited main loop unexpectedly!\n");

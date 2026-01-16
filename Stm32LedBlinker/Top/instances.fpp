@@ -17,30 +17,6 @@ module Stm32LedBlinker {
   }
 
   # ----------------------------------------------------------------------
-  # GenericHub Configuration for Spoke Node
-  # ----------------------------------------------------------------------
-  # STM32 is the SPOKE node - receives commands from RPi master
-  # Events/telemetry route through hub to RPi, commands come from RPi
-  #
-  # CRITICAL PORT MAPPING (must match RPi master expectations):
-  # - serialIn ports: Receives command responses FROM local proxies TO send to RPi
-  # - serialOut ports: Sends commands FROM RPi TO local proxies
-  # 
-  # Matches GitHub RemoteDeployment pattern but with current F´ API
-  
-  @ Number of typed serial input ports for hub (sending command responses TO RPi)
-  constant GenericHubInputPorts = 2      # Port[0]: Ground, Port[1]: Sequencer
-  
-  @ Number of typed serial output ports for hub (receiving commands FROM RPi)
-  constant GenericHubOutputPorts = 2     # Port[0]: Ground, Port[1]: Sequencer
-  
-  @ Number of buffer input ports for hub
-  constant GenericHubInputBuffers = 1
-  
-  @ Number of buffer output ports for hub  
-  constant GenericHubOutputBuffers = 1
-
-  # ----------------------------------------------------------------------
   # Passive component instances - Remote Node Pattern
   # ----------------------------------------------------------------------
   # Using REMOTE_TOPOLOGY_BASE offset to avoid conflicts with RPi master
@@ -72,36 +48,22 @@ module Stm32LedBlinker {
   # Active Components - Command Infrastructure (Remote Node Pattern)
   # ----------------------------------------------------------------------
 
-  @ Command Dispatcher - Routes commands from hub to local components
+  @ Command Dispatcher - Routes commands to local components
   instance cmdDisp: Svc.CommandDispatcher base id REMOTE_TOPOLOGY_BASE + 0x0500 \
     queue size 20 \
     stack size Default.STACK_SIZE \
     priority 101
 
-  @ Proxy components for hub command forwarding (matches RPi pattern)
-  instance proxyGroundInterface: Components.CmdSequenceForwarder base id REMOTE_TOPOLOGY_BASE + 0x0600 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 100
-
-  instance proxySequencer: Components.CmdSequenceForwarder base id REMOTE_TOPOLOGY_BASE + 0x0700 \
-    queue size Default.QUEUE_SIZE \
-    stack size Default.STACK_SIZE \
-    priority 100
-
   # ----------------------------------------------------------------------
   # Hub Pattern Components - Remote Spoke Node (STM32)
   # ----------------------------------------------------------------------
-  # This is a SPOKE NODE using current F´ GenericHub pattern:
-  # GenericHub ↔ ByteStreamBufferAdapter ↔ ZephyrUartDriver
-  # Matches RPi master hub architecture but as remote node
+  # Direct UART connection: GenericHub ↔ ZephyrUartDriver
   
-  @ GenericHub - Routes events/telemetry TO RPi master, receives commands FROM RPi
+  @ GenericHub - Routes events/telemetry TO RPi master via UART
   instance hub: Svc.GenericHub base id REMOTE_TOPOLOGY_BASE + 0x100000
 
-  @ Custom UartBufferAdapter - Bridges PassiveBufferDriver to ByteStreamDriver (UART)
-  @ Shared implementation with RPi deployment for protocol compatibility
-  instance bufferAdapter: Components.UartBufferAdapter base id REMOTE_TOPOLOGY_BASE + 0x100100
+  @ ByteStreamBufferAdapter - Bridges GenericHub (BufferSend) to UART (ByteStreamSend)
+  instance bufferAdapter: Drv.ByteStreamBufferAdapter base id REMOTE_TOPOLOGY_BASE + 0x100100
 
   @ Buffer manager for hub communication buffers
   instance bufferManager: Svc.BufferManager base id REMOTE_TOPOLOGY_BASE + 0x4400

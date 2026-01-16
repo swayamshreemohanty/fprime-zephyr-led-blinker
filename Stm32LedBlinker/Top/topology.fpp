@@ -31,8 +31,6 @@ module Stm32LedBlinker {
 
     # Command infrastructure
     instance cmdDisp
-    instance proxyGroundInterface
-    instance proxySequencer
 
     # Hub pattern components for remote spoke node
     instance hub
@@ -65,6 +63,13 @@ module Stm32LedBlinker {
     # Time connections to local time component
     time connections instance chronoTime
 
+    # BufferAdapter connections
+    connections BufferAdapterConnections {
+      bufferAdapter.Log -> eventLogger.LogRecv
+      bufferAdapter.LogText -> textLogger.TextLogger
+      bufferAdapter.Time -> chronoTime.timeGetPort
+    }
+
     # ----------------------------------------------------------------------
     # Direct graph specifiers
     # ----------------------------------------------------------------------
@@ -74,13 +79,13 @@ module Stm32LedBlinker {
       rateDriver.CycleOut -> rateGroupDriver.CycleIn
 
       # Rate group 1 - Periodic scheduling
-      # NOTE: uartDriver.schedIn removed - UART transmits on-demand, not periodically
-      # This prevents buffer exhaustion from periodic forced transmissions
+      # CRITICAL: uartDriver.schedIn MUST be connected to poll UART RX ring buffer
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
       rateGroup1.RateGroupMemberOut[0] -> bufferManager.schedIn
-      rateGroup1.RateGroupMemberOut[1] -> led.run
-      rateGroup1.RateGroupMemberOut[2] -> led1.run
-      rateGroup1.RateGroupMemberOut[3] -> led2.run
+      rateGroup1.RateGroupMemberOut[1] -> uartDriver.schedIn  # Poll UART RX buffer
+      rateGroup1.RateGroupMemberOut[2] -> led.run
+      rateGroup1.RateGroupMemberOut[3] -> led1.run
+      rateGroup1.RateGroupMemberOut[4] -> led2.run
     }
 
     connections LedConnections {
@@ -93,23 +98,29 @@ module Stm32LedBlinker {
     # ----------------------------------------------------------------------
     # Hub Pattern - UART Communication (Remote Spoke Node)
     # ----------------------------------------------------------------------
-    # Matches RemoteDeployment from fprime-generichub-reference but with
-    # ByteStreamBufferAdapter (current F´ API) instead of ComStub+Framer
-    # 
-    # Architecture: Hub ↔ ByteStreamBufferAdapter ↔ UART Driver
+    # GenericHub ↔ ByteStreamBufferAdapter ↔ UART Driver
+    # Adapter bridges BufferSend (hub) to ByteStreamSend (uart)
 
-    connections HubToDriver {
-      # Hub -> ByteStreamBufferAdapter -> UART Driver (downlink)
+    connections HubToAdapter {
+      # Hub -> ByteStreamBufferAdapter (downlink/TX)
       hub.toBufferDriver -> bufferAdapter.bufferIn
       bufferAdapter.bufferInReturn -> hub.toBufferDriverReturn
-      bufferAdapter.toByteStreamDriver -> uartDriver.$send
       
-      # UART Driver -> ByteStreamBufferAdapter -> Hub (uplink)
-      uartDriver.$recv -> bufferAdapter.fromByteStreamDriver
-      uartDriver.ready -> bufferAdapter.byteStreamDriverReady
-      bufferAdapter.fromByteStreamDriverReturn -> bufferManager.bufferSendIn
+      # ByteStreamBufferAdapter -> Hub (uplink/RX)
       bufferAdapter.bufferOut -> hub.fromBufferDriver
       hub.fromBufferDriverReturn -> bufferAdapter.bufferOutReturn
+    }
+
+    connections AdapterToUart {
+      # ByteStreamBufferAdapter -> UART Driver (TX)
+      bufferAdapter.toByteStreamDriver -> uartDriver.$send
+      
+      # UART Driver -> ByteStreamBufferAdapter (RX)
+      uartDriver.$recv -> bufferAdapter.fromByteStreamDriver
+      bufferAdapter.fromByteStreamDriverReturn -> uartDriver.recvReturnIn
+      
+      # UART ready signal to adapter
+      uartDriver.ready -> bufferAdapter.byteStreamDriverReady
     }
 
     connections HubBufferManagement {
@@ -120,25 +131,6 @@ module Stm32LedBlinker {
       # UART driver buffer allocation/deallocation
       uartDriver.allocate -> bufferManager.bufferGetCallee
       uartDriver.deallocate -> bufferManager.bufferSendIn
-    }
-
-    connections HubToDeployment {
-      # Hub receives commands from RPi and forwards to proxy components
-      # This matches the RPi local command routing pattern
-      hub.serialOut[0] -> proxyGroundInterface.seqCmdBuf
-      hub.serialOut[1] -> proxySequencer.seqCmdBuf
-      
-      # Proxies forward commands to local CommandDispatcher
-      proxyGroundInterface.comCmdOut -> cmdDisp.seqCmdBuff
-      proxySequencer.comCmdOut -> cmdDisp.seqCmdBuff
-      
-      # CommandDispatcher sends responses back to proxies
-      cmdDisp.seqCmdStatus -> proxyGroundInterface.cmdResponseIn
-      cmdDisp.seqCmdStatus -> proxySequencer.cmdResponseIn
-      
-      # Proxies send responses back to hub, which forwards to RPi
-      proxyGroundInterface.seqCmdStatus -> hub.serialIn[0]
-      proxySequencer.seqCmdStatus -> hub.serialIn[1]
     }
 
   }

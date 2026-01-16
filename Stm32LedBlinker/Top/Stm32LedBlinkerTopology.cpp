@@ -47,88 +47,55 @@ enum BufferConstants {
  * desired, but is extracted here for clarity.
  */
 void configureTopology() {
-    printk("  configureTopology: Setting up rate group driver...\n");
     // Rate group driver needs a divisor list
     rateGroupDriver.configure(rateGroupDivisors);
 
-    printk("  configureTopology: Setting up rate groups...\n");
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    printk("  configureTopology: Configuring GPIO for all 3 LEDs...\n");
     // Open GPIO for all 3 LEDs
     gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-    printk("    GPIO driver opened for Green LED\n");
-    
     gpioDriver1.open(led1_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-    printk("    GPIO driver opened for Yellow LED\n");
-    
     gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-    printk("    GPIO driver opened for Red LED\n");
 
     // Configure Hub Pattern components for remote spoke node communication
-    printk("  configureTopology: Configuring hub buffer manager...\n");
     Svc::BufferManager::BufferBins hubBuffMgrBins;
     memset(&hubBuffMgrBins, 0, sizeof(hubBuffMgrBins));
     hubBuffMgrBins.bins[0].bufferSize = HUB_BUFFER_SIZE;
     hubBuffMgrBins.bins[0].numBuffers = HUB_BUFFER_COUNT;
     bufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
-    printk("    Hub buffer manager configured with %d buffers of %d bytes (Total: %d KB)\n", 
-           HUB_BUFFER_COUNT, HUB_BUFFER_SIZE, (HUB_BUFFER_COUNT * HUB_BUFFER_SIZE) / 1024);
-
-    // GenericHub and ByteStreamBufferAdapter are passive and don't need explicit configuration
-    // They use the same architecture as RPi: GenericHub <-> ByteStreamBufferAdapter <-> UartDriver
-    printk("  configureTopology: GenericHub and ByteStreamBufferAdapter ready for RPi communication\n");
 }
 
 // Public functions for use in main program are namespaced with deployment name Stm32LedBlinker
 namespace Stm32LedBlinker {
 void setupTopology(const TopologyState& state) {
-    printk("  initComponents...\n");
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
-    printk("  initComponents DONE\n");
     
-    printk("  setBaseIds...\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
-    printk("  setBaseIds DONE\n");
     
     // Autocoded connection wiring. Function provided by autocoder.
-    printk("  connectComponents...\n");
     connectComponents();
-    printk("  connectComponents DONE\n");
     
     // CRITICAL: Configure topology BEFORE regCommands
     // BufferManager.setup() must be called before components register commands
     // This matches the RemoteDeployment pattern from fprime-generichub-reference
-    printk("  configureTopology...\n");
     configureTopology();
-    printk("  configureTopology DONE\n");
     
-    printk("  loadParameters (skipped - no PrmDb)...\n");
     // No parameter loading - this is a spoke node without PrmDb
     
     // Register commands AFTER BufferManager is configured
-    printk("  regCommands...\n");
     regCommands();
-    printk("  regCommands DONE\n");
     
     // Start active component tasks (EventManager) last
-    printk("  Starting active component tasks (EventManager)...\n");
     startTasks(state);
-    printk("  startTasks DONE\n");
     
-    printk("  configure rateDriver...\n");
     rateDriver.configure(1);
     
-    printk("  configure uartDriver (UART for hub communication)...\n");
     uartDriver.configure(state.dev, state.uartBaud);
-    printk("  uartDriver configured at %d baud\n", state.uartBaud);
     
-    printk("  start rateDriver...\n");
     rateDriver.start();
-    printk("setupTopology complete! STM32 remote spoke node ready for RPi master communication.\n");
 }
 
 void teardownTopology(const TopologyState& state) {
