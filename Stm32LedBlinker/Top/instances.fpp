@@ -57,7 +57,7 @@ module Stm32LedBlinker {
   # ----------------------------------------------------------------------
   # Hub Pattern Components - Remote Spoke Node (STM32)
   # ----------------------------------------------------------------------
-  # Direct UART connection: GenericHub ↔ ZephyrUartDriver
+  # Direct UART connection: GenericHub ↔ ByteStreamBufferAdapter ↔ UART
   
   @ GenericHub - Routes events/telemetry TO RPi master via UART
   instance hub: Svc.GenericHub base id REMOTE_TOPOLOGY_BASE + 0x100000

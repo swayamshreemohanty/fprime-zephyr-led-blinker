@@ -110,6 +110,13 @@ module Stm32LedBlinker {
       bufferAdapter.bufferOut -> hub.fromBufferDriver
       hub.fromBufferDriverReturn -> bufferAdapter.bufferOutReturn
     }
+    
+    connections HubCommandRouting {
+      # Hub serialOut -> CommandDispatcher (incoming commands from RPI)
+      # Commands arrive as serialized Fw.Com buffers
+      hub.serialOut[0] -> cmdDisp.seqCmdBuff[0]
+      cmdDisp.seqCmdStatus[0] -> hub.serialIn[0]
+    }
 
     connections AdapterToUart {
       # ByteStreamBufferAdapter -> UART Driver (TX)
