@@ -15,21 +15,9 @@ const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(usart2));
 // Fatal error handler
 extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch_esf *esf)
 {
-    printk("\n\n*** FATAL ERROR ***\n");
-    printk("Reason: %u\n", reason);
-    printk("ESF: %p\n", esf);
-    
-    // Try to print some useful info
-    #if defined(CONFIG_THREAD_STACK_INFO)
-    struct k_thread *current = k_current_get();
-    if (current) {
-        printk("Current thread: %s\n", k_thread_name_get(current));
-        size_t unused;
-        if (k_thread_stack_space_get(current, &unused) == 0) {
-            printk("Stack unused: %zu bytes\n", unused);
-        }
-    }
-    #endif
+    // Fatal error occurred - halt execution
+    (void)reason;
+    (void)esf;
     
     while(1) {
         k_sleep(K_FOREVER);
@@ -38,8 +26,6 @@ extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch
 
 int main()
 {
-    printk("\n=== STM32 F-Prime LED Blinker - Listening for UART data ===\n\n");
-
     // Object for communicating state to the reference topology
     Stm32LedBlinker::TopologyState inputs;
     inputs.dev = serial;
@@ -51,9 +37,8 @@ int main()
     while(true)
     {
         Stm32LedBlinker::rateDriver.cycle();
-        k_msleep(10);  // 1 second = 1Hz cycle rate (slow for debugging UART communication)
+        k_usleep(10);  // 1 millisecond = 1000Hz cycle rate (normal operation)
     }
 
-    printk("ERROR: Exited main loop unexpectedly!\n");
     return 0;
 }

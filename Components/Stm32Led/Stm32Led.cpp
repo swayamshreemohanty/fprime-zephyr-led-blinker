@@ -67,7 +67,6 @@ void Stm32Led ::run_handler(FwIndexType portNum, U32 context) {
             // Port may not be connected, so check before sending output
             if (this->isConnected_gpioSet_OutputPort(0)) {
                 this->gpioSet_out(0, (Fw::On::ON == new_state) ? Fw::Logic::HIGH : Fw::Logic::LOW);
-                // printk("[LED] GPIO transition to %s\n", (new_state == Fw::On::ON) ? "ON" : "OFF");
             }
 
             // TEMPORARILY DISABLED: Testing if events block without RPI connected
@@ -84,8 +83,6 @@ void Stm32Led ::run_handler(FwIndexType portNum, U32 context) {
 // ----------------------------------------------------------------------
 
 void Stm32Led ::BLINKING_ON_OFF_cmdHandler(const FwOpcodeType opCode, const U32 cmdSeq, Fw::On on_off) {
-    printk("[LED CMD] BLINKING_ON_OFF opcode=%u seq=%u arg=%u\n", opCode, cmdSeq, static_cast<U32>(on_off.e));
-
     // Create a variable to represent the command response
     auto cmdResp = Fw::CmdResponse::OK;
 
@@ -104,10 +101,6 @@ void Stm32Led ::BLINKING_ON_OFF_cmdHandler(const FwOpcodeType opCode, const U32 
 
         this->tlmWrite_BlinkingState(on_off);
     }
-
-        printk("[LED CMD] cmdResp=%u blinking=%d count=%u state=%u transitions=%llu\n",
-            static_cast<U32>(cmdResp), this->blinking ? 1 : 0, this->count, static_cast<U32>(this->state),
-            static_cast<unsigned long long>(this->transitions));
 
     // Provide command response
     this->cmdResponse_out(opCode, cmdSeq, cmdResp);

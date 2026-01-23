@@ -212,7 +212,7 @@ FW_ASSERT(type < HUB_TYPE_MAX, type);
 // After: Validate and discard gracefully
 type = static_cast<HubType>(type_in);
 if (type >= HUB_TYPE_MAX) {
-    printk("[GenericHub] ERROR: Invalid type=%u (max=%u). Discarding.\n", type_in, HUB_TYPE_MAX);
+    // Log error via F' event system instead of printk
     fromBufferDriverReturn_out(0, fwBuffer);
     return;  // Exit gracefully instead of crashing
 }
@@ -227,7 +227,7 @@ FW_ASSERT(status == Fw::FW_SERIALIZE_OK, static_cast<FwAssertArgType>(status));
 // After: Check and handle errors gracefully
 status = incoming.deserializeTo(type_in);
 if (status != Fw::FW_SERIALIZE_OK) {
-    printk("[GenericHub] ERROR: Failed to deserialize type field. Discarding.\n");
+    // Log error via F' event system instead of printk
     fromBufferDriverReturn_out(0, fwBuffer);
     return;
 }
@@ -242,8 +242,7 @@ FW_ASSERT(rawSize == static_cast<U32>(size));
 
 // After: Validate and discard on mismatch
 if (rawSize != static_cast<U32>(size)) {
-    printk("[GenericHub] ERROR: Size mismatch! Header says %u bytes, got %u bytes. Discarding.\n",
-           static_cast<U32>(size), rawSize);
+    // Log error via F' event system instead of printk
     fromBufferDriverReturn_out(0, fwBuffer);
     return;
 }
@@ -324,12 +323,12 @@ The standard fprime-zephyr UART driver was designed for basic communication. In 
 #### 1. `fprime-zephyr/Drv/ZephyrUartDriver/ZephyrUartDriver.cpp` - Inter-Packet Delay
 
 **The Problem:**
-After building without debug `printk()` statements, the system exhibited strange behavior:
+When running at full speed without timing delays, the system exhibited strange behavior:
 - GDS shows red dot (disconnected) initially
 - After GDS restart, green dot appears but **no telemetry in channels**
 - Resetting STM32 causes GDS to show red cross again
 
-**Root Cause:** The debug `printk()` statements were introducing timing delays (~10-20ms) that prevented packets from merging. Without delays:
+**Root Cause:** Debug statements were introducing timing delays (~10-20ms) that prevented packets from merging. Without delays:
 ```
 UART Buffer: [Packet1_31bytes][Packet2_31bytes][Packet3_31bytes]...
              ↑ No gap - continuous stream, packets merge
