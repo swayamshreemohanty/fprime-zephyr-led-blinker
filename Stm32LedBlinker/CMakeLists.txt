@@ -18,10 +18,6 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
 # Add custom components to this specific deployment here
 # add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/MyComponent/")
 
-
-set(SOURCE_FILES 
-    "${CMAKE_CURRENT_LIST_DIR}/Stub.cpp"
-)
 set(MOD_DEPS ${FPRIME_CURRENT_MODULE}/Top app)
 
 # Trim TlmChan telemetry table size for this small deployment
