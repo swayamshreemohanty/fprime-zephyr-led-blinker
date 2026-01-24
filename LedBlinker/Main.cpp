@@ -4,8 +4,8 @@
 //
 // ======================================================================
 // Used to access topology functions
-#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
-#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopology.hpp>
+#include <LedBlinker/Top/LedBlinkerTopologyAc.hpp>
+#include <LedBlinker/Top/LedBlinkerTopology.hpp>
 #include <Fw/Logger/Logger.hpp>
 
 // USART2 for RPi communication (PA2=TX, PA3=RX @ 115200 baud, 8N1)
@@ -27,16 +27,16 @@ extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch
 int main()
 {
     // Object for communicating state to the reference topology
-    Stm32LedBlinker::TopologyState inputs;
+    LedBlinker::TopologyState inputs;
     inputs.dev = serial;
     inputs.uartBaud = 115200;
 
     // Setup topology
-    Stm32LedBlinker::setupTopology(inputs);
+    LedBlinker::setupTopology(inputs);
     
     while(true)
     {
-        Stm32LedBlinker::rateDriver.cycle();
+        LedBlinker::rateDriver.cycle();
         k_usleep(10);  // 1 millisecond = 1000Hz cycle rate (normal operation)
     }
 

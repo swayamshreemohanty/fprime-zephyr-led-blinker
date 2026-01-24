@@ -618,7 +618,7 @@ fprime-util generate -DBOARD=nucleo_h7a3zi_q
 
 # 6. Build and generate dictionary
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 
 # 7. Flash to board
 sudo st-flash --connect-under-reset write build-fprime-automatic-zephyr/zephyr/zephyr.bin 0x08000000
@@ -626,7 +626,7 @@ sudo st-flash --connect-under-reset write build-fprime-automatic-zephyr/zephyr/z
 # 8. Run Ground Data System
 sudo chmod 0777 /dev/ttyACM0
 fprime-gds -n \
-  --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json \
+  --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json \
   --communication-selection uart \
   --uart-device /dev/ttyACM0 \
   --uart-baud 115200 \
@@ -672,7 +672,7 @@ fprime-util generate -DBOARD=teensy41
 
 # Build
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 ---
@@ -694,21 +694,21 @@ The dictionary must be generated after building the firmware:
 ```bash
 # From project root
 source .venv/bin/activate
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 **What this does:**
 1. Runs F´ autocoding: **FPP files → fpp-to-xml → fpp-to-dict → JSON dictionary**
 2. Processes all component definitions
-3. Generates: `build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json`
+3. Generates: `build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json`
 
 ### Dictionary Location
 
 **Generated dictionary:**
 ```
 build-fprime-automatic-zephyr/
-└── Stm32LedBlinker/Top/
-    └── Stm32LedBlinkerTopologyDictionary.json  # ~97KB
+└── LedBlinker/Top/
+    └── LedBlinkerTopologyDictionary.json  # ~97KB
 ```
 
 **⚠️ Important:** Always use the dictionary from `build-fprime-automatic-zephyr/`, not from `build-artifacts/` (which contains only a stub).
@@ -719,7 +719,7 @@ When starting GDS, specify the dictionary path:
 
 ```bash
 fprime-gds -n \
-  --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json \
+  --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json \
   --communication-selection uart \
   --uart-device /dev/ttyACM0 \
   --uart-baud 115200 \
@@ -737,11 +737,11 @@ fprime-gds -n \
 **How to regenerate:**
 ```bash
 # Quick regeneration (if build is up-to-date)
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 
 # Full rebuild + dictionary
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 ### Troubleshooting Dictionary Issues
@@ -750,7 +750,7 @@ ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
 **Solution:** Ensure build completed successfully
 ```bash
 # Check build artifacts exist
-ls build-fprime-automatic-zephyr/Stm32LedBlinker/Top/
+ls build-fprime-automatic-zephyr/LedBlinker/Top/
 
 # Rebuild if needed
 fprime-util build -j4
@@ -760,10 +760,10 @@ fprime-util build -j4
 **Solution:** Dictionary is stale or incorrect
 ```bash
 # Regenerate dictionary
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 
 # Restart GDS with correct path
-fprime-gds -n --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json ...
+fprime-gds -n --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json ...
 ```
 
 ---
@@ -789,7 +789,7 @@ cd /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-bl
 source .venv/bin/activate
 fprime-util generate -DBOARD=nucleo_h7a3zi_q
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 **Advantages:** Uses shared Zephyr installation, saves disk space, faster if already downloaded.
@@ -812,7 +812,7 @@ west update  # Downloads Zephyr v4.3.0 (~2GB)
 source .venv/bin/activate
 fprime-util generate -DBOARD=nucleo_h7a3zi_q
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 **Advantages:** Self-contained, easier for beginners, project-specific Zephyr version.
@@ -855,7 +855,7 @@ Build time: ~5-10 minutes depending on your system.
 ### 4. Generate Topology Dictionary
 
 ```bash
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 This runs F' autocoding: **FPP files → fpp-to-xml → fpp-to-dict → JSON dictionary**
@@ -867,14 +867,14 @@ This runs F' autocoding: **FPP files → fpp-to-xml → fpp-to-dict → JSON dic
 ls -lh build-fprime-automatic-zephyr/zephyr/zephyr.bin
 
 # Check dictionary
-ls -lh build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json
+ls -lh build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json
 ```
 
 **Build artifacts:**
 ```
 build-fprime-automatic-zephyr/
-├── Stm32LedBlinker/Top/
-│   └── Stm32LedBlinkerTopologyDictionary.json  # GDS dictionary (~97KB)
+├── LedBlinker/Top/
+│   └── LedBlinkerTopologyDictionary.json  # GDS dictionary (~97KB)
 └── zephyr/
     ├── zephyr.bin    # Flashable binary (~280-300KB)
     ├── zephyr.elf    # ELF with debug symbols
@@ -899,7 +899,7 @@ fprime-util generate -DBOARD=teensy41
 
 # Build
 fprime-util build -j4
-ninja -C build-fprime-automatic-zephyr Stm32LedBlinker_Top_dictionary
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
 ```
 
 ---
@@ -969,7 +969,7 @@ sudo usermod -a -G dialout $USER
 ```bash
 source .venv/bin/activate
 fprime-gds -n \
-  --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json \
+  --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json \
   --communication-selection uart \
   --uart-device /dev/ttyACM0 \
   --uart-baud 115200 \
@@ -1041,13 +1041,13 @@ CONFIG_MAIN_STACK_SIZE=8192
 
 ### Topology Files
 
-**Stm32LedBlinker/Top/topology.fpp** - Component connections:
+**LedBlinker/Top/topology.fpp** - Component connections:
 - Rate group scheduling
 - Command/event routing  
 - UART framing pipeline
 - Buffer allocation
 
-**Stm32LedBlinker/Top/instances.fpp** - Component instances:
+**LedBlinker/Top/instances.fpp** - Component instances:
 - chronoTime - Time provider
 - commDriver - UART driver
 - rateGroups - Periodic scheduling
@@ -1064,7 +1064,7 @@ library_locations: ./fprime-zephyr
 
 ### Configuration Override System
 
-This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `Stm32LedBlinker/config/`:
+This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `LedBlinker/config/`:
 
 - `CMakeLists.txt` - Registers configuration overrides with `register_fprime_config()`
 - `PlatformCfg.fpp` - Overrides platform constants (e.g., task handle sizes)
@@ -1077,7 +1077,7 @@ This project uses **F´'s configuration override system** to customize framework
 - ✅ Easy to maintain and version control
 - ✅ Follows F´ best practices
 
-**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `Stm32LedBlinker/config/` take precedence during build.
+**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `LedBlinker/config/` take precedence during build.
 
 ---
 
@@ -1088,7 +1088,7 @@ library_locations: ./fprime-zephyr
 
 ### Configuration Override System
 
-This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `Stm32LedBlinker/config/`:
+This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `LedBlinker/config/`:
 
 - `CMakeLists.txt` - Registers configuration overrides with `register_fprime_config()`
 - `PlatformCfg.fpp` - Overrides platform constants (e.g., task handle sizes)
@@ -1101,7 +1101,7 @@ This project uses **F´'s configuration override system** to customize framework
 - ✅ Easy to maintain and version control
 - ✅ Follows F´ best practices
 
-**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `Stm32LedBlinker/config/` take precedence during build.
+**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `LedBlinker/config/` take precedence during build.
 
 ---
 
@@ -1121,16 +1121,16 @@ fprime-zephyr-led-blinker/
 ├── zephyr/                                    # Zephyr RTOS v4.3.0 (from west update)
 ├── Components/
 │   └── Stm32Led/                              # LED component implementation
-├── Stm32LedBlinker/
+├── LedBlinker/
 │   ├── Main.cpp                               # Application entry point
 │   ├── Stub.cpp                               # Platform stubs
 │   ├── Top/                                   # Topology definition
 │   │   ├── topology.fpp                      # Component connections
 │   │   ├── instances.fpp                     # Component instances
-│   │   ├── Stm32LedBlinkerTopology.cpp       # Topology implementation
-│   │   ├── Stm32LedBlinkerTopology.hpp       # Topology header
-│   │   ├── Stm32LedBlinkerTopologyDefs.hpp   # Type definitions & state
-│   │   └── Stm32LedBlinkerPackets.xml        # Telemetry packet definitions
+│   │   ├── LedBlinkerTopology.cpp       # Topology implementation
+│   │   ├── LedBlinkerTopology.hpp       # Topology header
+│   │   ├── LedBlinkerTopologyDefs.hpp   # Type definitions & state
+│   │   └── LedBlinkerPackets.xml        # Telemetry packet definitions
 │   └── config/                                # Project-level configuration overrides
 │       ├── CMakeLists.txt                     # Registers config overrides
 │       ├── PlatformCfg.fpp                    # Platform constants (overrides fprime defaults)
@@ -1141,8 +1141,8 @@ fprime-zephyr-led-blinker/
 │   ├── teensy40.overlay                       # Teensy 4.0 overlay
 │   └── teensy41.overlay                       # Teensy 4.1 overlay
 ├── build-fprime-automatic-zephyr/             # Build directory (generated)
-│   ├── Stm32LedBlinker/Top/
-│   │   └── Stm32LedBlinkerTopologyDictionary.json  # GDS dictionary
+│   ├── LedBlinker/Top/
+│   │   └── LedBlinkerTopologyDictionary.json  # GDS dictionary
 │   └── zephyr/
 │       ├── zephyr.bin                         # Flashable binary
 │       ├── zephyr.elf                         # ELF with debug symbols
@@ -1245,11 +1245,11 @@ sudo st-flash --connect-under-reset write build-fprime-automatic-zephyr/zephyr/z
 **0. Correct command syntax:**
 ```bash
 # ❌ WRONG (Windows port names won't work on Linux)
-fprime-gds -n --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json --comm-adapter uart --uart-device COM3 --uart-baud 115200
+fprime-gds -n --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json --comm-adapter uart --uart-device COM3 --uart-baud 115200
 
 # ✅ CORRECT (Linux/Raspberry Pi)
 fprime-gds -n \
-  --dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json \
+  --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json \
   --communication-selection uart \
   --uart-device /dev/ttyACM0 \
   --uart-baud 115200 \
@@ -1260,7 +1260,7 @@ fprime-gds -n \
 - Using `--comm-adapter` instead of `--communication-selection`
 - Missing `--framing-selection space-packet-space-data-link`
 
-**1. Verify UART device** in `Stm32LedBlinker/Main.cpp`:
+**1. Verify UART device** in `LedBlinker/Main.cpp`:
 ```cpp
 // Line 11 - Should be usart3 for STM32 Nucleo
 const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(usart3));
@@ -1293,7 +1293,7 @@ fuser -k /dev/ttyACM0
 
 **6. Correct dictionary path:**
 ```bash
---dictionary ./build-fprime-automatic-zephyr/Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDictionary.json
+--dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json
 ```
 
 #### Port busy / Permission denied

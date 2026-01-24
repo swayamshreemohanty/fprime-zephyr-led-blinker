@@ -1,7 +1,7 @@
 #####
-# 'Stm32LedBlinker' Deployment:
+# 'LedBlinker' Deployment:
 #
-# This registers the 'Stm32LedBlinker' deployment to the build system. 
+# This registers the 'LedBlinker' deployment to the build system. 
 # Custom components that have not been added at the project-level should be added to 
 # the list below.
 #
@@ -36,7 +36,7 @@ target_sources(app PRIVATE
     ${app_sources}
 )
 target_link_libraries(app PRIVATE 
-    Stm32LedBlinker_Top
+    LedBlinker_Top
     Os_Task_Zephyr
     Os_Mutex_Zephyr
     Os_RawTime_Zephyr

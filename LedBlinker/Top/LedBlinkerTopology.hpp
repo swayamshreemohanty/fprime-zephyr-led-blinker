@@ -1,17 +1,17 @@
 // ======================================================================
-// \title  Stm32LedBlinkerTopology.hpp
+// \title  LedBlinkerTopology.hpp
 // \brief header file containing the topology instantiation definitions
 //
 // ======================================================================
-#ifndef STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGY_HPP
-#define STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGY_HPP
-// Included for access to Stm32LedBlinker::TopologyState and Stm32LedBlinker::ConfigObjects::pingEntries. These definitions are required by the
+#ifndef LedBlinker_LedBlinkerTOPOLOGY_HPP
+#define LedBlinker_LedBlinkerTOPOLOGY_HPP
+// Included for access to LedBlinker::TopologyState and LedBlinker::ConfigObjects::pingEntries. These definitions are required by the
 // autocoder, but are also used in this hand-coded topology.
-#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyDefs.hpp>
+#include <LedBlinker/Top/LedBlinkerTopologyDefs.hpp>
 
-// Remove unnecessary Stm32LedBlinker:: qualifications
-using namespace Stm32LedBlinker;
-namespace Stm32LedBlinker {
+// Remove unnecessary LedBlinker:: qualifications
+using namespace LedBlinker;
+namespace LedBlinker {
 /**
  * \brief initialize and run the F´ topology
  *
@@ -32,7 +32,7 @@ namespace Stm32LedBlinker {
  * custom tasks often start radio communication it is convenient to start them last.
  *
  * The state argument carries command line inputs used to setup the topology. For an explanation of the required type
- * Stm32LedBlinker::TopologyState see: Stm32LedBlinkerTopologyDefs.hpp.
+ * LedBlinker::TopologyState see: LedBlinkerTopologyDefs.hpp.
  *
  * \param state: object shuttling CLI arguments (hostname, port) needed to construct the topology
  */
@@ -53,11 +53,11 @@ void setupTopology(const TopologyState& state);
  * Step 1, 2, 3, and 4 must occur in-order as the tasks must be stopped before being joined. These tasks must be stopped
  * and joined before any active resources may be deallocated.
  *
- * For an explanation of the required type Stm32LedBlinker::TopologyState see: Stm32LedBlinkerTopologyDefs.hpp.
+ * For an explanation of the required type LedBlinker::TopologyState see: LedBlinkerTopologyDefs.hpp.
  *
  * \param state: state object provided to setupTopology
  */
 void teardownTopology(const TopologyState& state);
 
-} // namespace Stm32LedBlinker
+} // namespace LedBlinker
 #endif

@@ -1,4 +1,4 @@
-module Stm32LedBlinker {
+module LedBlinker {
 
   # ----------------------------------------------------------------------
   # Symbolic constants for port numbers
@@ -8,7 +8,7 @@ module Stm32LedBlinker {
       rateGroup1
     }
 
-  topology Stm32LedBlinker {
+  topology LedBlinker {
 
     # ----------------------------------------------------------------------
     # Instances used in the topology - Remote Spoke Node

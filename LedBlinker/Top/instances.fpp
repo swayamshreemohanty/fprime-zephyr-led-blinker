@@ -1,4 +1,4 @@
-module Stm32LedBlinker {
+module LedBlinker {
 
   # ----------------------------------------------------------------------
   # Remote Node Base ID Offset

@@ -1,5 +1,5 @@
 ####
-# Stm32LedBlinker/config/CMakeLists.txt:
+# LedBlinker/config/CMakeLists.txt:
 #
 # Configuration overrides for hub-native spoke node deployment
 # No CdhCore subtopology - using GenericHub pattern for direct event/telemetry routing

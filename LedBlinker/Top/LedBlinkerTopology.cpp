@@ -1,10 +1,10 @@
 // ======================================================================
-// \title  Stm32LedBlinkerTopology.cpp
+// \title  LedBlinkerTopology.cpp
 // \brief cpp file containing the topology instantiation code
 //
 // ======================================================================
 // Provides access to autocoded functions
-#include <Stm32LedBlinker/Top/Stm32LedBlinkerTopologyAc.hpp>
+#include <LedBlinker/Top/LedBlinkerTopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 
 // Hub pattern components
@@ -19,7 +19,7 @@ static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpi
 static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);  // Red LED
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
-using namespace Stm32LedBlinker;
+using namespace LedBlinker;
 
 // The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz
 // 100Hz rate group (10 divisor) = LED runs at ~5Hz with blink interval 10
@@ -66,8 +66,8 @@ void configureTopology() {
     bufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
 }
 
-// Public functions for use in main program are namespaced with deployment name Stm32LedBlinker
-namespace Stm32LedBlinker {
+// Public functions for use in main program are namespaced with deployment name LedBlinker
+namespace LedBlinker {
 void setupTopology(const TopologyState& state) {
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
@@ -106,4 +106,4 @@ void teardownTopology(const TopologyState& state) {
     // Clean up buffer manager
     bufferManager.cleanup();
 }
-};  // namespace Stm32LedBlinker
+};  // namespace LedBlinker

@@ -1,13 +1,13 @@
 // ======================================================================
-// \title  Stm32LedBlinkerTopologyDefs.hpp
+// \title  LedBlinkerTopologyDefs.hpp
 // \brief required header file containing the required definitions for the topology autocoder
 //
 // ======================================================================
-#ifndef STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGYDEFS_HPP
-#define STM32LEDBLINKER_STM32LEDBLINKERTOPOLOGYDEFS_HPP
+#ifndef LedBlinker_LedBlinkerTOPOLOGYDEFS_HPP
+#define LedBlinker_LedBlinkerTOPOLOGYDEFS_HPP
 
 #include "Fw/Types/MallocAllocator.hpp"
-#include "Stm32LedBlinker/Top/FppConstantsAc.hpp"
+#include "LedBlinker/Top/FppConstantsAc.hpp"
 
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
@@ -15,16 +15,16 @@
 
 // Ping entries for rate group - extend the global PingEntries namespace
 namespace PingEntries {
-    namespace Stm32LedBlinker_rateGroup1 {enum { WARN = 3, FATAL = 5 };}
+    namespace LedBlinker_rateGroup1 {enum { WARN = 3, FATAL = 5 };}
 }
 
 // Definitions are placed within a namespace named after the deployment
-namespace Stm32LedBlinker {
+namespace LedBlinker {
 
 /**
  * \brief required type definition to carry state
  *
- * The topology autocoder requires an object that carries state with the name `Stm32LedBlinker::TopologyState`. Only the type
+ * The topology autocoder requires an object that carries state with the name `LedBlinker::TopologyState`. Only the type
  * definition is required by the autocoder and the contents of this object are otherwise opaque to the autocoder. The
  * contents are entirely up to the definition of the project. This deployment uses hub pattern for communication.
  */
@@ -52,5 +52,5 @@ struct TopologyState {
  * }
  * ```
  */
-}  // namespace Stm32LedBlinker
+}  // namespace LedBlinker
 #endif

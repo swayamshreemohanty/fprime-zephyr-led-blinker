@@ -5,5 +5,5 @@
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Components")
 
 # Register all deployments in the project
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Stm32LedBlinker/")
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Stm32LedBlinker/config/")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/LedBlinker/")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/LedBlinker/config/")
