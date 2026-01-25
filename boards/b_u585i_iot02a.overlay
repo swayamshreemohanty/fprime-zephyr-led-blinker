@@ -1,0 +1,36 @@
+// Device tree overlay for ST B-U585I-IOT02A Discovery kit (STM32U585AI)
+// Maps LED aliases and enables UARTs for F' app
+
+/ {
+    aliases {
+        // Board has two user LEDs: PH7 (green) and PH6 (red)
+        led0 = &green_led_1;  // PH7
+        led1 = &red_led_1;    // PH6
+        // Provide a third alias for apps expecting led2
+        led2 = &red_led_1;    // duplicate of PH6
+    };
+
+    chosen {
+        // Route Zephyr console/stdio to USART1 (ST-LINK VCP)
+        zephyr,console = &usart1;
+        zephyr,stdout = &usart1;
+        zephyr,stdin = &usart1;
+    };
+};
+
+// Ensure USART1 is enabled for console/debug (ST-LINK VCP)
+&usart1 {
+    status = "okay";
+    current-speed = <115200>;
+    pinctrl-0 = <&usart1_tx_pa9 &usart1_rx_pa10>;
+    pinctrl-names = "default";
+};
+
+// Enable USART3 for F-Prime communication (external UART on PD8/PD9 @ 115200 baud, 8N1)
+// If using a Raspberry Pi or external host, connect PD8 (TX) to host RX and PD9 (RX) to host TX.
+&usart3 {
+    status = "okay";
+    current-speed = <115200>;
+    pinctrl-0 = <&usart3_tx_pd8 &usart3_rx_pd9>;
+    pinctrl-names = "default";
+};
