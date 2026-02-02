@@ -45,7 +45,7 @@ module LedBlinker {
   instance led2: Components.Stm32Led base id REMOTE_TOPOLOGY_BASE + 0x5200
 
   # ----------------------------------------------------------------------
-  # Active Components - Command Infrastructure (Remote Node Pattern)
+  # Active Components - Command Infrastructure
   # ----------------------------------------------------------------------
 
   @ Command Dispatcher - Routes commands to local components
@@ -55,26 +55,43 @@ module LedBlinker {
     priority 101
 
   # ----------------------------------------------------------------------
-  # Hub Pattern Components - Remote Spoke Node (STM32)
+  # Communication Stack - Direct GDS via UART (Framer/Deframer Pattern)
   # ----------------------------------------------------------------------
-  # Direct UART connection: GenericHub ↔ ByteStreamBufferAdapter ↔ UART
   
-  @ GenericHub - Routes events/telemetry TO RPi master via UART
-  instance hub: Svc.GenericHub base id REMOTE_TOPOLOGY_BASE + 0x100000
-
-  @ ByteStreamBufferAdapter - Bridges GenericHub (BufferSend) to UART (ByteStreamSend)
-  instance bufferAdapter: Drv.ByteStreamBufferAdapter base id REMOTE_TOPOLOGY_BASE + 0x100100
-
-  @ Buffer manager for hub communication buffers
-  instance bufferManager: Svc.BufferManager base id REMOTE_TOPOLOGY_BASE + 0x4400
-
-  @ Event manager for local event handling
-  instance eventLogger: Svc.EventManager base id REMOTE_TOPOLOGY_BASE + 0x4700 \
-    queue size Default.QUEUE_SIZE \
+  @ ComQueue - Queues events and telemetry for framing
+  instance comQueue: Svc.ComQueue base id REMOTE_TOPOLOGY_BASE + 0x100000 \
+    queue size 50 \
     stack size Default.STACK_SIZE \
     priority 100
 
+  @ Framer - Frames data into F Prime packets for downlink
+  instance framer: Svc.FprimeFramer base id REMOTE_TOPOLOGY_BASE + 0x100100
+
+  @ Deframer - Deframes incoming packets for uplink
+  instance deframer: Svc.FprimeDeframer base id REMOTE_TOPOLOGY_BASE + 0x100200
+
+  @ FrameAccumulator - Accumulates bytes from UART until complete frame
+  instance frameAccumulator: Svc.FrameAccumulator base id REMOTE_TOPOLOGY_BASE + 0x100300
+
+  @ FprimeRouter - Routes deframed packets to command dispatcher
+  instance fprimeRouter: Svc.FprimeRouter base id REMOTE_TOPOLOGY_BASE + 0x100400
+
+  @ Buffer manager for communication buffers
+  instance commsBufferManager: Svc.BufferManager base id REMOTE_TOPOLOGY_BASE + 0x4400
+
+  @ Telemetry database
+  instance tlmChan: Svc.TlmChan base id REMOTE_TOPOLOGY_BASE + 0x4700 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 90
+
+  @ Active event logger
+  instance eventLogger: Svc.ActiveLogger base id REMOTE_TOPOLOGY_BASE + 0x4800 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 95
+
   @ Text logger for LogText ports
-  instance textLogger: Svc.PassiveTextLogger base id REMOTE_TOPOLOGY_BASE + 0x4800
+  instance textLogger: Svc.PassiveTextLogger base id REMOTE_TOPOLOGY_BASE + 0x4900
 
 }

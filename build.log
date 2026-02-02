@@ -1,0 +1,876 @@
+ninja: no work to do.
+[1/875] Preparing syscall dependency handling
+
+[2/875] Generating misc/generated/syscalls_subdirs.trigger
+[3/875] Generating versions/version.hpp, versions/version.cpp, versions/version.json
+[4/875] Generating PhasesEnumAc.cpp, PhasesEnumAc.hpp
+[5/875] Generating PlatformAssertArgTypeAliasAc.hpp, PlatformIndexTypeAliasAc.hpp, PlatformQueuePriorityTypeAliasAc.hpp, PlatformSignedSizeTypeAliasAc.hpp, PlatformSizeTypeAliasAc.hpp, PlatformTaskIdTypeAliasAc.hpp, PlatformTaskPriorityTypeAliasAc.hpp
+[6/875] Generating include/generated/zephyr/version.h
+-- Zephyr version: 4.3.0 (/home/swayamshreemohanty/Documents/libraries/zephyr/zephyrproject/zephyr), build: v4.3.0
+[7/875] Generating misc/generated/syscalls.json, misc/generated/struct_tags.json
+[8/875] Generating include/generated/device-api-sections.ld, include/generated/device-api-sections.cmake
+[9/875] Generating include/generated/zephyr/syscall_dispatch.c, include/generated/zephyr/syscall_exports_llext.c, syscall_weakdefs_llext.c, include/generated/zephyr/syscall_list.h
+[10/875] Generating include/generated/zephyr/driver-validation.h
+[11/875] Generating include/generated/zephyr/kobj-types-enum.h, include/generated/zephyr/otype-to-str.h, include/generated/zephyr/otype-to-size.h
+[12/875] Building CXX object F-Prime/Fw/DataStructures/CMakeFiles/Fw_DataStructures.dir/DataStructures.cpp.obj
+[13/875] Building CXX object LedBlinker/CMakeFiles/fprime-zephyr-deployment.dir/__/fprime-zephyr/cmake/toolchain/empty.cpp.obj
+[14/875] Linking CXX static library lib/zephyr/libFw_DataStructures.a
+[15/875] Linking CXX static library lib/zephyr/libfprime-zephyr-deployment.a
+-- Install configuration: ""
+-- Installing: /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-artifacts/zephyr/fprime-zephyr-deployment/lib/static/libfprime-zephyr-deployment.a
+-- Installing: /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-artifacts/hashes.txt
+[16/875] Generating ApidEnumAc.cpp, ApidEnumAc.hpp, FileDispatchPortEnumAc.cpp, FileDispatchPortEnumAc.hpp, FppConstantsAc.cpp, FppConstantsAc.hpp, FrameContextSerializableAc.cpp, FrameContextSerializableAc.hpp, FwAssertArgTypeAliasAc.hpp, FwChanIdTypeAliasAc.hpp, FwDpIdTypeAliasAc.hpp, FwDpPriorityTypeAliasAc.hpp, FwEnumStoreTypeAliasAc.hpp, FwEventIdTypeAliasAc.hpp, FwIdTypeAliasAc.hpp, FwIndexTypeAliasAc.hpp, FwOpcodeTypeAliasAc.hpp, FwPacketDescriptorTypeAliasAc.hpp, FwPrmIdTypeAliasAc.hpp, FwQueuePriorityTypeAliasAc.hpp, FwSignedSizeTypeAliasAc.hpp, FwSizeStoreTypeAliasAc.hpp, FwSizeTypeAliasAc.hpp, FwTaskIdTypeAliasAc.hpp, FwTaskPriorityTypeAliasAc.hpp, FwTimeBaseStoreTypeAliasAc.hpp, FwTimeContextStoreTypeAliasAc.hpp, FwTlmPacketizeIdTypeAliasAc.hpp, FwTraceIdTypeAliasAc.hpp, MemoryAllocatorTypeEnumAc.cpp, MemoryAllocatorTypeEnumAc.hpp, PolyDbEntryEnumAc.cpp, PolyDbEntryEnumAc.hpp, ProcTypeEnumAc.cpp, ProcTypeEnumAc.hpp, TimeBaseEnumAc.cpp, TimeBaseEnumAc.hpp, VersionEnumEnumAc.cpp, VersionEnumEnumAc.hpp
+[17/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/FppConstantsAc.cpp.obj
+[18/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/FileDispatchPortEnumAc.cpp.obj
+[19/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/ApidEnumAc.cpp.obj
+[20/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/FrameContextSerializableAc.cpp.obj
+[21/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/MemoryAllocatorTypeEnumAc.cpp.obj
+[22/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/PolyDbEntryEnumAc.cpp.obj
+[23/875] Building C object zephyr/CMakeFiles/offsets.dir/arch/arm/core/offsets/offsets.c.obj
+[24/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/ProcTypeEnumAc.cpp.obj
+[25/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/VersionEnumEnumAc.cpp.obj
+[26/875] Building CXX object F-Prime/default/config/CMakeFiles/default_config.dir/TimeBaseEnumAc.cpp.obj
+[27/875] Linking CXX static library lib/zephyr/libdefault_config.a
+[28/875] Generating include/generated/zephyr/offsets.h
+[29/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/cpp/abi/cpp_dtors.c.obj
+[30/875] Generating ActiveEnumAc.cpp, ActiveEnumAc.hpp, CompletedEnumAc.cpp, CompletedEnumAc.hpp, DeserialStatusEnumAc.cpp, DeserialStatusEnumAc.hpp, DirectionEnumAc.cpp, DirectionEnumAc.hpp, EnabledEnumAc.cpp, EnabledEnumAc.hpp, HealthEnumAc.cpp, HealthEnumAc.hpp, LogicEnumAc.cpp, LogicEnumAc.hpp, OnEnumAc.cpp, OnEnumAc.hpp, OpenEnumAc.cpp, OpenEnumAc.hpp, SerialStatusEnumAc.cpp, SerialStatusEnumAc.hpp, SuccessEnumAc.cpp, SuccessEnumAc.hpp, WaitEnumAc.cpp, WaitEnumAc.hpp
+[31/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/hash/hash_func32_djb2.c.obj
+[32/875] Building CXX object CMakeFiles/version.dir/versions/version.cpp.obj
+[33/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/hash/hash_func32_murmur3.c.obj
+[34/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/libc/validate_libc.c.obj
+[35/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_packaged.c.obj
+[36/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/clock.c.obj
+[37/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/heap/heap.c.obj
+[38/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/printk.c.obj
+[39/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/sem.c.obj
+[40/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/thread_entry.c.obj
+[41/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/fdtable.c.obj
+[42/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/dec.c.obj
+[43/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf.c.obj
+[44/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/hex.c.obj
+[45/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/cbprintf_complete.c.obj
+[46/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/os/assert.c.obj
+[47/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/bitmask.c.obj
+[48/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/timeutil.c.obj
+[49/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/last_section_id.c.obj
+[50/875] Building C object zephyr/CMakeFiles/zephyr.dir/misc/generated/configs.c.obj
+[51/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/ring_buffer.c.obj
+[52/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/rb.c.obj
+[53/875] Building C object zephyr/CMakeFiles/zephyr.dir/lib/utils/bitarray.c.obj
+[54/875] Building C object zephyr/CMakeFiles/zephyr.dir/soc/st/stm32/common/stm32_cache.c.obj
+[55/875] Building C object zephyr/CMakeFiles/zephyr.dir/soc/st/stm32/common/soc_config.c.obj
+[56/875] Building C object zephyr/CMakeFiles/zephyr.dir/soc/st/stm32/common/stm32cube_hal.c.obj
+[57/875] Generating linker_zephyr_pre0.cmd
+[58/875] Building C object zephyr/CMakeFiles/zephyr.dir/soc/st/stm32/common/stm32_backup_domain.c.obj
+[59/875] Building C object zephyr/CMakeFiles/zephyr.dir/subsys/tracing/tracing_none.c.obj
+[60/875] Building C object zephyr/CMakeFiles/zephyr.dir/soc/st/stm32/stm32u5x/soc.c.obj
+[61/875] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/init.c.obj
+[62/875] Linking C static library zephyr/libzephyr.a
+[63/875] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/sw_isr_common.c.obj
+[64/875] Building C object zephyr/arch/common/CMakeFiles/isr_tables.dir/isr_tables.c.obj
+[65/875] Building C object zephyr/arch/common/CMakeFiles/arch__common.dir/xip.c.obj
+[66/875] Linking C static library zephyr/arch/common/libisr_tables.a
+[67/875] Building ASM object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/nmi_on_reset.S.obj
+[68/875] Linking C static library zephyr/arch/common/libarch__common.a
+[69/875] Building C object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/__aeabi_atexit.c.obj
+[70/875] Building C object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/nmi.c.obj
+[71/875] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/fault_s.S.obj
+[72/875] Building C object zephyr/arch/arch/arm/core/CMakeFiles/arch__arm__core.dir/fatal.c.obj
+[73/875] Linking C static library zephyr/arch/arch/arm/core/libarch__arm__core.a
+[74/875] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/reset.S.obj
+[75/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/exc_exit.c.obj
+[76/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/fpu.c.obj
+[77/875] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/vector_table.S.obj
+[78/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/fault.c.obj
+[79/875] Building ASM object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/swap_helper.S.obj
+[80/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/scb.c.obj
+[81/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/thread_abort.c.obj
+[82/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/irq_manage.c.obj
+[83/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/prep_c.c.obj
+[84/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/thread.c.obj
+[85/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/irq_init.c.obj
+[86/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/cpu_idle.c.obj
+[87/875] Building C object zephyr/arch/arch/arm/core/cortex_m/CMakeFiles/arch__arm__core__cortex_m.dir/isr_wrapper.c.obj
+[88/875] Linking C static library zephyr/arch/arch/arm/core/cortex_m/libarch__arm__core__cortex_m.a
+[89/875] Building C object zephyr/arch/arch/arm/core/cortex_m/cmse/CMakeFiles/arch__arm__core__cortex_m__cmse.dir/arm_core_cmse.c.obj
+[90/875] Linking C static library zephyr/arch/arch/arm/core/cortex_m/cmse/libarch__arm__core__cortex_m__cmse.a
+[91/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/time/time.c.obj
+[92/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/stdlib/abort.c.obj
+[93/875] Building C object zephyr/lib/libc/newlib/CMakeFiles/lib__libc__newlib.dir/libc-hooks.c.obj
+[94/875] Linking C static library zephyr/lib/libc/newlib/liblib__libc__newlib.a
+[95/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/thrd/cnd.c.obj
+[96/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/thrd/mtx.c.obj
+[97/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/stdio/remove.c.obj
+[98/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/thrd/once.c.obj
+[99/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/thrd/thrd.c.obj
+[100/875] Building C object zephyr/lib/posix/c_lib_ext/CMakeFiles/lib__posix__c_lib_ext.dir/fnmatch.c.obj
+[101/875] Building C object zephyr/lib/libc/common/CMakeFiles/lib__libc__common.dir/source/thrd/tss.c.obj
+[102/875] Linking C static library zephyr/lib/libc/common/liblib__libc__common.a
+[103/875] Building C object zephyr/lib/posix/eventfd/CMakeFiles/lib__posix__eventfd.dir/eventfd.c.obj
+[104/875] Linking C static library zephyr/lib/posix/eventfd/liblib__posix__eventfd.a
+[105/875] Generating ../../../include/generated/posix/strsignal_table.h
+[106/875] Building C object zephyr/lib/posix/c_lib_ext/CMakeFiles/lib__posix__c_lib_ext.dir/getentropy.c.obj
+[107/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/aio.c.obj
+[108/875] Building C object zephyr/lib/posix/c_lib_ext/CMakeFiles/lib__posix__c_lib_ext.dir/getopt/getopt.c.obj
+[109/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/perror.c.obj
+[110/875] Building C object zephyr/lib/posix/c_lib_ext/CMakeFiles/lib__posix__c_lib_ext.dir/getopt/getopt_common.c.obj
+[111/875] Linking C static library zephyr/lib/posix/c_lib_ext/liblib__posix__c_lib_ext.a
+[112/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/barrier.c.obj
+[113/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/clock_selection.c.obj
+[114/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/file_system_r.c.obj
+[115/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/mprotect.c.obj
+[116/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/device_io.c.obj
+[117/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/fd_mgmt.c.obj
+[118/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/fs.c.obj
+[119/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/mmap.c.obj
+[120/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/sleep.c.obj
+[121/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/env.c.obj
+[122/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/multi_process.c.obj
+[123/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/confstr.c.obj
+[124/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/signal.c.obj
+[125/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/env_common.c.obj
+[126/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/sysconf.c.obj
+[127/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/uname.c.obj
+[128/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/spinlock.c.obj
+[129/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/timespec_to_timeout.c.obj
+[130/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/clock.c.obj
+[131/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/timer.c.obj
+[132/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/rwlock.c.obj
+[133/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/semaphore.c.obj
+[134/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/cond.c.obj
+[135/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/grp.c.obj
+[136/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/key.c.obj
+[137/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/pwd.c.obj
+[138/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/mutex.c.obj
+[139/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/mlockall.c.obj
+[140/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/fsync.c.obj
+[141/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/pthread.c.obj
+[142/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/mlock.c.obj
+[143/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/shm.c.obj
+[144/875] Building C object zephyr/lib/posix/options/CMakeFiles/lib__posix__options.dir/xsi_single_process.c.obj
+[145/875] Linking C static library zephyr/lib/posix/options/liblib__posix__options.a
+[146/875] Building C object zephyr/lib/os/zvfs/CMakeFiles/lib__os__zvfs.dir/zvfs_poll.c.obj
+[147/875] Building C object zephyr/lib/os/zvfs/CMakeFiles/lib__os__zvfs.dir/zvfs_eventfd.c.obj
+[148/875] Building C object zephyr/lib/os/zvfs/CMakeFiles/lib__os__zvfs.dir/zvfs_select.c.obj
+[149/875] Linking C static library zephyr/lib/os/zvfs/liblib__os__zvfs.a
+[150/875] Building C object zephyr/subsys/fs/CMakeFiles/subsys__fs.dir/fs_impl.c.obj
+[151/875] Building C object zephyr/subsys/fs/CMakeFiles/subsys__fs.dir/fs.c.obj
+[152/875] Linking C static library zephyr/subsys/fs/libsubsys__fs.a
+[153/875] Building C object zephyr/drivers/interrupt_controller/CMakeFiles/drivers__interrupt_controller.dir/intc_gpio_stm32.c.obj
+[154/875] Building C object zephyr/drivers/interrupt_controller/CMakeFiles/drivers__interrupt_controller.dir/intc_exti_stm32.c.obj
+[155/875] Linking C static library zephyr/drivers/interrupt_controller/libdrivers__interrupt_controller.a
+[156/875] Building C object zephyr/drivers/cache/CMakeFiles/drivers__cache.dir/cache_stm32.c.obj
+[157/875] Linking C static library zephyr/drivers/cache/libdrivers__cache.a
+[158/875] Building C object zephyr/drivers/hwinfo/CMakeFiles/drivers__hwinfo.dir/hwinfo_weak_impl.c.obj
+[159/875] Building C object zephyr/drivers/clock_control/CMakeFiles/drivers__clock_control.dir/clock_stm32_ll_u5.c.obj
+[160/875] Linking C static library zephyr/drivers/clock_control/libdrivers__clock_control.a
+[161/875] Building C object zephyr/drivers/gpio/CMakeFiles/drivers__gpio.dir/gpio_stm32.c.obj
+[162/875] Linking C static library zephyr/drivers/gpio/libdrivers__gpio.a
+[163/875] Building C object zephyr/drivers/hwinfo/CMakeFiles/drivers__hwinfo.dir/hwinfo_stm32.c.obj
+[164/875] Linking C static library zephyr/drivers/hwinfo/libdrivers__hwinfo.a
+[165/875] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_common.c.obj
+[166/875] Building C object zephyr/drivers/pinctrl/CMakeFiles/drivers__pinctrl.dir/common.c.obj
+[167/875] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_ll_stm32_common.c.obj
+[168/875] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_ll_stm32.c.obj
+[169/875] Building C object zephyr/drivers/i2c/CMakeFiles/drivers__i2c.dir/i2c_ll_stm32_v2.c.obj
+[170/875] Linking C static library zephyr/drivers/i2c/libdrivers__i2c.a
+[171/875] Building C object zephyr/drivers/reset/CMakeFiles/drivers__reset.dir/reset_stm32.c.obj
+[172/875] Linking C static library zephyr/drivers/reset/libdrivers__reset.a
+[173/875] Building C object zephyr/drivers/pinctrl/CMakeFiles/drivers__pinctrl.dir/pinctrl_stm32.c.obj
+[174/875] Linking C static library zephyr/drivers/pinctrl/libdrivers__pinctrl.a
+[175/875] Building C object zephyr/drivers/pwm/CMakeFiles/drivers__pwm.dir/pwm_stm32.c.obj
+[176/875] Linking C static library zephyr/drivers/pwm/libdrivers__pwm.a
+[177/875] Building C object zephyr/drivers/timer/CMakeFiles/drivers__timer.dir/sys_clock_init.c.obj
+[178/875] Building C object zephyr/drivers/serial/CMakeFiles/drivers__serial.dir/uart_stm32.c.obj
+[179/875] Linking C static library zephyr/drivers/serial/libdrivers__serial.a
+[180/875] Building C object modules/hal_stm32/stm32cube/CMakeFiles/..__modules__hal__stm32__stm32cube.dir/stm32u5xx/soc/system_stm32u5xx.c.obj
+[181/875] Building C object zephyr/drivers/timer/CMakeFiles/drivers__timer.dir/cortex_m_systick.c.obj
+[182/875] Linking C static library zephyr/drivers/timer/libdrivers__timer.a
+[183/875] Building C object zephyr/drivers/spi/CMakeFiles/drivers__spi.dir/spi_ll_stm32.c.obj
+[184/875] Linking C static library zephyr/drivers/spi/libdrivers__spi.a
+[185/875] Building C object modules/hal_stm32/stm32cube/CMakeFiles/..__modules__hal__stm32__stm32cube.dir/stm32u5xx/drivers/src/stm32u5xx_hal.c.obj
+[186/875] Building C object modules/hal_stm32/stm32cube/CMakeFiles/..__modules__hal__stm32__stm32cube.dir/stm32u5xx/drivers/src/stm32u5xx_hal_rcc.c.obj
+[187/875] Building C object modules/hal_stm32/stm32cube/CMakeFiles/..__modules__hal__stm32__stm32cube.dir/stm32u5xx/drivers/src/stm32u5xx_ll_utils.c.obj
+[188/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/main_weak.c.obj
+[189/875] Building C object modules/hal_stm32/stm32cube/CMakeFiles/..__modules__hal__stm32__stm32cube.dir/stm32u5xx/drivers/src/stm32u5xx_hal_rcc_ex.c.obj
+[190/875] Linking C static library modules/hal_stm32/stm32cube/lib..__modules__hal__stm32__stm32cube.a
+[191/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/banner.c.obj
+[192/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/busy_wait.c.obj
+[193/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/device.c.obj
+[194/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/errno.c.obj
+[195/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/fatal.c.obj
+[196/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/init.c.obj
+[197/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/version.c.obj
+[198/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/kheap.c.obj
+[199/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mem_slab.c.obj
+[200/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/float.c.obj
+[201/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/idle.c.obj
+[202/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mailbox.c.obj
+[203/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/msg_q.c.obj
+[204/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mutex.c.obj
+[205/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/queue.c.obj
+[206/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/sem.c.obj
+[207/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/stack.c.obj
+[208/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/system_work_q.c.obj
+[209/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/condvar.c.obj
+[210/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/thread.c.obj
+[211/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/work.c.obj
+[212/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/pipe.c.obj
+[213/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/sched.c.obj
+[214/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timeslicing.c.obj
+[215/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/spinlock_validate.c.obj
+[216/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/thread_monitor.c.obj
+[217/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timer.c.obj
+[218/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/timeout.c.obj
+[219/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/poll.c.obj
+[220/875] Building CXX object F-Prime/Fw/Logger/CMakeFiles/Fw_Logger.dir/Logger.cpp.obj
+[221/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/usage.c.obj
+[222/875] Building CXX object F-Prime/Fw/Comp/CMakeFiles/Fw_Comp.dir/PassiveComponentBase.cpp.obj
+[223/875] Building CXX object F-Prime/Fw/Sm/CMakeFiles/Fw_Sm.dir/SmSignalBuffer.cpp.obj
+[224/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/mempool.c.obj
+[225/875] Building C object zephyr/kernel/CMakeFiles/kernel.dir/dynamic.c.obj
+[226/875] Building CXX object F-Prime/Fw/Obj/CMakeFiles/Fw_Obj.dir/ObjBase.cpp.obj
+[227/875] Building CXX object F-Prime/Fw/Obj/CMakeFiles/Fw_Obj.dir/SimpleObjRegistry.cpp.obj
+[228/875] Building CXX object F-Prime/Fw/Port/CMakeFiles/Fw_Port.dir/InputPortBase.cpp.obj
+[229/875] Linking C static library zephyr/kernel/libkernel.a
+[230/875] Building CXX object F-Prime/Fw/Port/CMakeFiles/Fw_Port.dir/InputSerializePort.cpp.obj
+[231/875] Building CXX object F-Prime/Fw/Port/CMakeFiles/Fw_Port.dir/OutputPortBase.cpp.obj
+[232/875] Building CXX object F-Prime/Fw/Port/CMakeFiles/Fw_Port.dir/OutputSerializePort.cpp.obj
+[233/875] Building CXX object F-Prime/Fw/Port/CMakeFiles/Fw_Port.dir/PortBase.cpp.obj
+[234/875] Building CXX object F-Prime/Fw/Test/CMakeFiles/Fw_Test.dir/UnitTestAssert.cpp.obj
+[235/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/MallocAllocator.cpp.obj
+[236/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/Assert.cpp.obj
+[237/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/ConstStringBase.cpp.obj
+[238/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/SerialBuffer.cpp.obj
+[239/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/MemAllocator.cpp.obj
+[240/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/StringBase.cpp.obj
+[241/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/StringUtils.cpp.obj
+[242/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/PolyType.cpp.obj
+[243/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/ActiveEnumAc.cpp.obj
+[244/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/StringToNumber.cpp.obj
+[245/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/CompletedEnumAc.cpp.obj
+[246/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/Serializable.cpp.obj
+[247/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/DirectionEnumAc.cpp.obj
+[248/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/DeserialStatusEnumAc.cpp.obj
+[249/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/EnabledEnumAc.cpp.obj
+[250/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/LogicEnumAc.cpp.obj
+[251/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/HealthEnumAc.cpp.obj
+[252/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/OnEnumAc.cpp.obj
+[253/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/OpenEnumAc.cpp.obj
+[254/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/SerialStatusEnumAc.cpp.obj
+[255/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/WaitEnumAc.cpp.obj
+[256/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_Types.dir/SuccessEnumAc.cpp.obj
+[257/875] Building CXX object F-Prime/Fw/Types/CMakeFiles/Fw_StringFormat_snprintf.dir/snprintf_format.cpp.obj
+[258/875] Linking CXX static library lib/zephyr/libFw_Types.a
+[259/875] Linking CXX static library lib/zephyr/libversion.a
+[260/875] Linking CXX static library lib/zephyr/libFw_Logger.a
+[261/875] Linking CXX static library lib/zephyr/libFw_Sm.a
+[262/875] Linking CXX static library lib/zephyr/libFw_Obj.a
+[263/875] Linking CXX static library lib/zephyr/libFw_Port.a
+[264/875] Building CXX object F-Prime/Os/Generic/CMakeFiles/Os_Generic_PriorityQueue.dir/DefaultPriorityQueue.cpp.obj
+[265/875] Linking CXX static library lib/zephyr/libFw_Comp.a
+[266/875] Linking CXX static library lib/zephyr/libFw_Test.a
+[267/875] Generating TimeComparisonEnumAc.cpp, TimeComparisonEnumAc.hpp, TimeIntervalPortAc.cpp, TimeIntervalPortAc.hpp, TimeIntervalValueSerializableAc.cpp, TimeIntervalValueSerializableAc.hpp, TimePortAc.cpp, TimePortAc.hpp, TimeValueSerializableAc.cpp, TimeValueSerializableAc.hpp
+[268/875] Building CXX object F-Prime/Os/Generic/CMakeFiles/Os_Generic_PriorityQueue_Implementation.dir/PriorityQueue.cpp.obj
+[269/875] Building CXX object F-Prime/CFDP/Checksum/CMakeFiles/CFDP_Checksum.dir/Checksum.cpp.obj
+[270/875] Building CXX object F-Prime/Os/Generic/Types/CMakeFiles/Os_Generic_Types.dir/MaxHeap.cpp.obj
+[271/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/TimeInterval.cpp.obj
+[272/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/TimeComparisonEnumAc.cpp.obj
+[273/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/TimeIntervalPortAc.cpp.obj
+[274/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/Time.cpp.obj
+[275/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/TimeIntervalValueSerializableAc.cpp.obj
+[276/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/TimePortAc.cpp.obj
+[277/875] Building CXX object F-Prime/Fw/Time/CMakeFiles/Fw_Time.dir/TimeValueSerializableAc.cpp.obj
+[278/875] Linking CXX static library lib/zephyr/libFw_Time.a
+[279/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Console.dir/Console.cpp.obj
+[280/875] Linking CXX static library lib/zephyr/libOs_Console.a
+[281/875] Building CXX object F-Prime/Svc/OsTime/test/RawTimeTester/CMakeFiles/Svc_OsTime_test_RawTimeTester.dir/RawTimeTester.cpp.obj
+[282/875] Generating ComPortAc.cpp, ComPortAc.hpp
+[283/875] Building CXX object F-Prime/Os/CMakeFiles/Os_File.dir/File.cpp.obj
+[284/875] Building CXX object F-Prime/Fw/Com/CMakeFiles/Fw_Com.dir/ComPacket.cpp.obj
+[285/875] Building CXX object F-Prime/Os/CMakeFiles/Os_File.dir/Directory.cpp.obj
+[286/875] Building CXX object F-Prime/Os/CMakeFiles/Os_File.dir/FileSystem.cpp.obj
+[287/875] Building CXX object F-Prime/Fw/Com/CMakeFiles/Fw_Com.dir/ComBuffer.cpp.obj
+[288/875] Building CXX object F-Prime/Fw/Fpy/CMakeFiles/Fw_Fpy.dir/StatementArgBuffer.cpp.obj
+[289/875] Building CXX object F-Prime/Fw/Com/CMakeFiles/Fw_Com.dir/ComPortAc.cpp.obj
+[290/875] Linking CXX static library lib/zephyr/libFw_Com.a
+[291/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Mutex.dir/Mutex.cpp.obj
+[292/875] Linking CXX static library lib/zephyr/libFw_Fpy.a
+[293/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Mutex.dir/Condition.cpp.obj
+[294/875] Linking CXX static library lib/zephyr/libOs_Mutex.a
+[295/875] Generating TlmGetPortAc.cpp, TlmGetPortAc.hpp, TlmPortAc.cpp, TlmPortAc.hpp, TlmValidEnumAc.cpp, TlmValidEnumAc.hpp
+[296/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Task.dir/Task.cpp.obj
+[297/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Cpu.dir/Cpu.cpp.obj
+[298/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Queue.dir/Queue.cpp.obj
+[299/875] Building CXX object F-Prime/Fw/Tlm/CMakeFiles/Fw_Tlm.dir/TlmBuffer.cpp.obj
+[300/875] Building CXX object F-Prime/Fw/Tlm/CMakeFiles/Fw_Tlm.dir/TlmPacket.cpp.obj
+[301/875] Linking CXX static library lib/zephyr/libOs_Task.a
+[302/875] Building CXX object F-Prime/Fw/Tlm/CMakeFiles/Fw_Tlm.dir/TlmGetPortAc.cpp.obj
+[303/875] Linking CXX static library lib/zephyr/libOs_Cpu.a
+[304/875] Linking CXX static library lib/zephyr/libOs_Queue.a
+[305/875] Building CXX object F-Prime/Fw/Tlm/CMakeFiles/Fw_Tlm.dir/TlmPortAc.cpp.obj
+[306/875] Building CXX object F-Prime/Fw/Tlm/CMakeFiles/Fw_Tlm.dir/TlmValidEnumAc.cpp.obj
+[307/875] Linking CXX static library lib/zephyr/libFw_Tlm.a
+[308/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_File_Stub_Implementation.dir/File.cpp.obj
+[309/875] Building CXX object F-Prime/Os/CMakeFiles/Os_Memory.dir/Memory.cpp.obj
+[310/875] Linking CXX static library lib/zephyr/libOs_Memory.a
+[311/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_File_Stub_Implementation.dir/FileSystem.cpp.obj
+[312/875] Generating LogPortAc.cpp, LogPortAc.hpp, LogSeverityEnumAc.cpp, LogSeverityEnumAc.hpp, LogTextPortAc.cpp, LogTextPortAc.hpp
+[313/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_File_Stub_Implementation.dir/Directory.cpp.obj
+[314/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Console_Stub_Implementation.dir/Console.cpp.obj
+[315/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_File_Stub.dir/DefaultFile.cpp.obj
+[316/875] Building CXX object F-Prime/Fw/Log/CMakeFiles/Fw_Log.dir/LogBuffer.cpp.obj
+[317/875] Building CXX object F-Prime/Fw/Log/CMakeFiles/Fw_Log.dir/LogPacket.cpp.obj
+[318/875] Linking CXX static library lib/zephyr/libOs_Console_Stub_Implementation.a
+[319/875] Building CXX object F-Prime/Fw/Log/CMakeFiles/Fw_Log.dir/LogSeverityEnumAc.cpp.obj
+[320/875] Building CXX object F-Prime/Fw/Log/CMakeFiles/Fw_Log.dir/LogPortAc.cpp.obj
+[321/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Console_Stub.dir/DefaultConsole.cpp.obj
+[322/875] Building CXX object F-Prime/Fw/Log/CMakeFiles/Fw_Log.dir/LogTextPortAc.cpp.obj
+[323/875] Linking CXX static library lib/zephyr/libFw_Log.a
+[324/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Task_Stub_Implementation.dir/Task.cpp.obj
+[325/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Task_Stub.dir/DefaultTask.cpp.obj
+[326/875] Linking CXX static library lib/zephyr/libOs_Task_Stub_Implementation.a
+[327/875] Generating CmdPortAc.cpp, CmdPortAc.hpp, CmdRegPortAc.cpp, CmdRegPortAc.hpp, CmdResponseEnumAc.cpp, CmdResponseEnumAc.hpp, CmdResponsePortAc.cpp, CmdResponsePortAc.hpp
+[328/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Mutex_Stub_Implementation.dir/ConditionVariable.cpp.obj
+[329/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Mutex_Stub_Implementation.dir/Mutex.cpp.obj
+[330/875] Building CXX object F-Prime/Fw/Cmd/CMakeFiles/Fw_Cmd.dir/CmdArgBuffer.cpp.obj
+[331/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Mutex_Stub.dir/DefaultMutex.cpp.obj
+[332/875] Building CXX object F-Prime/Fw/Cmd/CMakeFiles/Fw_Cmd.dir/CmdPacket.cpp.obj
+[333/875] Building CXX object F-Prime/Fw/Cmd/CMakeFiles/Fw_Cmd.dir/CmdResponseEnumAc.cpp.obj
+[334/875] Linking CXX static library lib/zephyr/libOs_Mutex_Stub_Implementation.a
+[335/875] Building CXX object F-Prime/Fw/Cmd/CMakeFiles/Fw_Cmd.dir/CmdPortAc.cpp.obj
+[336/875] Building CXX object F-Prime/Fw/Cmd/CMakeFiles/Fw_Cmd.dir/CmdRegPortAc.cpp.obj
+[337/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Cpu_Stub_Implementation.dir/Cpu.cpp.obj
+[338/875] Linking CXX static library lib/zephyr/libOs_Cpu_Stub_Implementation.a
+[339/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Memory_Stub_Implementation.dir/Memory.cpp.obj
+[340/875] Building CXX object F-Prime/Fw/Cmd/CMakeFiles/Fw_Cmd.dir/CmdResponsePortAc.cpp.obj
+[341/875] Linking CXX static library lib/zephyr/libOs_Memory_Stub_Implementation.a
+[342/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Cpu_Stub.dir/DefaultCpu.cpp.obj
+[343/875] Linking CXX static library lib/zephyr/libFw_Cmd.a
+[344/875] Generating ParamValidEnumAc.cpp, ParamValidEnumAc.hpp, PrmGetPortAc.cpp, PrmGetPortAc.hpp, PrmSetPortAc.cpp, PrmSetPortAc.hpp
+[345/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Memory_Stub.dir/DefaultMemory.cpp.obj
+[346/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Queue_Stub_Implementation.dir/Queue.cpp.obj
+[347/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_Queue_Stub.dir/DefaultQueue.cpp.obj
+[348/875] Building CXX object F-Prime/Fw/Prm/CMakeFiles/Fw_Prm.dir/PrmBuffer.cpp.obj
+[349/875] Linking CXX static library lib/zephyr/libOs_Queue_Stub_Implementation.a
+[350/875] Building CXX object F-Prime/Fw/Prm/CMakeFiles/Fw_Prm.dir/ParamValidEnumAc.cpp.obj
+[351/875] Linking CXX static library lib/zephyr/libOs_Generic_Types.a
+[352/875] Linking CXX static library lib/zephyr/libCFDP_Checksum.a
+[353/875] Linking CXX static library lib/zephyr/libOs_Generic_PriorityQueue_Implementation.a
+[354/875] Building CXX object F-Prime/Fw/Prm/CMakeFiles/Fw_Prm.dir/PrmGetPortAc.cpp.obj
+[355/875] Building CXX object F-Prime/Fw/Prm/CMakeFiles/Fw_Prm.dir/PrmSetPortAc.cpp.obj
+[356/875] Building C object F-Prime/Utils/Hash/CMakeFiles/Utils_Hash.dir/libcrc/lib_crc.c.obj
+[357/875] Linking CXX static library lib/zephyr/libFw_Prm.a
+[358/875] Building CXX object F-Prime/Utils/Hash/CMakeFiles/Utils_Hash.dir/libcrc/CRC32.cpp.obj
+[359/875] Building CXX object F-Prime/Utils/Hash/CMakeFiles/Utils_Hash.dir/HashCommon.cpp.obj
+[360/875] Generating BufferGetPortAc.cpp, BufferGetPortAc.hpp, BufferSendPortAc.cpp, BufferSendPortAc.hpp
+[361/875] Generating CompletionStatusPortAc.cpp, CompletionStatusPortAc.hpp
+[362/875] Generating ReadyPortAc.cpp, ReadyPortAc.hpp
+[363/875] Building CXX object F-Prime/Utils/Hash/CMakeFiles/Utils_Hash.dir/HashBufferCommon.cpp.obj
+[364/875] Building CXX object F-Prime/Fw/Buffer/CMakeFiles/Fw_Buffer.dir/Buffer.cpp.obj
+[365/875] Building CXX object F-Prime/Fw/Buffer/CMakeFiles/Fw_Buffer.dir/BufferGetPortAc.cpp.obj
+[366/875] Building CXX object F-Prime/Fw/Buffer/CMakeFiles/Fw_Buffer.dir/BufferSendPortAc.cpp.obj
+[367/875] Linking CXX static library lib/zephyr/libFw_Buffer.a
+[368/875] Building CXX object F-Prime/Fw/Comp/CMakeFiles/Fw_CompQueued.dir/QueuedComponentBase.cpp.obj
+[369/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/CancelPacket.cpp.obj
+[370/875] Building CXX object F-Prime/Fw/Comp/CMakeFiles/Fw_CompQueued.dir/ActiveComponentBase.cpp.obj
+[371/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/DataPacket.cpp.obj
+[372/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/EndPacket.cpp.obj
+[373/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/FilePacket.cpp.obj
+[374/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/Header.cpp.obj
+[375/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/PathName.cpp.obj
+[376/875] Building CXX object F-Prime/Fw/FilePacket/CMakeFiles/Fw_FilePacket.dir/StartPacket.cpp.obj
+[377/875] Linking CXX static library lib/zephyr/libFw_FilePacket.a
+[378/875] Generating SignalPortAc.cpp, SignalPortAc.hpp
+[379/875] Building CXX object F-Prime/Fw/Ports/Ready/CMakeFiles/Fw_Ports_Ready.dir/ReadyPortAc.cpp.obj
+[380/875] Building CXX object F-Prime/Fw/Ports/CompletionStatus/CMakeFiles/Fw_Ports_CompletionStatus.dir/CompletionStatusPortAc.cpp.obj
+[381/875] Linking CXX static library lib/zephyr/libFw_Ports_CompletionStatus.a
+[382/875] Linking CXX static library lib/zephyr/libFw_Ports_Ready.a
+[383/875] Generating SuccessConditionPortAc.cpp, SuccessConditionPortAc.hpp
+[384/875] Generating FatalEventPortAc.cpp, FatalEventPortAc.hpp
+[385/875] Building CXX object F-Prime/Fw/Ports/Signal/CMakeFiles/Fw_Ports_Signal.dir/SignalPortAc.cpp.obj
+[386/875] Building CXX object F-Prime/Fw/SerializableFile/CMakeFiles/Fw_SerializableFile.dir/SerializableFile.cpp.obj
+[387/875] Linking CXX static library lib/zephyr/libFw_Ports_Signal.a
+[388/875] Generating PingPortAc.cpp, PingPortAc.hpp
+[389/875] Building CXX object F-Prime/Fw/Ports/SuccessCondition/CMakeFiles/Fw_Ports_SuccessCondition.dir/SuccessConditionPortAc.cpp.obj
+[390/875] Linking CXX static library lib/zephyr/libFw_Ports_SuccessCondition.a
+[391/875] Building CXX object F-Prime/Svc/Fatal/CMakeFiles/Svc_Fatal.dir/FatalEventPortAc.cpp.obj
+[392/875] Generating MeasurementStatusEnumAc.cpp, MeasurementStatusEnumAc.hpp, PolyPortAc.cpp, PolyPortAc.hpp
+[393/875] Linking CXX static library lib/zephyr/libSvc_Fatal.a
+[394/875] Generating SchedPortAc.cpp, SchedPortAc.hpp
+[395/875] Building CXX object F-Prime/Svc/Ping/CMakeFiles/Svc_Ping.dir/PingPortAc.cpp.obj
+[396/875] Building CXX object F-Prime/Svc/PolyIf/CMakeFiles/Svc_PolyIf.dir/MeasurementStatusEnumAc.cpp.obj
+[397/875] Linking CXX static library lib/zephyr/libSvc_Ping.a
+[398/875] Building CXX object F-Prime/Svc/Sched/CMakeFiles/Svc_Sched.dir/SchedPortAc.cpp.obj
+[399/875] Generating CmdSeqCancelPortAc.cpp, CmdSeqCancelPortAc.hpp, CmdSeqInPortAc.cpp, CmdSeqInPortAc.hpp
+[400/875] Linking CXX static library lib/zephyr/libSvc_Sched.a
+[401/875] Building CXX object F-Prime/Svc/PolyIf/CMakeFiles/Svc_PolyIf.dir/PolyPortAc.cpp.obj
+[402/875] Generating WatchDogPortAc.cpp, WatchDogPortAc.hpp
+[403/875] Linking CXX static library lib/zephyr/libSvc_PolyIf.a
+[404/875] Generating ComDataContextPairSerializableAc.cpp, ComDataContextPairSerializableAc.hpp, ComDataWithContextPortAc.cpp, ComDataWithContextPortAc.hpp
+[405/875] Building CXX object F-Prime/Svc/Seq/CMakeFiles/Svc_Seq.dir/CmdSeqCancelPortAc.cpp.obj
+[406/875] Building CXX object F-Prime/Svc/Seq/CMakeFiles/Svc_Seq.dir/CmdSeqInPortAc.cpp.obj
+[407/875] Building CXX object F-Prime/Svc/WatchDog/CMakeFiles/Svc_WatchDog.dir/WatchDogPortAc.cpp.obj
+[408/875] Linking CXX static library lib/zephyr/libSvc_Seq.a
+[409/875] Linking CXX static library lib/zephyr/libSvc_WatchDog.a
+[410/875] Generating FileAnnouncePortAc.cpp, FileAnnouncePortAc.hpp, FileDispatchPortAc.cpp, FileDispatchPortAc.hpp
+[411/875] Generating VersionPortAc.cpp, VersionPortAc.hpp, VersionStatusEnumAc.cpp, VersionStatusEnumAc.hpp
+[412/875] Building CXX object F-Prime/Svc/Ports/CommsPorts/CMakeFiles/Svc_Ports_CommsPorts.dir/ComDataContextPairSerializableAc.cpp.obj
+[413/875] Building CXX object F-Prime/Svc/Ports/CommsPorts/CMakeFiles/Svc_Ports_CommsPorts.dir/ComDataWithContextPortAc.cpp.obj
+[414/875] Linking CXX static library lib/zephyr/libSvc_Ports_CommsPorts.a
+[415/875] Building CXX object F-Prime/Svc/Ports/VersionPorts/CMakeFiles/Svc_Ports_VersionPorts.dir/VersionStatusEnumAc.cpp.obj
+[416/875] Building CXX object F-Prime/Svc/Ports/FilePorts/CMakeFiles/Svc_Ports_FilePorts.dir/FileAnnouncePortAc.cpp.obj
+[417/875] Building CXX object F-Prime/Svc/Ports/VersionPorts/CMakeFiles/Svc_Ports_VersionPorts.dir/VersionPortAc.cpp.obj
+[418/875] Linking CXX static library lib/zephyr/libSvc_Ports_VersionPorts.a
+[419/875] Building CXX object F-Prime/Svc/Ports/FilePorts/CMakeFiles/Svc_Ports_FilePorts.dir/FileDispatchPortAc.cpp.obj
+[420/875] Linking CXX static library lib/zephyr/libSvc_Ports_FilePorts.a
+[421/875] Generating AssertFatalAdapterComponentAc.cpp, AssertFatalAdapterComponentAc.hpp
+[422/875] Generating ComSplitterComponentAc.cpp, ComSplitterComponentAc.hpp
+[423/875] Generating BufferRepeaterComponentAc.cpp, BufferRepeaterComponentAc.hpp
+[424/875] Generating CmdSplitterComponentAc.cpp, CmdSplitterComponentAc.hpp
+[425/875] Building CXX object F-Prime/Svc/BufferRepeater/CMakeFiles/Svc_BufferRepeater.dir/BufferRepeater.cpp.obj
+[426/875] Building CXX object F-Prime/Svc/AssertFatalAdapter/CMakeFiles/Svc_AssertFatalAdapter.dir/AssertFatalAdapterComponentImpl.cpp.obj
+[427/875] Building CXX object F-Prime/Svc/ComSplitter/CMakeFiles/Svc_ComSplitter.dir/ComSplitter.cpp.obj
+[428/875] Building CXX object F-Prime/Svc/AssertFatalAdapter/CMakeFiles/Svc_AssertFatalAdapter.dir/AssertFatalAdapterComponentAc.cpp.obj
+[429/875] Building CXX object F-Prime/Svc/ComSplitter/CMakeFiles/Svc_ComSplitter.dir/ComSplitterComponentAc.cpp.obj
+[430/875] Linking CXX static library lib/zephyr/libSvc_AssertFatalAdapter.a
+[431/875] Linking CXX static library lib/zephyr/libSvc_ComSplitter.a
+[432/875] Building CXX object F-Prime/Svc/CmdSplitter/CMakeFiles/Svc_CmdSplitter.dir/CmdSplitter.cpp.obj
+[433/875] Generating DpWrittenPortAc.cpp, DpWrittenPortAc.hpp
+[434/875] Building CXX object F-Prime/Svc/BufferRepeater/CMakeFiles/Svc_BufferRepeater.dir/BufferRepeaterComponentAc.cpp.obj
+[435/875] Linking CXX static library lib/zephyr/libSvc_BufferRepeater.a
+[436/875] Generating SendFileCompletePortAc.cpp, SendFileCompletePortAc.hpp, SendFileRequestPortAc.cpp, SendFileRequestPortAc.hpp, SendFileResponseSerializableAc.cpp, SendFileResponseSerializableAc.hpp, SendFileStatusEnumAc.cpp, SendFileStatusEnumAc.hpp
+[437/875] Generating FrameHeaderSerializableAc.cpp, FrameHeaderSerializableAc.hpp, FrameTrailerSerializableAc.cpp, FrameTrailerSerializableAc.hpp, TokenTypeAliasAc.hpp
+[438/875] Building CXX object F-Prime/Svc/CmdSplitter/CMakeFiles/Svc_CmdSplitter.dir/CmdSplitterComponentAc.cpp.obj
+[439/875] Linking CXX static library lib/zephyr/libSvc_CmdSplitter.a
+[440/875] Building CXX object F-Prime/Svc/DpPorts/CMakeFiles/Svc_DpPorts.dir/DpWrittenPortAc.cpp.obj
+[441/875] Linking CXX static library lib/zephyr/libSvc_DpPorts.a
+[442/875] Building CXX object F-Prime/Svc/FileDownlinkPorts/CMakeFiles/Svc_FileDownlinkPorts.dir/SendFileCompletePortAc.cpp.obj
+[443/875] Building CXX object F-Prime/Svc/FileDownlinkPorts/CMakeFiles/Svc_FileDownlinkPorts.dir/SendFileRequestPortAc.cpp.obj
+[444/875] Building CXX object F-Prime/Svc/FileDownlinkPorts/CMakeFiles/Svc_FileDownlinkPorts.dir/SendFileResponseSerializableAc.cpp.obj
+[445/875] Building CXX object F-Prime/Svc/FileDownlinkPorts/CMakeFiles/Svc_FileDownlinkPorts.dir/SendFileStatusEnumAc.cpp.obj
+[446/875] Linking CXX static library lib/zephyr/libSvc_FileDownlinkPorts.a
+[447/875] Building CXX object F-Prime/Svc/FprimeProtocol/CMakeFiles/Svc_FprimeProtocol.dir/FrameHeaderSerializableAc.cpp.obj
+[448/875] Building CXX object F-Prime/Svc/FprimeProtocol/CMakeFiles/Svc_FprimeProtocol.dir/FrameTrailerSerializableAc.cpp.obj
+[449/875] Linking CXX static library lib/zephyr/libSvc_FprimeProtocol.a
+[450/875] Generating PassiveTextLoggerComponentAc.cpp, PassiveTextLoggerComponentAc.hpp
+[451/875] Generating FppConstantsAc.cpp, FppConstantsAc.hpp, FrameErrorEnumAc.cpp, FrameErrorEnumAc.hpp, SpacePacketHeaderSerializableAc.cpp, SpacePacketHeaderSerializableAc.hpp, TCHeaderSerializableAc.cpp, TCHeaderSerializableAc.hpp, TCTrailerSerializableAc.cpp, TCTrailerSerializableAc.hpp, TMHeaderSerializableAc.cpp, TMHeaderSerializableAc.hpp, TMTrailerSerializableAc.cpp, TMTrailerSerializableAc.hpp
+[452/875] Building CXX object F-Prime/Os/CMakeFiles/Os.dir/ValidatedFile.cpp.obj
+[453/875] Building CXX object F-Prime/Os/CMakeFiles/Os.dir/ValidateFileCommon.cpp.obj
+[454/875] Building CXX object F-Prime/Svc/PassiveConsoleTextLogger/CMakeFiles/Svc_PassiveConsoleTextLogger.dir/ConsoleTextLoggerImplCommon.cpp.obj
+[455/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/FppConstantsAc.cpp.obj
+[456/875] Building CXX object F-Prime/Svc/PassiveConsoleTextLogger/CMakeFiles/Svc_PassiveConsoleTextLogger.dir/PassiveTextLoggerComponentAc.cpp.obj
+[457/875] Linking CXX static library lib/zephyr/libSvc_PassiveConsoleTextLogger.a
+[458/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/FrameErrorEnumAc.cpp.obj
+[459/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/SpacePacketHeaderSerializableAc.cpp.obj
+[460/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/TCHeaderSerializableAc.cpp.obj
+[461/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/TCTrailerSerializableAc.cpp.obj
+[462/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/TMHeaderSerializableAc.cpp.obj
+[463/875] Building CXX object F-Prime/Svc/Ccsds/Types/CMakeFiles/Svc_Ccsds_Types.dir/TMTrailerSerializableAc.cpp.obj
+[464/875] Building CXX object F-Prime/Os/CMakeFiles/Os.dir/IntervalTimer.cpp.obj
+[465/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_Types.a
+[466/875] Building CXX object F-Prime/Os/CMakeFiles/Os.dir/Os.cpp.obj
+[467/875] Generating DirectoryOpenModeEnumAc.cpp, DirectoryOpenModeEnumAc.hpp, DirectoryStatusEnumAc.cpp, DirectoryStatusEnumAc.hpp, FileModeEnumAc.cpp, FileModeEnumAc.hpp, FileStatusEnumAc.cpp, FileStatusEnumAc.hpp, FileSystemStatusEnumAc.cpp, FileSystemStatusEnumAc.hpp, GenericStatusEnumAc.cpp, GenericStatusEnumAc.hpp, MutexStatusEnumAc.cpp, MutexStatusEnumAc.hpp, QueueBlockingTypeEnumAc.cpp, QueueBlockingTypeEnumAc.hpp, QueueStatusEnumAc.cpp, QueueStatusEnumAc.hpp, RawTimeStatusEnumAc.cpp, RawTimeStatusEnumAc.hpp, TaskStatusEnumAc.cpp, TaskStatusEnumAc.hpp
+[468/875] Generating ApidSequenceCountPortAc.cpp, ApidSequenceCountPortAc.hpp, ErrorNotifyPortAc.cpp, ErrorNotifyPortAc.hpp
+[469/875] Building CXX object F-Prime/Os/CMakeFiles/Os_RawTime.dir/RawTime.cpp.obj
+[470/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_RawTime_Stub_Implementation.dir/RawTime.cpp.obj
+[471/875] Linking CXX static library lib/zephyr/libOs_RawTime.a
+[472/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/Models.cpp.obj
+[473/875] Building CXX object F-Prime/Svc/Ccsds/Ports/CMakeFiles/Svc_Ccsds_Ports.dir/ApidSequenceCountPortAc.cpp.obj
+[474/875] Building CXX object F-Prime/Svc/Ccsds/Ports/CMakeFiles/Svc_Ccsds_Ports.dir/ErrorNotifyPortAc.cpp.obj
+[475/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/DirectoryOpenModeEnumAc.cpp.obj
+[476/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_Ports.a
+[477/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/DirectoryStatusEnumAc.cpp.obj
+[478/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/FileModeEnumAc.cpp.obj
+[479/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/FileSystemStatusEnumAc.cpp.obj
+[480/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/FileStatusEnumAc.cpp.obj
+[481/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/GenericStatusEnumAc.cpp.obj
+[482/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/MutexStatusEnumAc.cpp.obj
+[483/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/QueueBlockingTypeEnumAc.cpp.obj
+[484/875] Linking CXX static library lib/zephyr/libOs_RawTime_Stub_Implementation.a
+[485/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/QueueStatusEnumAc.cpp.obj
+[486/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/RawTimeStatusEnumAc.cpp.obj
+[487/875] Building CXX object F-Prime/Os/Models/CMakeFiles/Os_Models.dir/TaskStatusEnumAc.cpp.obj
+[488/875] Linking CXX static library lib/zephyr/libOs_Models.a
+[489/875] Generating DataBufferPortAc.cpp, DataBufferPortAc.hpp
+[490/875] Generating GpioReadPortAc.cpp, GpioReadPortAc.hpp, GpioStatusEnumAc.cpp, GpioStatusEnumAc.hpp, GpioWritePortAc.cpp, GpioWritePortAc.hpp, I2cPortAc.cpp, I2cPortAc.hpp, I2cStatusEnumAc.cpp, I2cStatusEnumAc.hpp, I2cWriteReadPortAc.cpp, I2cWriteReadPortAc.hpp, SpiReadWritePortAc.cpp, SpiReadWritePortAc.hpp, SpiStatusEnumAc.cpp, SpiStatusEnumAc.hpp, SpiWriteReadPortAc.cpp, SpiWriteReadPortAc.hpp
+[491/875] Building CXX object F-Prime/Os/Stub/CMakeFiles/Os_RawTime_Stub.dir/DefaultRawTime.cpp.obj
+[492/875] Generating ByteStreamDataPortAc.cpp, ByteStreamDataPortAc.hpp, ByteStreamReadyPortAc.cpp, ByteStreamReadyPortAc.hpp, ByteStreamSendPortAc.cpp, ByteStreamSendPortAc.hpp, ByteStreamStatusEnumAc.cpp, ByteStreamStatusEnumAc.hpp
+[493/875] Building CXX object F-Prime/Drv/Ports/DataTypes/CMakeFiles/Drv_Ports_DataTypes.dir/DataBuffer.cpp.obj
+[494/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/GpioStatusEnumAc.cpp.obj
+[495/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/GpioReadPortAc.cpp.obj
+[496/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/GpioWritePortAc.cpp.obj
+[497/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/I2cPortAc.cpp.obj
+[498/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/I2cStatusEnumAc.cpp.obj
+[499/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/I2cWriteReadPortAc.cpp.obj
+[500/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/SpiReadWritePortAc.cpp.obj
+[501/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/SpiStatusEnumAc.cpp.obj
+[502/875] Building CXX object F-Prime/Drv/Ports/CMakeFiles/Drv_Ports.dir/SpiWriteReadPortAc.cpp.obj
+[503/875] Linking CXX static library lib/zephyr/libDrv_Ports.a
+[504/875] Building CXX object F-Prime/Drv/Ports/DataTypes/CMakeFiles/Drv_Ports_DataTypes.dir/DataBufferPortAc.cpp.obj
+[505/875] Linking CXX static library lib/zephyr/libDrv_Ports_DataTypes.a
+[506/875] Building CXX object F-Prime/Drv/ByteStreamDriverModel/CMakeFiles/Drv_ByteStreamDriverModel.dir/ByteStreamDataPortAc.cpp.obj
+[507/875] Building CXX object F-Prime/Drv/ByteStreamDriverModel/CMakeFiles/Drv_ByteStreamDriverModel.dir/ByteStreamReadyPortAc.cpp.obj
+[508/875] Building CXX object F-Prime/Drv/ByteStreamDriverModel/CMakeFiles/Drv_ByteStreamDriverModel.dir/ByteStreamSendPortAc.cpp.obj
+[509/875] Building CXX object F-Prime/Drv/ByteStreamDriverModel/CMakeFiles/Drv_ByteStreamDriverModel.dir/ByteStreamStatusEnumAc.cpp.obj
+[510/875] Linking CXX static library lib/zephyr/libDrv_ByteStreamDriverModel.a
+[511/875] Linking CXX static library lib/zephyr/libUtils_Hash.a
+[512/875] Building CXX object F-Prime/Utils/CMakeFiles/Utils.dir/TokenBucket.cpp.obj
+[513/875] Linking CXX static library lib/zephyr/libOs_File.a
+[514/875] Building CXX object F-Prime/Utils/CMakeFiles/Utils.dir/RateLimiter.cpp.obj
+[515/875] Linking CXX static library lib/zephyr/libOs.a
+[516/875] Linking CXX static library lib/zephyr/libOs_File_Stub_Implementation.a
+[517/875] Linking CXX static library lib/zephyr/libFw_SerializableFile.a
+[518/875] Linking CXX static library lib/zephyr/libFw_CompQueued.a
+[519/875] Building CXX object F-Prime/Utils/CMakeFiles/Utils.dir/CRCChecker.cpp.obj
+[520/875] Generating DpGetPortAc.cpp, DpGetPortAc.hpp, DpRequestPortAc.cpp, DpRequestPortAc.hpp, DpResponsePortAc.cpp, DpResponsePortAc.hpp, DpSendPortAc.cpp, DpSendPortAc.hpp, DpStateEnumAc.cpp, DpStateEnumAc.hpp
+[521/875] Generating CyclePortAc.cpp, CyclePortAc.hpp
+[522/875] Generating OsTimeEpochPortAc.cpp, OsTimeEpochPortAc.hpp
+[523/875] Generating BufferManagerComponentAc.cpp, BufferManagerComponentAc.hpp
+[524/875] Building CXX object F-Prime/Fw/Dp/CMakeFiles/Fw_Dp.dir/DpGetPortAc.cpp.obj
+[525/875] Building CXX object F-Prime/Fw/Dp/CMakeFiles/Fw_Dp.dir/DpRequestPortAc.cpp.obj
+[526/875] Building CXX object F-Prime/Fw/Dp/CMakeFiles/Fw_Dp.dir/DpContainer.cpp.obj
+[527/875] Building CXX object F-Prime/Fw/Dp/CMakeFiles/Fw_Dp.dir/DpResponsePortAc.cpp.obj
+[528/875] Building CXX object F-Prime/Fw/Dp/CMakeFiles/Fw_Dp.dir/DpStateEnumAc.cpp.obj
+[529/875] Building CXX object F-Prime/Fw/Dp/CMakeFiles/Fw_Dp.dir/DpSendPortAc.cpp.obj
+[530/875] Linking CXX static library lib/zephyr/libFw_Dp.a
+[531/875] Building CXX object F-Prime/Svc/Cycle/CMakeFiles/Svc_Cycle.dir/CyclePortAc.cpp.obj
+[532/875] Linking CXX static library lib/zephyr/libSvc_Cycle.a
+[533/875] Building CXX object F-Prime/Svc/Ports/OsTimeEpoch/CMakeFiles/Svc_Ports_OsTimeEpoch.dir/OsTimeEpochPortAc.cpp.obj
+[534/875] Linking CXX static library lib/zephyr/libSvc_Ports_OsTimeEpoch.a
+[535/875] Generating ActivePhaserComponentAc.cpp, ActivePhaserComponentAc.hpp
+[536/875] Building CXX object F-Prime/Svc/BufferManager/CMakeFiles/Svc_BufferManager.dir/BufferManagerComponentImpl.cpp.obj
+[537/875] Generating ActiveRateGroupComponentAc.cpp, ActiveRateGroupComponentAc.hpp
+[538/875] Building CXX object F-Prime/Svc/BufferManager/CMakeFiles/Svc_BufferManager.dir/BufferManagerComponentAc.cpp.obj
+[539/875] Building CXX object F-Prime/Svc/ActivePhaser/CMakeFiles/Svc_ActivePhaser.dir/ActivePhaser.cpp.obj
+[540/875] Linking CXX static library lib/zephyr/libSvc_BufferManager.a
+[541/875] Building CXX object F-Prime/Svc/ActiveRateGroup/CMakeFiles/Svc_ActiveRateGroup.dir/ActiveRateGroup.cpp.obj
+[542/875] Generating BufferLoggerComponentAc.cpp, BufferLoggerComponentAc.hpp, BufferLogger_LogStateEnumAc.cpp, BufferLogger_LogStateEnumAc.hpp
+[543/875] Generating ChronoTimeComponentAc.cpp, ChronoTimeComponentAc.hpp
+[544/875] Building CXX object F-Prime/Svc/ActivePhaser/CMakeFiles/Svc_ActivePhaser.dir/ActivePhaserComponentAc.cpp.obj
+[545/875] Linking CXX static library lib/zephyr/libSvc_ActivePhaser.a
+[546/875] Building CXX object F-Prime/Svc/BufferLogger/CMakeFiles/Svc_BufferLogger.dir/BufferLogger.cpp.obj
+[547/875] Building CXX object F-Prime/Svc/ActiveRateGroup/CMakeFiles/Svc_ActiveRateGroup.dir/ActiveRateGroupComponentAc.cpp.obj
+[548/875] Linking CXX static library lib/zephyr/libSvc_ActiveRateGroup.a
+[549/875] Building CXX object F-Prime/Svc/BufferLogger/CMakeFiles/Svc_BufferLogger.dir/BufferLoggerFile.cpp.obj
+[550/875] Building CXX object F-Prime/Svc/BufferLogger/CMakeFiles/Svc_BufferLogger.dir/BufferLogger_LogStateEnumAc.cpp.obj
+[551/875] Building CXX object F-Prime/Svc/ChronoTime/CMakeFiles/Svc_ChronoTime.dir/ChronoTimeComponentAc.cpp.obj
+[552/875] Generating ComLoggerComponentAc.cpp, ComLoggerComponentAc.hpp
+[553/875] Building CXX object F-Prime/Svc/ChronoTime/CMakeFiles/Svc_ChronoTime.dir/ChronoTime.cpp.obj
+[554/875] Linking CXX static library lib/zephyr/libSvc_ChronoTime.a
+[555/875] Generating ComStubComponentAc.cpp, ComStubComponentAc.hpp
+[556/875] Building CXX object F-Prime/Svc/BufferLogger/CMakeFiles/Svc_BufferLogger.dir/BufferLoggerComponentAc.cpp.obj
+[557/875] Linking CXX static library lib/zephyr/libSvc_BufferLogger.a
+[558/875] Building CXX object F-Prime/Svc/ComStub/CMakeFiles/Svc_ComStub.dir/ComStub.cpp.obj
+[559/875] Building CXX object F-Prime/Svc/ComLogger/CMakeFiles/Svc_ComLogger.dir/ComLogger.cpp.obj
+[560/875] Generating CommandDispatcherComponentAc.cpp, CommandDispatcherComponentAc.hpp
+[561/875] Generating CmdSequencerComponentAc.cpp, CmdSequencerComponentAc.hpp, CmdSequencer_BlockStateEnumAc.cpp, CmdSequencer_BlockStateEnumAc.hpp, CmdSequencer_FileReadStageEnumAc.cpp, CmdSequencer_FileReadStageEnumAc.hpp, CmdSequencer_SeqModeEnumAc.cpp, CmdSequencer_SeqModeEnumAc.hpp
+[562/875] Building CXX object F-Prime/Svc/ComLogger/CMakeFiles/Svc_ComLogger.dir/ComLoggerComponentAc.cpp.obj
+[563/875] Linking CXX static library lib/zephyr/libSvc_ComLogger.a
+[564/875] Building CXX object F-Prime/Svc/ComStub/CMakeFiles/Svc_ComStub.dir/ComStubComponentAc.cpp.obj
+[565/875] Linking CXX static library lib/zephyr/libSvc_ComStub.a
+[566/875] Building CXX object F-Prime/Svc/CmdDispatcher/CMakeFiles/Svc_CmdDispatcher.dir/CommandDispatcherImpl.cpp.obj
+[567/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/Events.cpp.obj
+[568/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/CmdSequencerImpl.cpp.obj
+[569/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/FPrimeSequence.cpp.obj
+[570/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/Sequence.cpp.obj
+[571/875] Building CXX object F-Prime/Svc/CmdDispatcher/CMakeFiles/Svc_CmdDispatcher.dir/CommandDispatcherComponentAc.cpp.obj
+[572/875] Linking CXX static library lib/zephyr/libSvc_CmdDispatcher.a
+[573/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/CmdSequencer_BlockStateEnumAc.cpp.obj
+[574/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/formats/AMPCSSequence.cpp.obj
+[575/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/CmdSequencer_FileReadStageEnumAc.cpp.obj
+[576/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/CmdSequencer_SeqModeEnumAc.cpp.obj
+[577/875] Generating DpManagerComponentAc.cpp, DpManagerComponentAc.hpp
+[578/875] Generating DpCatalogComponentAc.cpp, DpCatalogComponentAc.hpp, DpHdrFieldEnumAc.cpp, DpHdrFieldEnumAc.hpp, DpRecordSerializableAc.cpp, DpRecordSerializableAc.hpp
+[579/875] Generating DpWriterComponentAc.cpp, DpWriterComponentAc.hpp
+[580/875] Building CXX object F-Prime/Svc/DpManager/CMakeFiles/Svc_DpManager.dir/DpManager.cpp.obj
+[581/875] Building CXX object F-Prime/Svc/DpCatalog/CMakeFiles/Svc_DpCatalog.dir/DpHdrFieldEnumAc.cpp.obj
+[582/875] Building CXX object F-Prime/Svc/DpCatalog/CMakeFiles/Svc_DpCatalog.dir/DpRecordSerializableAc.cpp.obj
+[583/875] Building CXX object F-Prime/Svc/DpCatalog/CMakeFiles/Svc_DpCatalog.dir/DpCatalog.cpp.obj
+[584/875] Building CXX object F-Prime/Svc/CmdSequencer/CMakeFiles/Svc_CmdSequencer.dir/CmdSequencerComponentAc.cpp.obj
+[585/875] Linking CXX static library lib/zephyr/libSvc_CmdSequencer.a
+[586/875] Building CXX object F-Prime/Svc/DpWriter/CMakeFiles/Svc_DpWriter.dir/DpWriter.cpp.obj
+[587/875] Building CXX object F-Prime/Svc/DpCatalog/CMakeFiles/Svc_DpCatalog.dir/DpCatalogComponentAc.cpp.obj
+[588/875] Generating EventManagerComponentAc.cpp, EventManagerComponentAc.hpp, EventManager_EnabledEnumAc.cpp, EventManager_EnabledEnumAc.hpp, EventManager_FilterSeverityEnumAc.cpp, EventManager_FilterSeverityEnumAc.hpp
+[589/875] Linking CXX static library lib/zephyr/libSvc_DpCatalog.a
+[590/875] Building CXX object F-Prime/Svc/DpManager/CMakeFiles/Svc_DpManager.dir/DpManagerComponentAc.cpp.obj
+[591/875] Linking CXX static library lib/zephyr/libSvc_DpManager.a
+[592/875] Building CXX object F-Prime/Svc/EventManager/CMakeFiles/Svc_EventManager.dir/EventManager_EnabledEnumAc.cpp.obj
+[593/875] Building CXX object F-Prime/Svc/EventManager/CMakeFiles/Svc_EventManager.dir/EventManager_FilterSeverityEnumAc.cpp.obj
+[594/875] Building CXX object F-Prime/Svc/EventManager/CMakeFiles/Svc_EventManager.dir/EventManager.cpp.obj
+[595/875] Building CXX object F-Prime/Svc/DpWriter/CMakeFiles/Svc_DpWriter.dir/DpWriterComponentAc.cpp.obj
+[596/875] Linking CXX static library lib/zephyr/libSvc_DpWriter.a
+[597/875] Generating FatalHandlerComponentAc.cpp, FatalHandlerComponentAc.hpp
+[598/875] Generating FileDispatcherComponentAc.cpp, FileDispatcherComponentAc.hpp
+[599/875] Generating FileDownlinkComponentAc.cpp, FileDownlinkComponentAc.hpp
+[600/875] Building CXX object F-Prime/Svc/FatalHandler/CMakeFiles/Svc_FatalHandler.dir/FatalHandlerComponentCommonImpl.cpp.obj
+[601/875] Building CXX object F-Prime/Svc/FatalHandler/CMakeFiles/Svc_FatalHandler.dir/FatalHandlerComponentLinuxImpl.cpp.obj
+[602/875] Building CXX object F-Prime/Svc/EventManager/CMakeFiles/Svc_EventManager.dir/EventManagerComponentAc.cpp.obj
+[603/875] Building CXX object F-Prime/Svc/FatalHandler/CMakeFiles/Svc_FatalHandler.dir/FatalHandlerComponentAc.cpp.obj
+[604/875] Linking CXX static library lib/zephyr/libSvc_EventManager.a
+[605/875] Linking CXX static library lib/zephyr/libSvc_FatalHandler.a
+[606/875] Building CXX object F-Prime/Svc/FileDispatcher/CMakeFiles/Svc_FileDispatcher.dir/FileDispatcher.cpp.obj
+[607/875] Building CXX object F-Prime/Svc/FileDownlink/CMakeFiles/Svc_FileDownlink.dir/File.cpp.obj
+[608/875] Building CXX object F-Prime/Svc/FileDownlink/CMakeFiles/Svc_FileDownlink.dir/Warnings.cpp.obj
+[609/875] Building CXX object F-Prime/Svc/FileDispatcher/CMakeFiles/Svc_FileDispatcher.dir/FileDispatcherComponentAc.cpp.obj
+[610/875] Linking CXX static library lib/zephyr/libSvc_FileDispatcher.a
+[611/875] Building CXX object F-Prime/Svc/FileDownlink/CMakeFiles/Svc_FileDownlink.dir/FileDownlink.cpp.obj
+[612/875] Generating FileManagerComponentAc.cpp, FileManagerComponentAc.hpp
+[613/875] Generating FileUplinkComponentAc.cpp, FileUplinkComponentAc.hpp
+[614/875] Generating FprimeFramerComponentAc.cpp, FprimeFramerComponentAc.hpp
+[615/875] Building CXX object F-Prime/Svc/FileManager/CMakeFiles/Svc_FileManager.dir/FileManager.cpp.obj
+[616/875] Building CXX object F-Prime/Svc/FileUplink/CMakeFiles/Svc_FileUplink.dir/FileUplink.cpp.obj
+[617/875] Building CXX object F-Prime/Svc/FileDownlink/CMakeFiles/Svc_FileDownlink.dir/FileDownlinkComponentAc.cpp.obj
+[618/875] Linking CXX static library lib/zephyr/libSvc_FileDownlink.a
+[619/875] Building CXX object F-Prime/Svc/FileUplink/CMakeFiles/Svc_FileUplink.dir/File.cpp.obj
+[620/875] Building CXX object F-Prime/Svc/FileUplink/CMakeFiles/Svc_FileUplink.dir/Warnings.cpp.obj
+[621/875] Building CXX object F-Prime/Svc/FprimeFramer/CMakeFiles/Svc_FprimeFramer.dir/FprimeFramer.cpp.obj
+[622/875] Generating FprimeRouterComponentAc.cpp, FprimeRouterComponentAc.hpp, FprimeRouter_AllocationReasonEnumAc.cpp, FprimeRouter_AllocationReasonEnumAc.hpp
+[623/875] Building CXX object F-Prime/Svc/FprimeFramer/CMakeFiles/Svc_FprimeFramer.dir/FprimeFramerComponentAc.cpp.obj
+[624/875] Linking CXX static library lib/zephyr/libSvc_FprimeFramer.a
+[625/875] Building CXX object F-Prime/Svc/FileManager/CMakeFiles/Svc_FileManager.dir/FileManagerComponentAc.cpp.obj
+[626/875] Linking CXX static library lib/zephyr/libSvc_FileManager.a
+[627/875] Building CXX object F-Prime/Svc/FprimeRouter/CMakeFiles/Svc_FprimeRouter.dir/FprimeRouter.cpp.obj
+[628/875] Building CXX object F-Prime/Svc/FileUplink/CMakeFiles/Svc_FileUplink.dir/FileUplinkComponentAc.cpp.obj
+[629/875] Linking CXX static library lib/zephyr/libSvc_FileUplink.a
+[630/875] Building CXX object F-Prime/Svc/FprimeRouter/CMakeFiles/Svc_FprimeRouter.dir/FprimeRouter_AllocationReasonEnumAc.cpp.obj
+[631/875] Generating GenericHubComponentAc.cpp, GenericHubComponentAc.hpp
+[632/875] Generating OsTimeComponentAc.cpp, OsTimeComponentAc.hpp
+[633/875] Generating HealthComponentAc.cpp, HealthComponentAc.hpp
+[634/875] Building CXX object F-Prime/Svc/FprimeRouter/CMakeFiles/Svc_FprimeRouter.dir/FprimeRouterComponentAc.cpp.obj
+[635/875] Linking CXX static library lib/zephyr/libSvc_FprimeRouter.a
+[636/875] Building CXX object F-Prime/Svc/GenericHub/CMakeFiles/Svc_GenericHub.dir/GenericHub.cpp.obj
+[637/875] Building CXX object F-Prime/Svc/Health/CMakeFiles/Svc_Health.dir/HealthComponentImpl.cpp.obj
+[638/875] Building CXX object F-Prime/Svc/Health/CMakeFiles/Svc_Health.dir/Stub/HealthComponentStubChecks.cpp.obj
+[639/875] Building CXX object F-Prime/Svc/GenericHub/CMakeFiles/Svc_GenericHub.dir/GenericHubComponentAc.cpp.obj
+[640/875] Linking CXX static library lib/zephyr/libSvc_GenericHub.a
+[641/875] Generating PassiveRateGroupComponentAc.cpp, PassiveRateGroupComponentAc.hpp
+[642/875] Building CXX object F-Prime/Svc/OsTime/CMakeFiles/Svc_OsTime.dir/OsTime.cpp.obj
+[643/875] Building CXX object F-Prime/Svc/PassiveRateGroup/CMakeFiles/Svc_PassiveRateGroup.dir/PassiveRateGroup.cpp.obj
+[644/875] Generating PolyDbComponentAc.cpp, PolyDbComponentAc.hpp
+[645/875] Building CXX object F-Prime/Svc/OsTime/CMakeFiles/Svc_OsTime.dir/OsTimeComponentAc.cpp.obj
+[646/875] Linking CXX static library lib/zephyr/libSvc_OsTime.a
+[647/875] Building CXX object F-Prime/Svc/Health/CMakeFiles/Svc_Health.dir/HealthComponentAc.cpp.obj
+[648/875] Building CXX object F-Prime/Svc/PassiveRateGroup/CMakeFiles/Svc_PassiveRateGroup.dir/PassiveRateGroupComponentAc.cpp.obj
+[649/875] Linking CXX static library lib/zephyr/libSvc_Health.a
+[650/875] Linking CXX static library lib/zephyr/libSvc_PassiveRateGroup.a
+[651/875] Building CXX object F-Prime/Svc/PolyDb/CMakeFiles/Svc_PolyDb.dir/PolyDb.cpp.obj
+[652/875] Generating RateGroupDriverComponentAc.cpp, RateGroupDriverComponentAc.hpp
+[653/875] Building CXX object F-Prime/Svc/PolyDb/CMakeFiles/Svc_PolyDb.dir/PolyDbComponentAc.cpp.obj
+[654/875] Linking CXX static library lib/zephyr/libSvc_PolyDb.a
+[655/875] Generating PrmDbComponentAc.cpp, PrmDbComponentAc.hpp, PrmDb_MergeEnumAc.cpp, PrmDb_MergeEnumAc.hpp, PrmDb_PrmDbFileLoadStateEnumAc.cpp, PrmDb_PrmDbFileLoadStateEnumAc.hpp, PrmDb_PrmDbTypeEnumAc.cpp, PrmDb_PrmDbTypeEnumAc.hpp, PrmDb_PrmLoadActionEnumAc.cpp, PrmDb_PrmLoadActionEnumAc.hpp, PrmDb_PrmReadErrorEnumAc.cpp, PrmDb_PrmReadErrorEnumAc.hpp, PrmDb_PrmWriteErrorEnumAc.cpp, PrmDb_PrmWriteErrorEnumAc.hpp
+[656/875] Generating SeqDispatcherComponentAc.cpp, SeqDispatcherComponentAc.hpp, SeqDispatcher_CmdSequencerStateEnumAc.cpp, SeqDispatcher_CmdSequencerStateEnumAc.hpp
+[657/875] Building CXX object F-Prime/Svc/RateGroupDriver/CMakeFiles/Svc_RateGroupDriver.dir/RateGroupDriver.cpp.obj
+[658/875] Building CXX object F-Prime/Svc/RateGroupDriver/CMakeFiles/Svc_RateGroupDriver.dir/RateGroupDriverComponentAc.cpp.obj
+[659/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDb_MergeEnumAc.cpp.obj
+[660/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDb_PrmDbFileLoadStateEnumAc.cpp.obj
+[661/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDb_PrmDbTypeEnumAc.cpp.obj
+[662/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDb_PrmLoadActionEnumAc.cpp.obj
+[663/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDb_PrmReadErrorEnumAc.cpp.obj
+[664/875] Linking CXX static library lib/zephyr/libSvc_RateGroupDriver.a
+[665/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDb_PrmWriteErrorEnumAc.cpp.obj
+[666/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDbImpl.cpp.obj
+[667/875] Building CXX object F-Prime/Svc/SeqDispatcher/CMakeFiles/Svc_SeqDispatcher.dir/SeqDispatcher_CmdSequencerStateEnumAc.cpp.obj
+[668/875] Generating StaticMemoryComponentAc.cpp, StaticMemoryComponentAc.hpp
+[669/875] Building CXX object F-Prime/Svc/PrmDb/CMakeFiles/Svc_PrmDb.dir/PrmDbComponentAc.cpp.obj
+[670/875] Building CXX object F-Prime/Svc/SeqDispatcher/CMakeFiles/Svc_SeqDispatcher.dir/SeqDispatcher.cpp.obj
+[671/875] Linking CXX static library lib/zephyr/libSvc_PrmDb.a
+[672/875] Building CXX object F-Prime/Svc/StaticMemory/CMakeFiles/Svc_StaticMemory.dir/StaticMemoryComponentImpl.cpp.obj
+[673/875] Generating TlmChanComponentAc.cpp, TlmChanComponentAc.hpp
+[674/875] Building CXX object F-Prime/Svc/StaticMemory/CMakeFiles/Svc_StaticMemory.dir/StaticMemoryComponentAc.cpp.obj
+[675/875] Linking CXX static library lib/zephyr/libSvc_StaticMemory.a
+[676/875] Generating TlmPacketizerComponentAc.cpp, TlmPacketizerComponentAc.hpp
+[677/875] Building CXX object F-Prime/Svc/SeqDispatcher/CMakeFiles/Svc_SeqDispatcher.dir/SeqDispatcherComponentAc.cpp.obj
+[678/875] Linking CXX static library lib/zephyr/libSvc_SeqDispatcher.a
+[679/875] Building CXX object F-Prime/Svc/TlmChan/CMakeFiles/Svc_TlmChan.dir/TlmChan.cpp.obj
+[680/875] Generating SystemResourceEnabledEnumAc.cpp, SystemResourceEnabledEnumAc.hpp, SystemResourcesComponentAc.cpp, SystemResourcesComponentAc.hpp
+[681/875] Building CXX object F-Prime/Svc/TlmChan/CMakeFiles/Svc_TlmChan.dir/TlmChanComponentAc.cpp.obj
+[682/875] Linking CXX static library lib/zephyr/libSvc_TlmChan.a
+[683/875] Building CXX object F-Prime/Svc/TlmPacketizer/CMakeFiles/Svc_TlmPacketizer.dir/TlmPacketizer.cpp.obj
+[684/875] Building CXX object F-Prime/Svc/SystemResources/CMakeFiles/Svc_SystemResources.dir/SystemResourceEnabledEnumAc.cpp.obj
+[685/875] Building CXX object F-Prime/Svc/SystemResources/CMakeFiles/Svc_SystemResources.dir/SystemResources.cpp.obj
+[686/875] Generating ActiveTextLoggerComponentAc.cpp, ActiveTextLoggerComponentAc.hpp
+[687/875] Generating CustomVersionDbSerializableAc.cpp, CustomVersionDbSerializableAc.hpp, VersionComponentAc.cpp, VersionComponentAc.hpp, VersionEnabledEnumAc.cpp, VersionEnabledEnumAc.hpp, VersionTypeEnumAc.cpp, VersionTypeEnumAc.hpp
+[688/875] Building CXX object F-Prime/Svc/ActiveTextLogger/CMakeFiles/Svc_ActiveTextLogger.dir/ActiveTextLogger.cpp.obj
+[689/875] Building CXX object F-Prime/Svc/TlmPacketizer/CMakeFiles/Svc_TlmPacketizer.dir/TlmPacketizerComponentAc.cpp.obj
+[690/875] Linking CXX static library lib/zephyr/libSvc_TlmPacketizer.a
+[691/875] Building CXX object F-Prime/Svc/SystemResources/CMakeFiles/Svc_SystemResources.dir/SystemResourcesComponentAc.cpp.obj
+[692/875] Linking CXX static library lib/zephyr/libSvc_SystemResources.a
+[693/875] Building CXX object F-Prime/Svc/ActiveTextLogger/CMakeFiles/Svc_ActiveTextLogger.dir/LogFile.cpp.obj
+[694/875] Building CXX object F-Prime/Svc/ActiveTextLogger/CMakeFiles/Svc_ActiveTextLogger.dir/ActiveTextLoggerComponentAc.cpp.obj
+[695/875] Linking CXX static library lib/zephyr/libSvc_ActiveTextLogger.a
+[696/875] Building CXX object F-Prime/Svc/Version/CMakeFiles/Svc_Version.dir/CustomVersionDbSerializableAc.cpp.obj
+[697/875] Building CXX object F-Prime/Svc/Version/CMakeFiles/Svc_Version.dir/VersionEnabledEnumAc.cpp.obj
+[698/875] Building CXX object F-Prime/Svc/Version/CMakeFiles/Svc_Version.dir/VersionTypeEnumAc.cpp.obj
+[699/875] Building CXX object F-Prime/Svc/Version/CMakeFiles/Svc_Version.dir/Version.cpp.obj
+[700/875] Generating SpacePacketDeframerComponentAc.cpp, SpacePacketDeframerComponentAc.hpp
+[701/875] Generating SpacePacketFramerComponentAc.cpp, SpacePacketFramerComponentAc.hpp
+[702/875] Building CXX object F-Prime/Svc/Ccsds/SpacePacketDeframer/CMakeFiles/Svc_Ccsds_SpacePacketDeframer.dir/SpacePacketDeframer.cpp.obj
+[703/875] Building CXX object F-Prime/Svc/Version/CMakeFiles/Svc_Version.dir/VersionComponentAc.cpp.obj
+[704/875] Linking CXX static library lib/zephyr/libSvc_Version.a
+[705/875] Building CXX object F-Prime/Svc/Ccsds/SpacePacketFramer/CMakeFiles/Svc_Ccsds_SpacePacketFramer.dir/SpacePacketFramer.cpp.obj
+[706/875] Building CXX object F-Prime/Svc/Ccsds/SpacePacketDeframer/CMakeFiles/Svc_Ccsds_SpacePacketDeframer.dir/SpacePacketDeframerComponentAc.cpp.obj
+[707/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_SpacePacketDeframer.a
+[708/875] Generating TcDeframerComponentAc.cpp, TcDeframerComponentAc.hpp
+[709/875] Generating TmFramerComponentAc.cpp, TmFramerComponentAc.hpp
+[710/875] Building CXX object F-Prime/Svc/Ccsds/SpacePacketFramer/CMakeFiles/Svc_Ccsds_SpacePacketFramer.dir/SpacePacketFramerComponentAc.cpp.obj
+[711/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_SpacePacketFramer.a
+[712/875] Building CXX object F-Prime/Svc/Ccsds/TmFramer/CMakeFiles/Svc_Ccsds_TmFramer.dir/TmFramer.cpp.obj
+[713/875] Building CXX object F-Prime/Svc/Ccsds/TcDeframer/CMakeFiles/Svc_Ccsds_TcDeframer.dir/TcDeframer.cpp.obj
+[714/875] Generating ApidManagerComponentAc.cpp, ApidManagerComponentAc.hpp
+[715/875] Building CXX object F-Prime/Svc/Ccsds/TcDeframer/CMakeFiles/Svc_Ccsds_TcDeframer.dir/TcDeframerComponentAc.cpp.obj
+[716/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_TcDeframer.a
+[717/875] Building CXX object F-Prime/Svc/Ccsds/TmFramer/CMakeFiles/Svc_Ccsds_TmFramer.dir/TmFramerComponentAc.cpp.obj
+[718/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_TmFramer.a
+[719/875] Generating DirectiveErrorCodeEnumAc.cpp, DirectiveErrorCodeEnumAc.hpp, DirectiveIdEnumAc.cpp, DirectiveIdEnumAc.hpp, FlagIdEnumAc.cpp, FlagIdEnumAc.hpp, FooterSerializableAc.cpp, FooterSerializableAc.hpp, FppConstantsAc.cpp, FppConstantsAc.hpp, FpySequencerComponentAc.cpp, FpySequencerComponentAc.hpp, FpySequencer_AllocateDirectiveSerializableAc.cpp, FpySequencer_AllocateDirectiveSerializableAc.hpp, FpySequencer_BlockStateEnumAc.cpp, FpySequencer_BlockStateEnumAc.hpp, FpySequencer_BreakpointArgsSerializableAc.cpp, FpySequencer_BreakpointArgsSerializableAc.hpp, FpySequencer_CallDirectiveSerializableAc.cpp, FpySequencer_CallDirectiveSerializableAc.hpp, FpySequencer_ConstCmdDirectiveSerializableAc.cpp, FpySequencer_ConstCmdDirectiveSerializableAc.hpp, FpySequencer_DiscardDirectiveSerializableAc.cpp, FpySequencer_DiscardDirectiveSerializableAc.hpp, FpySequencer_ExitDirectiveSerializableAc.cpp, FpySequencer_ExitDirectiveSerializableAc.hpp, FpySequencer_FileReadStageEnumAc.cpp, FpySequencer_FileReadStageEnumAc.hpp, FpySequencer_GetFieldDirectiveSerializableAc.cpp, FpySequencer_GetFieldDirectiveSerializableAc.hpp, FpySequencer_GetFlagDirectiveSerializableAc.cpp, FpySequencer_GetFlagDirectiveSerializableAc.hpp, FpySequencer_GoalStateEnumAc.cpp, FpySequencer_GoalStateEnumAc.hpp, FpySequencer_GotoDirectiveSerializableAc.cpp, FpySequencer_GotoDirectiveSerializableAc.hpp, FpySequencer_IfDirectiveSerializableAc.cpp, FpySequencer_IfDirectiveSerializableAc.hpp, FpySequencer_LoadAbsDirectiveSerializableAc.cpp, FpySequencer_LoadAbsDirectiveSerializableAc.hpp, FpySequencer_LoadRelDirectiveSerializableAc.cpp, FpySequencer_LoadRelDirectiveSerializableAc.hpp, FpySequencer_MemCmpDirectiveSerializableAc.cpp, FpySequencer_MemCmpDirectiveSerializableAc.hpp, FpySequencer_NoOpDirectiveSerializableAc.cpp, FpySequencer_NoOpDirectiveSerializableAc.hpp, FpySequencer_PeekDirectiveSerializableAc.cpp, FpySequencer_PeekDirectiveSerializableAc.hpp, FpySequencer_PushPrmDirectiveSerializableAc.cpp, FpySequencer_PushPrmDirectiveSerializableAc.hpp, FpySequencer_PushTimeDirectiveSerializableAc.cpp, FpySequencer_PushTimeDirectiveSerializableAc.hpp, FpySequencer_PushTlmValAndTimeDirectiveSerializableAc.cpp, FpySequencer_PushTlmValAndTimeDirectiveSerializableAc.hpp, FpySequencer_PushTlmValDirectiveSerializableAc.cpp, FpySequencer_PushTlmValDirectiveSerializableAc.hpp, FpySequencer_PushValDirectiveSerializableAc.cpp, FpySequencer_PushValDirectiveSerializableAc.hpp, FpySequencer_ReturnDirectiveSerializableAc.cpp, FpySequencer_ReturnDirectiveSerializableAc.hpp, FpySequencer_SequenceExecutionArgsSerializableAc.cpp, FpySequencer_SequenceExecutionArgsSerializableAc.hpp, FpySequencer_SequencerStateMachineStateMachineAc.cpp, FpySequencer_SequencerStateMachineStateMachineAc.hpp, FpySequencer_SetFlagDirectiveSerializableAc.cpp, FpySequencer_SetFlagDirectiveSerializableAc.hpp, FpySequencer_StackCmdDirectiveSerializableAc.cpp, FpySequencer_StackCmdDirectiveSerializableAc.hpp, FpySequencer_StackOpDirectiveSerializableAc.cpp, FpySequencer_StackOpDirectiveSerializableAc.hpp, FpySequencer_StoreAbsConstOffsetDirectiveSerializableAc.cpp, FpySequencer_StoreAbsConstOffsetDirectiveSerializableAc.hpp, FpySequencer_StoreAbsDirectiveSerializableAc.cpp, FpySequencer_StoreAbsDirectiveSerializableAc.hpp, FpySequencer_StoreRelConstOffsetDirectiveSerializableAc.cpp, FpySequencer_StoreRelConstOffsetDirectiveSerializableAc.hpp, FpySequencer_StoreRelDirectiveSerializableAc.cpp, FpySequencer_StoreRelDirectiveSerializableAc.hpp, FpySequencer_WaitAbsDirectiveSerializableAc.cpp, FpySequencer_WaitAbsDirectiveSerializableAc.hpp, FpySequencer_WaitRelDirectiveSerializableAc.cpp, FpySequencer_WaitRelDirectiveSerializableAc.hpp, HeaderSerializableAc.cpp, HeaderSerializableAc.hpp, SequenceSerializableAc.cpp, SequenceSerializableAc.hpp, SignedStackSizeTypeAliasAc.hpp, StackSizeTypeAliasAc.hpp, StatementSerializableAc.cpp, StatementSerializableAc.hpp
+[720/875] Building CXX object F-Prime/Svc/Ccsds/ApidManager/CMakeFiles/Svc_Ccsds_ApidManager.dir/ApidManager.cpp.obj
+[721/875] Generating AggregationMachineStateMachineAc.cpp, AggregationMachineStateMachineAc.hpp, ComAggregatorComponentAc.cpp, ComAggregatorComponentAc.hpp
+[722/875] Building CXX object F-Prime/Svc/Ccsds/ApidManager/CMakeFiles/Svc_Ccsds_ApidManager.dir/ApidManagerComponentAc.cpp.obj
+[723/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencerStateMachine.cpp.obj
+[724/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer.cpp.obj
+[725/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencerRunState.cpp.obj
+[726/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/DirectiveErrorCodeEnumAc.cpp.obj
+[727/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencerValidationState.cpp.obj
+[728/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencerStack.cpp.obj
+[729/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/DirectiveIdEnumAc.cpp.obj
+[730/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FlagIdEnumAc.cpp.obj
+[731/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FppConstantsAc.cpp.obj
+[732/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FooterSerializableAc.cpp.obj
+[733/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_AllocateDirectiveSerializableAc.cpp.obj
+[734/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencerDirectives.cpp.obj
+[735/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_BlockStateEnumAc.cpp.obj
+[736/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_BreakpointArgsSerializableAc.cpp.obj
+[737/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_CallDirectiveSerializableAc.cpp.obj
+[738/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_ConstCmdDirectiveSerializableAc.cpp.obj
+[739/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_DiscardDirectiveSerializableAc.cpp.obj
+[740/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_ExitDirectiveSerializableAc.cpp.obj
+[741/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_FileReadStageEnumAc.cpp.obj
+[742/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_GetFieldDirectiveSerializableAc.cpp.obj
+[743/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_GoalStateEnumAc.cpp.obj
+[744/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_GetFlagDirectiveSerializableAc.cpp.obj
+[745/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_GotoDirectiveSerializableAc.cpp.obj
+[746/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_LoadAbsDirectiveSerializableAc.cpp.obj
+[747/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_IfDirectiveSerializableAc.cpp.obj
+[748/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_LoadRelDirectiveSerializableAc.cpp.obj
+[749/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_MemCmpDirectiveSerializableAc.cpp.obj
+[750/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_NoOpDirectiveSerializableAc.cpp.obj
+[751/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_PeekDirectiveSerializableAc.cpp.obj
+[752/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_PushPrmDirectiveSerializableAc.cpp.obj
+[753/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_PushTimeDirectiveSerializableAc.cpp.obj
+[754/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_PushTlmValAndTimeDirectiveSerializableAc.cpp.obj
+[755/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_PushTlmValDirectiveSerializableAc.cpp.obj
+[756/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_ReturnDirectiveSerializableAc.cpp.obj
+[757/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_PushValDirectiveSerializableAc.cpp.obj
+[758/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_SequenceExecutionArgsSerializableAc.cpp.obj
+[759/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_SetFlagDirectiveSerializableAc.cpp.obj
+[760/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_SequencerStateMachineStateMachineAc.cpp.obj
+[761/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_StackCmdDirectiveSerializableAc.cpp.obj
+[762/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_StackOpDirectiveSerializableAc.cpp.obj
+[763/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_StoreAbsConstOffsetDirectiveSerializableAc.cpp.obj
+[764/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_StoreAbsDirectiveSerializableAc.cpp.obj
+[765/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_StoreRelConstOffsetDirectiveSerializableAc.cpp.obj
+[766/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_StoreRelDirectiveSerializableAc.cpp.obj
+[767/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_WaitAbsDirectiveSerializableAc.cpp.obj
+[768/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencer_WaitRelDirectiveSerializableAc.cpp.obj
+[769/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/HeaderSerializableAc.cpp.obj
+[770/875] Linking CXX static library lib/zephyr/libSvc_Ccsds_ApidManager.a
+[771/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/SequenceSerializableAc.cpp.obj
+[772/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/StatementSerializableAc.cpp.obj
+[773/875] Building CXX object F-Prime/Svc/ComAggregator/CMakeFiles/Svc_ComAggregator.dir/AggregationMachineStateMachineAc.cpp.obj
+[774/875] Generating ComRetryComponentAc.cpp, ComRetryComponentAc.hpp
+[775/875] Building CXX object F-Prime/Svc/ComAggregator/CMakeFiles/Svc_ComAggregator.dir/ComAggregator.cpp.obj
+[776/875] Building CXX object F-Prime/Svc/FpySequencer/CMakeFiles/Svc_FpySequencer.dir/FpySequencerComponentAc.cpp.obj
+[777/875] Building CXX object F-Prime/Svc/ComRetry/CMakeFiles/Svc_ComRetry.dir/ComRetry.cpp.obj
+[778/875] Linking CXX static library lib/zephyr/libSvc_FpySequencer.a
+[779/875] Building CXX object F-Prime/Svc/ComAggregator/CMakeFiles/Svc_ComAggregator.dir/ComAggregatorComponentAc.cpp.obj
+[780/875] Linking CXX static library lib/zephyr/libSvc_ComAggregator.a
+[781/875] Linking CXX static library lib/zephyr/libUtils.a
+[782/875] Generating AsyncByteStreamBufferAdapterComponentAc.cpp, AsyncByteStreamBufferAdapterComponentAc.hpp
+[783/875] Building CXX object F-Prime/Svc/ComRetry/CMakeFiles/Svc_ComRetry.dir/ComRetryComponentAc.cpp.obj
+[784/875] Linking CXX static library lib/zephyr/libSvc_ComRetry.a
+[785/875] Generating ByteStreamBufferAdapterComponentAc.cpp, ByteStreamBufferAdapterComponentAc.hpp
+[786/875] Building CXX object F-Prime/Utils/Types/CMakeFiles/Utils_Types.dir/CircularBuffer.cpp.obj
+[787/875] Building CXX object F-Prime/Drv/AsyncByteStreamBufferAdapter/CMakeFiles/Drv_AsyncByteStreamBufferAdapter.dir/AsyncByteStreamBufferAdapter.cpp.obj
+[788/875] Building CXX object F-Prime/Drv/ByteStreamBufferAdapter/CMakeFiles/Drv_ByteStreamBufferAdapter.dir/ByteStreamBufferAdapter.cpp.obj
+[789/875] Building CXX object F-Prime/Utils/Types/CMakeFiles/Utils_Types.dir/Queue.cpp.obj
+[790/875] Linking CXX static library lib/zephyr/libUtils_Types.a
+[791/875] Generating LoRaCodingRateEnumAc.cpp, LoRaCodingRateEnumAc.hpp, LoRaComponentAc.cpp, LoRaComponentAc.hpp, LoRaDataRateEnumAc.cpp, LoRaDataRateEnumAc.hpp, LoRaModeEnumAc.cpp, LoRaModeEnumAc.hpp, TransmitStateEnumAc.cpp, TransmitStateEnumAc.hpp
+[792/875] Building CXX object F-Prime/Drv/AsyncByteStreamBufferAdapter/CMakeFiles/Drv_AsyncByteStreamBufferAdapter.dir/AsyncByteStreamBufferAdapterComponentAc.cpp.obj
+[793/875] Generating BuffQueueDepthArrayAc.cpp, BuffQueueDepthArrayAc.hpp, ComQueueComponentAc.cpp, ComQueueComponentAc.hpp, ComQueueDepthArrayAc.cpp, ComQueueDepthArrayAc.hpp, QueueTypeEnumAc.cpp, QueueTypeEnumAc.hpp
+[794/875] Generating FprimeDeframerComponentAc.cpp, FprimeDeframerComponentAc.hpp
+[795/875] Building CXX object F-Prime/Drv/ByteStreamBufferAdapter/CMakeFiles/Drv_ByteStreamBufferAdapter.dir/ByteStreamBufferAdapterComponentAc.cpp.obj
+[796/875] Generating FrameAccumulatorComponentAc.cpp, FrameAccumulatorComponentAc.hpp
+[797/875] Building CXX object F-Prime/Svc/ComQueue/CMakeFiles/Svc_ComQueue.dir/BuffQueueDepthArrayAc.cpp.obj
+[798/875] Building CXX object F-Prime/Svc/ComQueue/CMakeFiles/Svc_ComQueue.dir/ComQueueDepthArrayAc.cpp.obj
+[799/875] Building CXX object F-Prime/Svc/ComQueue/CMakeFiles/Svc_ComQueue.dir/QueueTypeEnumAc.cpp.obj
+[800/875] Building CXX object F-Prime/Svc/ComQueue/CMakeFiles/Svc_ComQueue.dir/ComQueue.cpp.obj
+[801/875] Building CXX object F-Prime/Svc/FprimeDeframer/CMakeFiles/Svc_FprimeDeframer.dir/FprimeDeframer.cpp.obj
+[802/875] Building CXX object F-Prime/Svc/FrameAccumulator/CMakeFiles/Svc_FrameAccumulator.dir/FrameDetector/FprimeFrameDetector.cpp.obj
+[803/875] Building CXX object F-Prime/Svc/FrameAccumulator/CMakeFiles/Svc_FrameAccumulator.dir/FrameAccumulator.cpp.obj
+[804/875] Building CXX object F-Prime/Svc/FprimeDeframer/CMakeFiles/Svc_FprimeDeframer.dir/FprimeDeframerComponentAc.cpp.obj
+[805/875] Building CXX object F-Prime/Svc/ComQueue/CMakeFiles/Svc_ComQueue.dir/ComQueueComponentAc.cpp.obj
+[806/875] Linking CXX static library lib/zephyr/libSvc_FprimeDeframer.a
+[807/875] Linking CXX static library lib/zephyr/libSvc_ComQueue.a
+[808/875] Linking CXX static library lib/zephyr/libDrv_AsyncByteStreamBufferAdapter.a
+[809/875] Linking CXX static library lib/zephyr/libDrv_ByteStreamBufferAdapter.a
+[810/875] Building CXX object F-Prime/Svc/FrameAccumulator/CMakeFiles/Svc_FrameAccumulator.dir/FrameDetector/CcsdsTcFrameDetector.cpp.obj
+[811/875] Building CXX object fprime-zephyr/Drv/LoRa/CMakeFiles/fprime-zephyr_Drv_LoRa.dir/LoRaCodingRateEnumAc.cpp.obj
+[812/875] Building CXX object fprime-zephyr/Drv/LoRa/CMakeFiles/fprime-zephyr_Drv_LoRa.dir/LoRaDataRateEnumAc.cpp.obj
+[813/875] Building CXX object fprime-zephyr/Drv/LoRa/CMakeFiles/fprime-zephyr_Drv_LoRa.dir/LoRaModeEnumAc.cpp.obj
+[814/875] Building CXX object F-Prime/Svc/FrameAccumulator/CMakeFiles/Svc_FrameAccumulator.dir/FrameAccumulatorComponentAc.cpp.obj
+[815/875] Linking CXX static library lib/zephyr/libSvc_FrameAccumulator.a
+[816/875] Building CXX object fprime-zephyr/Drv/LoRa/CMakeFiles/fprime-zephyr_Drv_LoRa.dir/TransmitStateEnumAc.cpp.obj
+[817/875] Building CXX object fprime-zephyr/Drv/LoRa/CMakeFiles/fprime-zephyr_Drv_LoRa.dir/LoRaComponentAc.cpp.obj
+[818/875] Building CXX object fprime-zephyr/Drv/LoRa/CMakeFiles/fprime-zephyr_Drv_LoRa.dir/LoRa.cpp.obj
+[819/875] Linking CXX static library lib/zephyr/libfprime-zephyr_Drv_LoRa.a
+[820/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Task_Zephyr.dir/Task.cpp.obj
+[821/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Task_Zephyr.dir/DefaultTask.cpp.obj
+[822/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Mutex_Zephyr.dir/Mutex.cpp.obj
+[823/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Mutex_Zephyr.dir/ConditionVariable.cpp.obj
+[824/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Mutex_Zephyr.dir/DefaultMutex.cpp.obj
+[825/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_RawTime_Zephyr.dir/RawTime.cpp.obj
+[826/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Console_Zephyr.dir/DefaultConsole.cpp.obj
+[827/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Posix_Shared.dir/__/__/__/fprime/Os/Posix/error.cpp.obj
+[828/875] Linking CXX static library lib/zephyr/libOs_Posix_Shared.a
+[829/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_RawTime_Zephyr.dir/DefaultRawTime.cpp.obj
+[830/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_Console_Zephyr.dir/Console.cpp.obj
+[831/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_File_Zephyr_Posix.dir/__/__/__/fprime/Os/Posix/DefaultFile.cpp.obj
+[832/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_StringFormat_Zephyr_snprintk.dir/snprintk.cpp.obj
+[833/875] Generating ZephyrUartDriverComponentAc.cpp, ZephyrUartDriverComponentAc.hpp
+[834/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_File_Zephyr_Posix.dir/__/__/__/fprime/Os/Posix/File.cpp.obj
+[835/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_File_Zephyr_Posix.dir/FileSystem.cpp.obj
+[836/875] Generating ZephyrGpioDriverComponentAc.cpp, ZephyrGpioDriverComponentAc.hpp
+[837/875] Building CXX object fprime-zephyr/Os/CMakeFiles/Os_File_Zephyr_Posix.dir/Directory.cpp.obj
+[838/875] Building CXX object fprime-zephyr/Drv/ZephyrUartDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrUartDriver.dir/ZephyrUartDriverComponentAc.cpp.obj
+[839/875] Building CXX object fprime-zephyr/Drv/ZephyrGpioDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrGpioDriver.dir/ZephyrGpioDriverComponentAc.cpp.obj
+[840/875] Generating ZephyrRateDriverComponentAc.cpp, ZephyrRateDriverComponentAc.hpp
+[841/875] Building CXX object fprime-zephyr/Drv/ZephyrUartDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrUartDriver.dir/ZephyrUartDriver.cpp.obj
+[842/875] Linking CXX static library lib/zephyr/libfprime-zephyr_Drv_ZephyrUartDriver.a
+[843/875] Generating ZephyrI2cDriverComponentAc.cpp, ZephyrI2cDriverComponentAc.hpp
+[844/875] Building CXX object fprime-zephyr/Drv/ZephyrRateDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrRateDriver.dir/ZephyrRateDriverComponentAc.cpp.obj
+[845/875] Building CXX object fprime-zephyr/Drv/ZephyrI2cDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrI2cDriver.dir/ZephyrI2cDriverComponentAc.cpp.obj
+[846/875] Building CXX object fprime-zephyr/Drv/ZephyrGpioDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrGpioDriver.dir/ZephyrGpioDriver.cpp.obj
+[847/875] Linking CXX static library lib/zephyr/libfprime-zephyr_Drv_ZephyrGpioDriver.a
+[848/875] Generating ZephyrSpiDriverComponentAc.cpp, ZephyrSpiDriverComponentAc.hpp
+[849/875] Building CXX object fprime-zephyr/Drv/ZephyrRateDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrRateDriver.dir/ZephyrRateDriver.cpp.obj
+[850/875] Generating Stm32LedComponentAc.cpp, Stm32LedComponentAc.hpp
+[851/875] Linking CXX static library lib/zephyr/libfprime-zephyr_Drv_ZephyrRateDriver.a
+[852/875] Building CXX object fprime-zephyr/Drv/ZephyrI2cDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrI2cDriver.dir/ZephyrI2cDriver.cpp.obj
+[853/875] Linking CXX static library lib/zephyr/libfprime-zephyr_Drv_ZephyrI2cDriver.a
+[854/875] Building CXX object fprime-zephyr/Drv/ZephyrSpiDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrSpiDriver.dir/ZephyrSpiDriverComponentAc.cpp.obj
+[855/875] Building CXX object fprime-zephyr/Drv/ZephyrSpiDriver/CMakeFiles/fprime-zephyr_Drv_ZephyrSpiDriver.dir/ZephyrSpiDriver.cpp.obj
+[856/875] Linking CXX static library lib/zephyr/libfprime-zephyr_Drv_ZephyrSpiDriver.a
+[857/875] Building CXX object Components/Stm32Led/CMakeFiles/Components_Stm32Led.dir/Stm32LedComponentAc.cpp.obj
+[858/875] Building CXX object Components/Stm32Led/CMakeFiles/Components_Stm32Led.dir/Stm32Led.cpp.obj
+[859/875] Linking CXX static library lib/zephyr/libComponents_Stm32Led.a
+[860/875] Generating FppConstantsAc.cpp, FppConstantsAc.hpp, LedBlinkerTopologyAc.cpp, LedBlinkerTopologyAc.hpp, Ports_RateGroupsEnumAc.cpp, Ports_RateGroupsEnumAc.hpp
+FAILED: LedBlinker/Top/FppConstantsAc.cpp LedBlinker/Top/FppConstantsAc.hpp LedBlinker/Top/LedBlinkerTopologyAc.cpp LedBlinker/Top/LedBlinkerTopologyAc.hpp LedBlinker/Top/Ports_RateGroupsEnumAc.cpp LedBlinker/Top/Ports_RateGroupsEnumAc.hpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top/FppConstantsAc.cpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top/FppConstantsAc.hpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyAc.cpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyAc.hpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top/Ports_RateGroupsEnumAc.cpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top/Ports_RateGroupsEnumAc.hpp 
+cd /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top && /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/.venv/bin/fpp-to-cpp -d /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/LedBlinker/Top -i /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/Components/Stm32Led/Stm32Led.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime/default/config/AcConstants.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime/default/config/ComCfg.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime/default/config/DpCfg.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime/default/config/FpConfig.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime/default/config/FpConstants.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime/default/config/FpySequencerCfg.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/cmake/platform/zephyr/Platform/PlatformTypes.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime-zephyr/fprime-zephyr/Drv/ZephyrGpioDriver/ZephyrGpioDriver.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime-zephyr/fprime-zephyr/Drv/ZephyrRateDriver/ZephyrRateDriver.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime-zephyr/fprime-zephyr/Drv/ZephyrUartDriver/ZephyrUartDriver.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Drv/ByteStreamDriverModel/ByteStreamDriverModel.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Drv/Interfaces/ByteStreamDriver.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Drv/Interfaces/Gpio.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Drv/Interfaces/Tick.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Drv/Ports/GpioDriverPorts.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Buffer/Buffer.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Cmd/Cmd.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Com/Com.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Dp/Dp.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Interfaces/Event.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Log/Log.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Ports/SuccessCondition/SuccessCondition.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Prm/Prm.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Time/Time.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Tlm/Tlm.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Fw/Types/Types.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Os/Types.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/BufferManager/BufferManager.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/ChronoTime/ChronoTime.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/CmdDispatcher/CmdDispatcher.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/ComQueue/ComQueue.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Cycle/Cycle.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/FprimeDeframer/FprimeDeframer.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/FprimeFramer/FprimeFramer.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/FprimeRouter/FprimeRouter.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/FrameAccumulator/FrameAccumulator.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Interfaces/Deframer.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Interfaces/FrameAccumulator.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Interfaces/Framer.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Interfaces/Router.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Interfaces/Time.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/PassiveConsoleTextLogger/PassiveConsoleTextLogger.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/PassiveRateGroup/PassiveRateGroup.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Ping/Ping.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Ports/CommsPorts/CommsPorts.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/RateGroupDriver/RateGroupDriver.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/Sched/Sched.fpp,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime/Svc/TlmChan/TlmChan.fpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/LedBlinker/Top/instances.fpp /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/LedBlinker/Top/topology.fpp -p /home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/fprime-zephyr,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr/F-Prime,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr,/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/build-fprime-automatic-zephyr
+fpp-to-cpp
+/home/swayamshreemohanty/Documents/work/serendipityspace/fprime-zephyr-led-blinker/LedBlinker/Top/instances.fpp:89.29
+  instance eventLogger: Svc.ActiveLogger base id REMOTE_TOPOLOGY_BASE + 0x4800 \
+                            ^
+error: symbol ActiveLogger is not defined
+note: looking for a component here
+ninja: build stopped: subcommand failed.
+[ERROR] CMake erred with return code 1

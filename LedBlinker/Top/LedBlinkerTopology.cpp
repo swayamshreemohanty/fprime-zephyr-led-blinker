@@ -7,7 +7,7 @@
 #include <LedBlinker/Top/LedBlinkerTopologyAc.hpp>
 #include <config/FppConstantsAc.hpp>
 
-// Hub pattern components
+// Communication stack components
 #include <Fw/Types/MallocAllocator.hpp>
 
 #include <zephyr/devicetree.h>
@@ -30,13 +30,13 @@ Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {10, 0} }};
 U32 rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupOutputPorts] = {};
 
 // Memory allocator for buffer manager
-Fw::MallocAllocator hubMallocator;
+Fw::MallocAllocator commsAllocator;
 
-// Buffer manager configuration - sized for embedded STM32
+// Buffer manager configuration - sized for F Prime communication stack
 enum BufferConstants {
-    HUB_BUFFER_SIZE = 1024,   // Increased for event routing through hub
-    HUB_BUFFER_COUNT = 200,   // Increased to handle both events and telemetry
-    HUB_BUFFER_MANAGER_ID = 100
+    COMMS_BUFFER_SIZE = 2048,      // Size for framed packets
+    COMMS_BUFFER_COUNT = 50,       // Number of communication buffers
+    COMMS_BUFFER_MANAGER_ID = 200
 };
 
 /**
@@ -58,12 +58,23 @@ void configureTopology() {
     gpioDriver1.open(led1_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
     gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
 
-    // Configure Hub Pattern components for remote spoke node communication
-    Svc::BufferManager::BufferBins hubBuffMgrBins;
-    memset(&hubBuffMgrBins, 0, sizeof(hubBuffMgrBins));
-    hubBuffMgrBins.bins[0].bufferSize = HUB_BUFFER_SIZE;
-    hubBuffMgrBins.bins[0].numBuffers = HUB_BUFFER_COUNT;
-    bufferManager.setup(HUB_BUFFER_MANAGER_ID, 0, hubMallocator, hubBuffMgrBins);
+    // Configure communication buffer manager
+    Svc::BufferManager::BufferBins commsBuffMgrBins;
+    memset(&commsBuffMgrBins, 0, sizeof(commsBuffMgrBins));
+    commsBuffMgrBins.bins[0].bufferSize = COMMS_BUFFER_SIZE;
+    commsBuffMgrBins.bins[0].numBuffers = COMMS_BUFFER_COUNT;
+    commsBufferManager.setup(COMMS_BUFFER_MANAGER_ID, 0, commsAllocator, commsBuffMgrBins);
+    
+    // Configure ComQueue with prioritized queues for events and telemetry
+    Svc::ComQueue::QueueConfigurationTable queueConfig;
+    queueConfig.entries[0].depth = 100;      // Events queue depth
+    queueConfig.entries[0].priority = 0;     // Highest priority (0 = highest)
+    queueConfig.entries[1].depth = 100;      // Telemetry queue depth
+    queueConfig.entries[1].priority = 1;     // Lower priority than events
+    comQueue.configure(queueConfig);
+    
+    // Configure FrameAccumulator with buffer size for incoming frames
+    frameAccumulator.configure(COMMS_BUFFER_SIZE);
 }
 
 // Public functions for use in main program are namespaced with deployment name LedBlinker
@@ -80,15 +91,14 @@ void setupTopology(const TopologyState& state) {
     
     // CRITICAL: Configure topology BEFORE regCommands
     // BufferManager.setup() must be called before components register commands
-    // This matches the RemoteDeployment pattern from fprime-generichub-reference
     configureTopology();
     
-    // No parameter loading - this is a spoke node without PrmDb
+    // No parameter loading - this is an embedded deployment without PrmDb
     
-    // Register commands AFTER BufferManager is configured
+    // Register commands AFTER configuration
     regCommands();
     
-    // Start active component tasks (EventManager) last
+    // Start active component tasks
     startTasks(state);
     
     rateDriver.configure(1);
