@@ -15,8 +15,6 @@
 
 // Define GPIO specs for all 3 LEDs
 static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);   // Green LED
-static const struct gpio_dt_spec led1_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);  // Yellow LED
-static const struct gpio_dt_spec led2_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);  // Red LED
 
 // Allows easy reference to objects in FPP/autocoder required namespaces
 using namespace LedBlinker;
@@ -27,7 +25,8 @@ Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {10, 0} }};
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
-U32 rateGroup1Context[FppConstant_PassiveRateGroupOutputPorts::PassiveRateGroupOutputPorts] = {};
+static constexpr FwSizeType RATE_GROUP1_CONTEXT_COUNT = 3;
+U32 rateGroup1Context[RATE_GROUP1_CONTEXT_COUNT] = {};
 
 // Memory allocator for buffer manager
 Fw::MallocAllocator commsAllocator;
@@ -53,10 +52,8 @@ void configureTopology() {
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    // Open GPIO for all 3 LEDs
+    // Open GPIO for LED
     gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-    gpioDriver1.open(led1_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-    gpioDriver2.open(led2_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
 
     // Configure communication buffer manager
     Svc::BufferManager::BufferBins commsBuffMgrBins;
@@ -64,17 +61,8 @@ void configureTopology() {
     commsBuffMgrBins.bins[0].bufferSize = COMMS_BUFFER_SIZE;
     commsBuffMgrBins.bins[0].numBuffers = COMMS_BUFFER_COUNT;
     commsBufferManager.setup(COMMS_BUFFER_MANAGER_ID, 0, commsAllocator, commsBuffMgrBins);
-    
-    // Configure ComQueue with prioritized queues for events and telemetry
-    Svc::ComQueue::QueueConfigurationTable queueConfig;
-    queueConfig.entries[0].depth = 100;      // Events queue depth
-    queueConfig.entries[0].priority = 0;     // Highest priority (0 = highest)
-    queueConfig.entries[1].depth = 100;      // Telemetry queue depth
-    queueConfig.entries[1].priority = 1;     // Lower priority than events
-    comQueue.configure(queueConfig);
-    
-    // Configure FrameAccumulator with buffer size for incoming frames
-    frameAccumulator.configure(COMMS_BUFFER_SIZE);
+
+    // Standard Framer/Deframer setup (autocoded versions don't need manual setup usually)
 }
 
 // Public functions for use in main program are namespaced with deployment name LedBlinker
@@ -114,6 +102,6 @@ void teardownTopology(const TopologyState& state) {
     freeThreads(state);
     
     // Clean up buffer manager
-    bufferManager.cleanup();
+    commsBufferManager.cleanup();
 }
 };  // namespace LedBlinker

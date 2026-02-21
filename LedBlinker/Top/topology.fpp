@@ -20,11 +20,7 @@ module LedBlinker {
     instance chronoTime
     instance uartDriver
     instance gpioDriver
-    instance gpioDriver1
-    instance gpioDriver2
     instance led
-    instance led1
-    instance led2
     instance rateDriver
     instance rateGroup1
     instance rateGroupDriver
@@ -33,12 +29,13 @@ module LedBlinker {
     instance cmdDisp
 
     # Communication stack components
-    instance comQueue
     instance framer
     instance deframer
     instance frameAccumulator
     instance fprimeRouter
+    instance comStub
     instance commsBufferManager
+    instance tlmSend
     instance tlmChan
     instance eventLogger
     instance textLogger
@@ -73,19 +70,14 @@ module LedBlinker {
       # Rate group 1 - Periodic scheduling
       # CRITICAL: uartDriver.schedIn MUST be connected to poll UART RX ring buffer
       rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1.CycleIn
-      rateGroup1.RateGroupMemberOut[0] -> comQueue.run
+      rateGroup1.RateGroupMemberOut[0] -> tlmChan.Run
       rateGroup1.RateGroupMemberOut[1] -> uartDriver.schedIn  # Poll UART RX buffer
-      rateGroup1.RateGroupMemberOut[2] -> tlmChan.Run
-      rateGroup1.RateGroupMemberOut[3] -> led.run
-      rateGroup1.RateGroupMemberOut[4] -> led1.run
-      rateGroup1.RateGroupMemberOut[5] -> led2.run
+      rateGroup1.RateGroupMemberOut[2] -> led.run
     }
 
     connections LedConnections {
       # LED GPIO connections
       led.gpioSet -> gpioDriver.gpioWrite
-      led1.gpioSet -> gpioDriver1.gpioWrite
-      led2.gpioSet -> gpioDriver2.gpioWrite
     }
 
     # ----------------------------------------------------------------------
@@ -94,24 +86,28 @@ module LedBlinker {
     
     connections Downlink {
       # EventLogger -> ComQueue
-      eventLogger.PktSend -> comQueue.dataInPacket[0]
+      eventLogger.PktSend -> tlmSend.comPacketQueueIn[0]
       
       # TlmChan -> ComQueue
-      tlmChan.PktSend -> comQueue.dataInPacket[1]
+      tlmChan.PktSend -> tlmSend.comPacketQueueIn[1]
       
       # ComQueue -> Framer
-      comQueue.dataOut -> framer.dataIn
-      framer.dataReturnOut -> comQueue.dataReturnIn
-      framer.comStatusOut -> comQueue.comStatusIn
+      tlmSend.dataOut -> framer.dataIn
+      framer.dataReturnOut -> tlmSend.dataReturnIn
+      framer.comStatusOut -> tlmSend.comStatusIn
+
+      # Framer -> ComStub
+      framer.dataOut -> comStub.dataIn
+      comStub.dataReturnOut -> framer.dataReturnIn
+      comStub.comStatusOut -> framer.comStatusIn
+      
+      # ComStub -> UART (TX)
+      comStub.drvSendOut -> uartDriver.$send
+      uartDriver.ready -> comStub.drvConnected
       
       # Framer buffer management
       framer.bufferAllocate -> commsBufferManager.bufferGetCallee
       framer.bufferDeallocate -> commsBufferManager.bufferSendIn
-      
-      # Framer -> UART (TX)
-      framer.dataOut -> uartDriver.$send
-      uartDriver.sendReturnIn -> framer.dataReturnIn
-      uartDriver.ready -> framer.comStatusIn
     }
 
     # ----------------------------------------------------------------------
@@ -119,14 +115,14 @@ module LedBlinker {
     # ----------------------------------------------------------------------
     
     connections Uplink {
-      # UART -> FrameAccumulator (RX)
-      uartDriver.$recv -> frameAccumulator.dataIn
-      frameAccumulator.dataReturnOut -> uartDriver.recvReturnIn
-      
-      # FrameAccumulator buffer management
-      frameAccumulator.bufferAllocate -> commsBufferManager.bufferGetCallee
-      frameAccumulator.bufferDeallocate -> commsBufferManager.bufferSendIn
-      
+      # UART -> ComStub (RX)
+      uartDriver.$recv -> comStub.drvReceiveIn
+      comStub.drvReceiveReturnOut -> uartDriver.recvReturnIn
+
+      # ComStub -> FrameAccumulator
+      comStub.dataOut -> frameAccumulator.dataIn
+      frameAccumulator.dataReturnOut -> comStub.dataReturnIn
+
       # FrameAccumulator -> Deframer
       frameAccumulator.dataOut -> deframer.dataIn
       deframer.dataReturnOut -> frameAccumulator.dataReturnIn
@@ -135,13 +131,21 @@ module LedBlinker {
       deframer.dataOut -> fprimeRouter.dataIn
       fprimeRouter.dataReturnOut -> deframer.dataReturnIn
       
-      # FprimeRouter buffer management
-      fprimeRouter.bufferAllocate -> commsBufferManager.bufferGetCallee
-      fprimeRouter.bufferDeallocate -> commsBufferManager.bufferSendIn
-      
       # FprimeRouter -> CommandDispatcher
       fprimeRouter.commandOut -> cmdDisp.seqCmdBuff[0]
       cmdDisp.seqCmdStatus[0] -> fprimeRouter.cmdResponseIn
+      
+      # FprimeRouter buffer management
+      fprimeRouter.bufferAllocate -> commsBufferManager.bufferGetCallee
+      fprimeRouter.bufferDeallocate -> commsBufferManager.bufferSendIn
+
+      # TlmSend buffer management
+      tlmSend.bufferReturnOut[0] -> commsBufferManager.bufferSendIn
+
+      # FrameAccumulator buffer management
+      frameAccumulator.bufferAllocate -> commsBufferManager.bufferGetCallee
+      frameAccumulator.bufferDeallocate -> commsBufferManager.bufferSendIn
+
     }
     
     connections UartBufferManagement {

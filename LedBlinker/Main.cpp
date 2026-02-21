@@ -10,7 +10,7 @@
 
 // USART1 for communication (PA9=TX, PA10=RX @ 115200 baud, 8N1)
 // On b_u585i_iot02a: usart1 is the console UART
-const struct device *serial = DEVICE_DT_GET(DT_NODELABEL(usart1));
+const struct device *serial = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 
 // Fatal error handler
 extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch_esf *esf)

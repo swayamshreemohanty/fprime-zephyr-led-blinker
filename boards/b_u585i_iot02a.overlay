@@ -5,9 +5,6 @@
     aliases {
         // Board has two user LEDs: PH7 (green) and PH6 (red)
         led0 = &green_led_1;  // PH7
-        led1 = &red_led_1;    // PH6
-        // Provide a third alias for apps expecting led2
-        led2 = &red_led_1;    // duplicate of PH6
     };
 
     chosen {
