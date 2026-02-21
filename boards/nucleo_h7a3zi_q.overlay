@@ -33,34 +33,12 @@
         gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>;
         label = "User LD1";
     };
-    
-    yellow_led: led_1 {
-        gpios = <&gpioe 1 GPIO_ACTIVE_HIGH>;
-        label = "User LD2";
-    };
-    
-    red_led: led_2 {
-        gpios = <&gpiob 14 GPIO_ACTIVE_HIGH>;
-        label = "User LD3";
-    };
 };
 
 // Enable USART3 for console/debug on ST-Link Virtual COM port
 &usart3 {
     status = "okay";
     current-speed = <115200>;
-};
-
-// Enable USART2 for F-Prime communication with RPi on PA2 (TX) and PA3 (RX)
-// This matches the working uart_rpi_stm_test configuration
-// PA2 = USART2_TX (connects to RPi GPIO15/RX)
-// PA3 = USART2_RX (connects to RPi GPIO14/TX)
-// Baud: 115200, Format: 8N1 (8 data bits, no parity, 1 stop bit)
-&usart2 {
-    status = "okay";
-    current-speed = <115200>;
-    pinctrl-0 = <&usart2_tx_pa2 &usart2_rx_pa3>;
-    pinctrl-names = "default";
 };
 
 // Disable USB OTG to prevent conflicts with UART communication

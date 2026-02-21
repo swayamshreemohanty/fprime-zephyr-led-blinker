@@ -25,7 +25,8 @@ fprime-util build
 The following command will spin up the F' GDS as well as run the application binary and the components necessary for the GDS and application to communicate.
 
 ```
-fprime-gds -n --dictionary ./build-artifacts/zephyr/LedBlinker/dict/LedBlinkerAppDictionary.xml --comm-adapter uart --uart-device /dev/ttyACM0 --uart-baud 115200
+ninja -C build-fprime-automatic-zephyr LedBlinker_Top_dictionary
+fprime-gds -n --dictionary ./build-fprime-automatic-zephyr/LedBlinker/Top/LedBlinkerTopologyDictionary.json --communication-selection uart --uart-device /dev/ttyACM0 --uart-baud 115200
 ```
 
 > Change `/dev/ttyACM0` to your respective serial device.

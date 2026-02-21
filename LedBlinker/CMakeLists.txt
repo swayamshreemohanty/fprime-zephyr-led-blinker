@@ -18,8 +18,6 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
 # Add custom components to this specific deployment here
 # add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/MyComponent/")
 
-set(MOD_DEPS ${FPRIME_CURRENT_MODULE}/Top app)
-
 # Trim TlmChan telemetry table size for this small deployment
 if (TARGET Svc_TlmChan)
     target_compile_definitions(Svc_TlmChan PUBLIC
@@ -29,7 +27,10 @@ if (TARGET Svc_TlmChan)
     )
 endif()
 
-register_fprime_zephyr_deployment()
+register_fprime_zephyr_deployment(
+    DEPENDS
+    LedBlinker_Top
+)
 
 FILE(GLOB app_sources Main.cpp)
 target_sources(app PRIVATE 
