@@ -32,14 +32,10 @@ U32 rateGroup1Context[RATE_GROUP1_CONTEXT_COUNT] = {};
 // Memory allocator for buffer manager
 Fw::MallocAllocator commsAllocator;
 
-// Buffer manager configuration - sized for F Prime communication stack
-// Kept small to fit within the embedded heap (256KB).
-// 10 x 512 bytes = 5KB + struct overhead, well within available malloc space.
 enum BufferConstants {
     COMMS_BUFFER_SIZE = 512,       // Size for framed packets (F Prime packets are typically small)
     COMMS_BUFFER_COUNT = 10,       // Number of communication buffers
     COMMS_BUFFER_MANAGER_ID = 200,
-    COMMS_QUEUE_ALLOCATION_ID = 201
 };
 
 /**
@@ -55,6 +51,17 @@ void configureTopology() {
 
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
+
+    // Configure ComQueue before traffic starts.
+    // If any entry depth is zero, that queue remains uninitialized and asserts on getQueueSize().
+        Svc::ComQueue::QueueConfigurationTable comQueueConfig;
+        comQueueConfig.entries[0].depth = 10;  // Events queue
+        comQueueConfig.entries[0].priority = 0;
+        comQueueConfig.entries[1].depth = 10;  // Telemetry queue
+        comQueueConfig.entries[1].priority = 1;
+        comQueueConfig.entries[2].depth = 4;   // Buffer queue
+        comQueueConfig.entries[2].priority = 2;
+    tlmSend.configure(comQueueConfig, 0, commsAllocator);
 
     // Open GPIO for LED
     gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
@@ -103,6 +110,10 @@ void teardownTopology(const TopologyState& state) {
     // Autocoded (active component) task clean-up. Functions provided by topology autocoder.
     stopTasks(state);
     freeThreads(state);
+
+    // Clean up ComQueue allocation
+        // Clean up communication queue allocation
+        tlmSend.cleanup();
     
     // Clean up buffer manager
     commsBufferManager.cleanup();

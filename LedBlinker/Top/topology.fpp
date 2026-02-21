@@ -73,6 +73,7 @@ module LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> tlmChan.Run
       rateGroup1.RateGroupMemberOut[1] -> uartDriver.schedIn  # Poll UART RX buffer
       rateGroup1.RateGroupMemberOut[2] -> led.run
+      rateGroup1.RateGroupMemberOut[3] -> tlmSend.run
     }
 
     connections LedConnections {
