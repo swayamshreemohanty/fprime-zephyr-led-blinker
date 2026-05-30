@@ -18,6 +18,23 @@ namespace PingEntries {
     namespace LedBlinker_rateGroup1 {enum { WARN = 3, FATAL = 5 };}
 }
 
+// Subtopologies Ping Entries
+#include "Svc/Subtopologies/CdhCore/PingEntries.hpp"
+#include "Svc/Subtopologies/ComFprime/PingEntries.hpp"
+
+// Enums and Configs
+#include "Svc/Subtopologies/ComFprime/Ports_ComPacketQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComFprime/Ports_ComBufferQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComFprime/ComFprimeConfig/FppConstantsAc.hpp"
+
+// Frame detector and allocator
+#include "Svc/FrameAccumulator/FrameDetector/FprimeFrameDetector.hpp"
+#include "Svc/Subtopologies/ComFprime/ComFprimeConfig/ComFprimeSubtopologyConfig.hpp"
+
+// SubtopologyTopologyDefs includes
+#include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
+#include "Svc/Subtopologies/ComFprime/SubtopologyTopologyDefs.hpp"
+
 // Definitions are placed within a namespace named after the deployment
 namespace LedBlinker {
 
@@ -26,11 +43,13 @@ namespace LedBlinker {
  *
  * The topology autocoder requires an object that carries state with the name `LedBlinker::TopologyState`. Only the type
  * definition is required by the autocoder and the contents of this object are otherwise opaque to the autocoder. The
- * contents are entirely up to the definition of the project. This deployment uses hub pattern for communication.
+ * contents are entirely up to the definition of the project. This deployment uses subtopologies for communication.
  */
 struct TopologyState {
     const struct device *dev;
     PlatformIntType uartBaud;
+    CdhCore::SubtopologyState cdhCore;           //!< Subtopology state for CdhCore
+    ComFprime::SubtopologyState comFprime;       //!< Subtopology state for ComFprime 
 };
 
 /**

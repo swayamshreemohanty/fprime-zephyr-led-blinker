@@ -10,6 +10,12 @@
 // Communication stack components
 #include <Fw/Types/MallocAllocator.hpp>
 
+// Subtopologies
+#include <Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp>
+#include <Svc/Subtopologies/CdhCore/PingEntries.hpp>
+#include <Svc/Subtopologies/ComFprime/SubtopologyTopologyDefs.hpp>
+#include <Svc/Subtopologies/ComFprime/PingEntries.hpp>
+
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
 
@@ -29,15 +35,6 @@ Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {10, 0} }};
 static constexpr FwSizeType RATE_GROUP1_CONTEXT_COUNT = 10;
 U32 rateGroup1Context[RATE_GROUP1_CONTEXT_COUNT] = {};
 
-// Memory allocator for buffer manager
-Fw::MallocAllocator commsAllocator;
-
-enum BufferConstants {
-    COMMS_BUFFER_SIZE = 512,       // Size for framed packets (F Prime packets are typically small)
-    COMMS_BUFFER_COUNT = 10,       // Number of communication buffers
-    COMMS_BUFFER_MANAGER_ID = 200,
-};
-
 /**
  * \brief configure/setup components in project-specific way
  *
@@ -52,27 +49,8 @@ void configureTopology() {
     // Rate groups require context arrays.
     rateGroup1.configure(rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(rateGroup1Context));
 
-    // Configure ComQueue before traffic starts.
-    // If any entry depth is zero, that queue remains uninitialized and asserts on getQueueSize().
-        Svc::ComQueue::QueueConfigurationTable comQueueConfig;
-        comQueueConfig.entries[0].depth = 10;  // Events queue
-        comQueueConfig.entries[0].priority = 0;
-        comQueueConfig.entries[1].depth = 10;  // Telemetry queue
-        comQueueConfig.entries[1].priority = 1;
-        comQueueConfig.entries[2].depth = 4;   // Buffer queue
-        comQueueConfig.entries[2].priority = 2;
-    tlmSend.configure(comQueueConfig, 0, commsAllocator);
-
     // Open GPIO for LED
     gpioDriver.open(led_pin, Zephyr::ZephyrGpioDriver::GpioConfiguration::OUT);
-
-    // Configure communication buffer manager
-    Svc::BufferManager::BufferBins commsBuffMgrBins;
-    memset(&commsBuffMgrBins, 0, sizeof(commsBuffMgrBins));
-    commsBuffMgrBins.bins[0].bufferSize = COMMS_BUFFER_SIZE;
-    commsBuffMgrBins.bins[0].numBuffers = COMMS_BUFFER_COUNT;
-    commsBufferManager.setup(COMMS_BUFFER_MANAGER_ID, 0, commsAllocator, commsBuffMgrBins);
-    // Standard Framer/Deframer setup (autocoded versions don't need manual setup usually)
 }
 
 // Public functions for use in main program are namespaced with deployment name LedBlinker
@@ -86,6 +64,9 @@ void setupTopology(const TopologyState& state) {
     
     // Autocoded connection wiring. Function provided by autocoder.
     connectComponents();
+    
+    // Autocoded configuration. Function provided by autocoder.
+    configComponents(state);
     
     // CRITICAL: Configure topology BEFORE regCommands
     // BufferManager.setup() must be called before components register commands
@@ -110,12 +91,5 @@ void teardownTopology(const TopologyState& state) {
     // Autocoded (active component) task clean-up. Functions provided by topology autocoder.
     stopTasks(state);
     freeThreads(state);
-
-    // Clean up ComQueue allocation
-        // Clean up communication queue allocation
-        tlmSend.cleanup();
-    
-    // Clean up buffer manager
-    commsBufferManager.cleanup();
 }
 };  // namespace LedBlinker

@@ -13,20 +13,12 @@ set(SOURCE_FILES
 )
 set(MOD_DEPS
   Fw/Logger
-  Svc/EventManager
-  Svc/BufferManager
+  Svc/Subtopologies/CdhCore
+  Svc/Subtopologies/ComFprime
   Svc/ChronoTime
-  Svc/CmdDispatcher
-  Svc/ComQueue
-  Svc/ComStub
-  Svc/FrameAccumulator
-  Svc/FprimeDeframer
-  Svc/FprimeFramer
-  Svc/FprimeRouter
   Svc/PassiveRateGroup
   Svc/PassiveConsoleTextLogger
   Svc/RateGroupDriver
-  Svc/TlmChan
   Components/Stm32Led
   fprime-zephyr/Drv/ZephyrGpioDriver
   fprime-zephyr/Drv/ZephyrRateDriver
