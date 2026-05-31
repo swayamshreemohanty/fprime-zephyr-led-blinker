@@ -14,7 +14,7 @@ set(SOURCE_FILES
 set(MOD_DEPS
   Fw/Logger
   Svc/Subtopologies/CdhCore
-  Svc/Subtopologies/ComFprime
+  Svc/Subtopologies/ComCcsds
   Svc/ChronoTime
   Svc/PassiveRateGroup
   Svc/PassiveConsoleTextLogger

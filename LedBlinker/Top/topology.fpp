@@ -14,7 +14,7 @@ module LedBlinker {
     # Subtopology imports
     # ----------------------------------------------------------------------
     import CdhCore.Subtopology
-    import ComFprime.Subtopology
+    import ComCcsds.Subtopology
 
     # ----------------------------------------------------------------------
     # Instances used in the topology
@@ -53,7 +53,7 @@ module LedBlinker {
       rateGroup1.RateGroupMemberOut[0] -> CdhCore.tlmSend.Run
       rateGroup1.RateGroupMemberOut[1] -> uartDriver.schedIn  # Poll UART RX buffer
       rateGroup1.RateGroupMemberOut[2] -> led.run
-      rateGroup1.RateGroupMemberOut[3] -> ComFprime.comQueue.run
+      rateGroup1.RateGroupMemberOut[3] -> ComCcsds.comQueue.run
       rateGroup1.RateGroupMemberOut[4] -> CdhCore.$health.Run
     }
 
@@ -62,28 +62,28 @@ module LedBlinker {
       led.gpioSet -> gpioDriver.gpioWrite
     }
 
-    connections ComFprime_CdhCore {
+    connections ComCcsds_CdhCore {
       # Core events and telemetry to communication queue
-      CdhCore.events.PktSend -> ComFprime.comQueue.comPacketQueueIn[ComFprime.Ports_ComPacketQueue.EVENTS]
-      CdhCore.tlmSend.PktSend -> ComFprime.comQueue.comPacketQueueIn[ComFprime.Ports_ComPacketQueue.TELEMETRY]
+      CdhCore.events.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.EVENTS]
+      CdhCore.tlmSend.PktSend -> ComCcsds.comQueue.comPacketQueueIn[ComCcsds.Ports_ComPacketQueue.TELEMETRY]
 
       # Command routing
-      ComFprime.fprimeRouter.commandOut -> CdhCore.cmdDisp.seqCmdBuff[0]
-      CdhCore.cmdDisp.seqCmdStatus[0] -> ComFprime.fprimeRouter.cmdResponseIn
+      ComCcsds.fprimeRouter.commandOut -> CdhCore.cmdDisp.seqCmdBuff[0]
+      CdhCore.cmdDisp.seqCmdStatus[0] -> ComCcsds.fprimeRouter.cmdResponseIn
     }
 
     connections Communications {
       # UART GDS Driver buffer allocations
-      uartDriver.allocate      -> ComFprime.commsBufferManager.bufferGetCallee
-      uartDriver.deallocate    -> ComFprime.commsBufferManager.bufferSendIn
+      uartDriver.allocate      -> ComCcsds.commsBufferManager.bufferGetCallee
+      uartDriver.deallocate    -> ComCcsds.commsBufferManager.bufferSendIn
       
       # UART Driver <-> ComStub (Uplink)
-      uartDriver.$recv -> ComFprime.comStub.drvReceiveIn
-      ComFprime.comStub.drvReceiveReturnOut -> uartDriver.recvReturnIn
+      uartDriver.$recv -> ComCcsds.comStub.drvReceiveIn
+      ComCcsds.comStub.drvReceiveReturnOut -> uartDriver.recvReturnIn
       
       # ComStub <-> UART (Downlink)
-      ComFprime.comStub.drvSendOut      -> uartDriver.$send
-      uartDriver.ready         -> ComFprime.comStub.drvConnected
+      ComCcsds.comStub.drvSendOut      -> uartDriver.$send
+      uartDriver.ready         -> ComCcsds.comStub.drvConnected
     }
 
   }

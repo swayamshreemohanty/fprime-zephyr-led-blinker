@@ -20,20 +20,19 @@ namespace PingEntries {
 
 // Subtopologies Ping Entries
 #include "Svc/Subtopologies/CdhCore/PingEntries.hpp"
-#include "Svc/Subtopologies/ComFprime/PingEntries.hpp"
+#include "Svc/Subtopologies/ComCcsds/PingEntries.hpp"
 
 // Enums and Configs
-#include "Svc/Subtopologies/ComFprime/Ports_ComPacketQueueEnumAc.hpp"
-#include "Svc/Subtopologies/ComFprime/Ports_ComBufferQueueEnumAc.hpp"
-#include "Svc/Subtopologies/ComFprime/ComFprimeConfig/FppConstantsAc.hpp"
+#include "Svc/Subtopologies/ComCcsds/Ports_ComPacketQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComCcsds/Ports_ComBufferQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComCcsds/ComCcsdsConfig/FppConstantsAc.hpp"
 
 // Frame detector and allocator
-#include "Svc/FrameAccumulator/FrameDetector/FprimeFrameDetector.hpp"
-#include "Svc/Subtopologies/ComFprime/ComFprimeConfig/ComFprimeSubtopologyConfig.hpp"
+#include "Svc/Subtopologies/ComCcsds/ComCcsdsConfig/ComCcsdsSubtopologyConfig.hpp"
 
 // SubtopologyTopologyDefs includes
 #include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
-#include "Svc/Subtopologies/ComFprime/SubtopologyTopologyDefs.hpp"
+#include "Svc/Subtopologies/ComCcsds/SubtopologyTopologyDefs.hpp"
 
 // Definitions are placed within a namespace named after the deployment
 namespace LedBlinker {
@@ -49,7 +48,7 @@ struct TopologyState {
     const struct device *dev;
     PlatformIntType uartBaud;
     CdhCore::SubtopologyState cdhCore;           //!< Subtopology state for CdhCore
-    ComFprime::SubtopologyState comFprime;       //!< Subtopology state for ComFprime 
+    ComCcsds::SubtopologyState comCcsds;         //!< Subtopology state for ComCcsds 
 };
 
 /**

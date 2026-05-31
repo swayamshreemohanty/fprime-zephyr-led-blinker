@@ -13,8 +13,8 @@
 // Subtopologies
 #include <Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp>
 #include <Svc/Subtopologies/CdhCore/PingEntries.hpp>
-#include <Svc/Subtopologies/ComFprime/SubtopologyTopologyDefs.hpp>
-#include <Svc/Subtopologies/ComFprime/PingEntries.hpp>
+#include <Svc/Subtopologies/ComCcsds/SubtopologyTopologyDefs.hpp>
+#include <Svc/Subtopologies/ComCcsds/PingEntries.hpp>
 
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
