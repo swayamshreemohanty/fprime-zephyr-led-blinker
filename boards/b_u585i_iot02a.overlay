@@ -15,7 +15,7 @@
     };
 };
 
-// Ensure USART1 is enabled for console/debug (ST-LINK VCP)
+// Ensure USART1 is enabled for console (ST-LINK VCP)
 &usart1 {
     status = "okay";
     current-speed = <115200>;

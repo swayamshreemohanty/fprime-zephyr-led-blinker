@@ -35,7 +35,7 @@
     };
 };
 
-// Enable USART3 for console/debug on ST-Link Virtual COM port
+// Enable USART3 for console on ST-Link Virtual COM port
 &usart3 {
     status = "okay";
     current-speed = <115200>;
