@@ -62,7 +62,7 @@ int main()
     while(true)
     {
         LedBlinker::rateDriver.cycle();
-        k_usleep(10);  // 1 millisecond = 1000Hz cycle rate (normal operation)
+        k_usleep(1);
     }
 
     return 0;

@@ -28,7 +28,7 @@ using namespace LedBlinker;
 
 // The reference topology divides the incoming clock signal (1kHz) into sub-signals: 10Hz
 // 100Hz rate group (10 divisor) = LED runs at ~5Hz with blink interval 10
-Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {10, 0} }};
+Svc::RateGroupDriver::DividerSet rateGroupDivisors = {{ {100, 0} }};
 
 // Rate groups may supply a context token to each of the attached children whose purpose is set by the project. The
 // reference topology sets each token to zero as these contexts are unused in this project.
