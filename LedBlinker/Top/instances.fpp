@@ -26,6 +26,6 @@ module LedBlinker {
   instance gpioDriver: Zephyr.ZephyrGpioDriver base id 0x4C00
 
   # LED components
-  instance led: Components.Stm32Led base id 0x5000
+  instance led: Components.Led base id 0x5000
 
 }

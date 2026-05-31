@@ -19,7 +19,7 @@ set(MOD_DEPS
   Svc/PassiveRateGroup
   Svc/PassiveConsoleTextLogger
   Svc/RateGroupDriver
-  Components/Stm32Led
+  Components/Led
   fprime-zephyr/Drv/ZephyrGpioDriver
   fprime-zephyr/Drv/ZephyrRateDriver
   fprime-zephyr/Drv/ZephyrUartDriver

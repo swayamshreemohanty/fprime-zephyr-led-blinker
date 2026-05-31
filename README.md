@@ -1120,7 +1120,7 @@ fprime-zephyr-led-blinker/
 │       └── ZephyrUartDriver.hpp               # MODIFIED: Increased buffer sizes
 ├── zephyr/                                    # Zephyr RTOS v4.3.0 (from west update)
 ├── Components/
-│   └── Stm32Led/                              # LED component implementation
+│   └── Led/                              # LED component implementation
 ├── LedBlinker/
 │   ├── Main.cpp                               # Application entry point
 │   ├── Stub.cpp                               # Platform stubs

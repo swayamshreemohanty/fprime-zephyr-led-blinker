@@ -1,18 +1,18 @@
 // ======================================================================
-// \title  Stm32Led.hpp
+// \title  Led.hpp
 // \author ethanchee
-// \brief  hpp file for Stm32Led component implementation class
+// \brief  hpp file for Led component implementation class
 // ======================================================================
 
-#ifndef Stm32Led_HPP
-#define Stm32Led_HPP
+#ifndef Led_HPP
+#define Led_HPP
 
-#include "Components/Stm32Led/Stm32LedComponentAc.hpp"
+#include "Components/Led/LedComponentAc.hpp"
 
 namespace Components {
 
-  class Stm32Led :
-    public Stm32LedComponentBase
+  class Led :
+    public LedComponentBase
   {
 
     public:
@@ -21,15 +21,15 @@ namespace Components {
       // Construction, initialization, and destruction
       // ----------------------------------------------------------------------
 
-      //! Construct object Stm32Led
+      //! Construct object Led
       //!
-      Stm32Led(
+      Led(
           const char *const compName /*!< The component name*/
       );
 
-      //! Destroy object Stm32Led
+      //! Destroy object Led
       //!
-      ~Stm32Led();
+      ~Led();
 
       //! Emit parameter updated EVR
       //!
