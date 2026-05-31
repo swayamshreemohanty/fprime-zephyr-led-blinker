@@ -69,8 +69,8 @@ void setupTopology(const TopologyState& state) {
     // Autocoded connection wiring. Function provided by autocoder.
     connectComponents();
     
-    printk(" - configComponents()\n");
-    // Autocoded configuration. Function provided by autocoder.
+    // printk(" - configComponents()\n");
+    // // Autocoded configuration. Function provided by autocoder.
     configComponents(state);
     
     printk(" - configureTopology()\n");
