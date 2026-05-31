@@ -18,6 +18,7 @@
 
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/sys/printk.h>
 
 // Define GPIO specs for all 3 LEDs
 static const struct gpio_dt_spec led_pin = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);   // Green LED
@@ -56,34 +57,43 @@ void configureTopology() {
 // Public functions for use in main program are namespaced with deployment name LedBlinker
 namespace LedBlinker {
 void setupTopology(const TopologyState& state) {
+    printk(" - initComponents()\n");
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
     
+    printk(" - setBaseIds()\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
     
+    printk(" - connectComponents()\n");
     // Autocoded connection wiring. Function provided by autocoder.
     connectComponents();
     
+    printk(" - configComponents()\n");
     // Autocoded configuration. Function provided by autocoder.
     configComponents(state);
     
+    printk(" - configureTopology()\n");
     // CRITICAL: Configure topology BEFORE regCommands
     // BufferManager.setup() must be called before components register commands
     configureTopology();
     
     // No parameter loading - this is an embedded deployment without PrmDb
     
+    printk(" - regCommands()\n");
     // Register commands AFTER configuration
     regCommands();
     
+    printk(" - startTasks()\n");
     // Start active component tasks
     startTasks(state);
     
+    printk(" - configure drivers\n");
     rateDriver.configure(1);
     
     uartDriver.configure(state.dev, state.uartBaud);
     
+    printk(" - rateDriver.start()\n");
     rateDriver.start();
 }
 

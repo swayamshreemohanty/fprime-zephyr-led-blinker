@@ -7,16 +7,19 @@
 #include <LedBlinker/Top/LedBlinkerTopologyAc.hpp>
 #include <LedBlinker/Top/LedBlinkerTopology.hpp>
 #include <Fw/Logger/Logger.hpp>
+#include <Fw/Types/Assert.hpp>
+#include <stdexcept>
+#include <stdio.h>
 
-// USART1 for communication (PA9=TX, PA10=RX @ 115200 baud, 8N1)
 #include <zephyr/sys/printk.h>
-// On b_u585i_iot02a: usart1 is the console UART
+
 const struct device *serial = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 
 // Fatal error handler
 extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch_esf *esf)
 {
     // Fatal error occurred - halt execution
+    printk("FATAL EXCEPTION (reason: %u)!\n", reason);
     (void)reason;
     (void)esf;
     
@@ -25,8 +28,26 @@ extern "C" void k_sys_fatal_error_handler(unsigned int reason, const struct arch
     }
 }
 
+class ZephyrAssertHook : public Fw::AssertHook {
+  public:
+    void printAssert(const CHAR* msg) override {
+        printk("ASSERT FAILED: %s\n", msg);
+    }
+    
+    void doAssert() override {
+        // Halt execution on assert
+        while(1) {
+            k_sleep(K_FOREVER);
+        }
+    }
+};
+
+ZephyrAssertHook assertHook;
+
 int main()
 {
+    assertHook.registerHook();
+
     printk("Starting main\n");
     // Object for communicating state to the reference topology
     LedBlinker::TopologyState inputs;
