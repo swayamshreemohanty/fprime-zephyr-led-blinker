@@ -28,23 +28,10 @@ if (TARGET Svc_TlmChan)
 endif()
 
 register_fprime_zephyr_deployment(
+        ${FPRIME_CURRENT_MODULE}
+    SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/Main.cpp"
     DEPENDS
-    LedBlinker_Top
+        LedBlinker_Top
 )
 
-FILE(GLOB app_sources Main.cpp)
-target_sources(app PRIVATE 
-    ${app_sources}
-)
-target_link_libraries(app PRIVATE 
-    LedBlinker_Top
-    Os_Task_Zephyr
-    Os_Mutex_Zephyr
-    Os_RawTime_Zephyr
-    Os_Console_Zephyr
-    Os_File_Zephyr
-    Os_StringFormat_Zephyr_snprintk
-    Os_Queue_Stub_Implementation
-    Os_Cpu_Stub_Implementation
-    Os_Memory_Stub_Implementation
-)
