@@ -16,7 +16,7 @@ constant FW_FILE_HANDLE_MAX_SIZE = 16
 constant FW_MUTEX_HANDLE_MAX_SIZE = 72
 
 # @ Maximum size of a handle for Os::CountingSemaphore
-constant FW_COUNTING_SEMAPHORE_HANDLE_MAX_SIZE = 60
+constant FW_COUNTING_SEMAPHORE_HANDLE_MAX_SIZE = 48
 
 @ Maximum size of a handle for Os::Queue
 constant FW_QUEUE_HANDLE_MAX_SIZE = 512
