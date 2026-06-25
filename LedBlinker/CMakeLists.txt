@@ -42,7 +42,7 @@ target_link_libraries(app PRIVATE
     Os_Mutex_Zephyr
     Os_RawTime_Zephyr
     Os_Console_Zephyr
-    Os_File_Zephyr_Posix
+    Os_File_Zephyr
     Os_StringFormat_Zephyr_snprintk
     Os_Queue_Stub_Implementation
     Os_Cpu_Stub_Implementation
