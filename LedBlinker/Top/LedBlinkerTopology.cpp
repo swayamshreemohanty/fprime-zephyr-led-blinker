@@ -1,3 +1,4 @@
+#include <stdio.h>
 // ======================================================================
 // \title  LedBlinkerTopology.cpp
 // \brief cpp file containing the topology instantiation code
@@ -56,34 +57,45 @@ void configureTopology() {
 // Public functions for use in main program are namespaced with deployment name LedBlinker
 namespace LedBlinker {
 void setupTopology(const TopologyState& state) {
+    printf("  initComponents...\n");
     // Autocoded initialization. Function provided by autocoder.
     initComponents(state);
     
+    printf("  setBaseIds...\n");
     // Autocoded id setup. Function provided by autocoder.
     setBaseIds();
     
+    printf("  connectComponents...\n");
     // Autocoded connection wiring. Function provided by autocoder.
     connectComponents();
     
+    printf("  configComponents...\n");
     // Autocoded configuration. Function provided by autocoder.
     configComponents(state);
+
     
+    // No parameter loading - this is an embedded deployment without PrmDb
+    
+    printf("  regCommands...\n");
+    // Register commands AFTER configuration
+    regCommands();
+
+    printf("  configureTopology...\n");
     // CRITICAL: Configure topology BEFORE regCommands
     // BufferManager.setup() must be called before components register commands
     configureTopology();
     
-    // No parameter loading - this is an embedded deployment without PrmDb
-    
-    // Register commands AFTER configuration
-    regCommands();
-    
+    printf("  startTasks...\n");
     // Start active component tasks
     startTasks(state);
     
+    printf("  rateDriver.configure...\n");
     rateDriver.configure(1);
     
+    printf("  uartDriver.configure...\n");
     uartDriver.configure(state.dev, state.uartBaud);
     
+    printf("  rateDriver.start...\n");
     rateDriver.start();
 }
 
