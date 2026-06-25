@@ -1,5 +1,5 @@
 ####
-# LedBlinker/config/CMakeLists.txt:
+# config/CMakeLists.txt:
 register_fprime_config(
     CONFIGURATION_OVERRIDES
         "${CMAKE_CURRENT_LIST_DIR}/PlatformCfg.fpp"

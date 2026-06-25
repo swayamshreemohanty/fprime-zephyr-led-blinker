@@ -3,7 +3,7 @@
 
 # Register project-level components
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Components")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/config/")
 
 # Register all deployments in the project
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/LedBlinker/")
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/LedBlinker/config/")

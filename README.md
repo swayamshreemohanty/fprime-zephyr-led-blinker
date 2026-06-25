@@ -1064,7 +1064,7 @@ library_locations: ./fprime-zephyr
 
 ### Configuration Override System
 
-This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `LedBlinker/config/`:
+This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `config/`:
 
 - `CMakeLists.txt` - Registers configuration overrides with `register_fprime_config()`
 - `PlatformCfg.fpp` - Overrides platform constants (e.g., task handle sizes)
@@ -1077,7 +1077,7 @@ This project uses **F´'s configuration override system** to customize framework
 - ✅ Easy to maintain and version control
 - ✅ Follows F´ best practices
 
-**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `LedBlinker/config/` take precedence during build.
+**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `config/` take precedence during build.
 
 ---
 
@@ -1088,7 +1088,7 @@ library_locations: ./fprime-zephyr
 
 ### Configuration Override System
 
-This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `LedBlinker/config/`:
+This project uses **F´'s configuration override system** to customize framework behavior without modifying F´ core files. All deployment-specific configuration is in `config/`:
 
 - `CMakeLists.txt` - Registers configuration overrides with `register_fprime_config()`
 - `PlatformCfg.fpp` - Overrides platform constants (e.g., task handle sizes)
@@ -1101,7 +1101,7 @@ This project uses **F´'s configuration override system** to customize framework
 - ✅ Easy to maintain and version control
 - ✅ Follows F´ best practices
 
-**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `LedBlinker/config/` take precedence during build.
+**Note:** The F´ framework files in `fprime/default/config/` remain unmodified and use default values. Project overrides in `config/` take precedence during build.
 
 ---
 
