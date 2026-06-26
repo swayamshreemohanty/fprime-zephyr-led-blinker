@@ -1429,3 +1429,6 @@ This project enhances the standard F´ and fprime-zephyr libraries with producti
 **Target Boards:** STM32 Nucleo H7A3ZI-Q, Teensy 4.1, Teensy 4.0  
 **Maintainers:** fprime-community  
 **Maintainers:** fprime-community
+
+
+fprime-gds -n --dictionary /home/serendipityspace/fprime-zephyr-led-blinker/build-artifacts/zephyr/fprime-zephyr-deployment/dict/LedBlinkerTopologyDictionary.json --communication-selection uart --uart-device /dev/ttyACM0 --uart-baud 115200
